@@ -41,6 +41,7 @@ import {
   updateUserRole,
   toggleUserStatus,
   deleteUser,
+  createUser,
 } from "../../services/userService";
 import { useRealtime } from "../../hooks/useRealtime";
 
@@ -94,6 +95,10 @@ const UserManagement = () => {
   const [roleDialog, setRoleDialog] = useState<User | null>(null);
   const [newRole, setNewRole] = useState("");
 
+  // Add User dialog
+  const [addUserDialog, setAddUserDialog] = useState(false);
+  const [newUser, setNewUser] = useState({ name: "", email: "", password: "", role: "", instituteId: "" });
+
   // Delete dialog
   const [deleteDialog, setDeleteDialog] = useState<User | null>(null);
 
@@ -133,6 +138,17 @@ const UserManagement = () => {
       fetchData();
     } catch {
       setError("Failed to update role");
+    }
+  };
+
+  const handleAddUser = async () => {
+    try {
+      await createUser(newUser);
+      setAddUserDialog(false);
+      setNewUser({ name: "", email: "", password: "", role: "", instituteId: "" });
+      fetchData();
+    } catch (err: any) {
+      setError(err.response?.data?.message || err.response?.data?.errors || "Failed to create user");
     }
   };
 
@@ -265,6 +281,10 @@ const UserManagement = () => {
               <RefreshIcon sx={{ color: "primary.main" }} />
             </IconButton>
           </Tooltip>
+          <Box sx={{ flexGrow: 1 }} />
+          <Button variant="contained" onClick={() => setAddUserDialog(true)} sx={{ borderRadius: 2, background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)" }}>
+            + Add User
+          </Button>
         </CardContent>
       </Card>
 
@@ -434,6 +454,28 @@ const UserManagement = () => {
         <DialogActions sx={{ p: 3, pt: 1 }}>
           <Button onClick={() => setDeleteDialog(null)} variant="outlined" sx={{ borderRadius: 2 }}>Cancel</Button>
           <Button onClick={handleDelete} color="error" variant="contained" sx={{ borderRadius: 2 }}>Delete Permanently</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Add User Dialog */}
+      <Dialog open={addUserDialog} onClose={() => setAddUserDialog(false)} PaperProps={{ sx: { borderRadius: 3, maxWidth: 500, width: "100%" } }}>
+        <DialogTitle sx={{ fontWeight: 700 }}>Add New User</DialogTitle>
+        <DialogContent>
+          <Box sx={{ pt: 1, display: "flex", flexDirection: "column", gap: 2 }}>
+            <TextField label="Name" fullWidth required value={newUser.name} onChange={(e) => setNewUser({ ...newUser, name: e.target.value })} />
+            <TextField label="Institute Email" type="email" fullWidth required placeholder="user@nitw.ac.in" value={newUser.email} onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} />
+            <TextField label="Institute ID" fullWidth required value={newUser.instituteId} onChange={(e) => setNewUser({ ...newUser, instituteId: e.target.value })} />
+            <TextField label="Password" type="password" fullWidth required value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} />
+            <TextField label="Role" select fullWidth value={newUser.role} onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}>
+              {roles.filter((r) => r.value).map((r) => (
+                <MenuItem key={r.value} value={r.value}>{r.label}</MenuItem>
+              ))}
+            </TextField>
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ p: 3, pt: 1 }}>
+          <Button onClick={() => setAddUserDialog(false)} variant="outlined" sx={{ borderRadius: 2 }}>Cancel</Button>
+          <Button onClick={handleAddUser} variant="contained" sx={{ borderRadius: 2, background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)" }}>Create User</Button>
         </DialogActions>
       </Dialog>
     </Box>

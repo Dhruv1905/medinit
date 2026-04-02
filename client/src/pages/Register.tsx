@@ -26,9 +26,6 @@ import BloodtypeOutlinedIcon from "@mui/icons-material/BloodtypeOutlined";
 const roles = [
   { value: "student", label: "Student" },
   { value: "faculty", label: "Faculty / Staff" },
-  { value: "doctor", label: "Doctor" },
-  { value: "nurse", label: "Nurse" },
-  { value: "pharmacist", label: "Pharmacist" },
 ];
 
 const Register = () => {

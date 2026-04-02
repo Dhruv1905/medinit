@@ -37,7 +37,7 @@ const userSchema = new Schema<IUser>(
       required: [true, "Email is required"],
       unique: true,
       lowercase: true,
-      match: [/^[\w.-]+@nitw\.ac\.in$/, "Must be a valid institute email"],
+      match: [/^[\w.-]+@(?:student\.)?nitw\.ac\.in$/, "Must be a valid institute email"],
     },
     password: {
       type: String,

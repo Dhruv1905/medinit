@@ -1,5 +1,42 @@
 import { Request, Response } from "express";
 import User from "../models/User";
+import { adminCreateUserSchema } from "../validators/auth.validator";
+
+// Create user (Admin only)
+export const createUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const parsed = adminCreateUserSchema.safeParse(req.body);
+    if (!parsed.success) {
+      res.status(400).json({ errors: parsed.error?.format() });
+      return;
+    }
+
+    const { email, instituteId } = parsed.data;
+
+    const existingUser = await User.findOne({
+      $or: [{ email }, { instituteId }],
+    });
+    if (existingUser) {
+      res.status(409).json({ message: "User with this email or ID already exists" });
+      return;
+    }
+
+    const user = await User.create(parsed.data);
+
+    res.status(201).json({
+      message: "User created successfully",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        instituteId: user.instituteId,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
 
 // Get all users
 export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
