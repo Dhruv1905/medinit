@@ -12,28 +12,32 @@ const sections = [
     desc: "View and manage today's patients",
     path: "/dashboard/queue",
     icon: <PeopleIcon sx={{ fontSize: 28 }} />,
-    gradient: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
+    gradient: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+    shadow: "rgba(59, 130, 246, 0.25)",
   },
   {
     label: "Consultations",
     desc: "Start or complete consultations",
     path: "/dashboard/consultations",
     icon: <MedicalServicesIcon sx={{ fontSize: 28 }} />,
-    gradient: "linear-gradient(135deg, #0097A7, #00BCD4)",
+    gradient: "linear-gradient(135deg, #06B6D4, #22D3EE)",
+    shadow: "rgba(6, 182, 212, 0.25)",
   },
   {
     label: "Certificates",
     desc: "Issue medical certificates",
     path: "/dashboard/certificates",
     icon: <DescriptionIcon sx={{ fontSize: 28 }} />,
-    gradient: "linear-gradient(135deg, #7B1FA2, #AB47BC)",
+    gradient: "linear-gradient(135deg, #8B5CF6, #A78BFA)",
+    shadow: "rgba(139, 92, 246, 0.25)",
   },
   {
     label: "My Schedule",
     desc: "View your appointment schedule",
     path: "/dashboard/schedule",
     icon: <CalendarMonthIcon sx={{ fontSize: 28 }} />,
-    gradient: "linear-gradient(135deg, #43A047, #66BB6A)",
+    gradient: "linear-gradient(135deg, #10B981, #34D399)",
+    shadow: "rgba(16, 185, 129, 0.25)",
   },
 ];
 
@@ -46,8 +50,8 @@ const DoctorHome = () => {
       <Box
         sx={{
           p: 4,
-          borderRadius: 4,
-          background: "linear-gradient(135deg, #0E4D73 0%, #1B6DA1 50%, #4BA3D8 100%)",
+          borderRadius: 5,
+          background: "linear-gradient(135deg, #1E3A5F 0%, #1D4ED8 50%, #3B82F6 100%)",
           color: "white",
           mb: 4,
           position: "relative",
@@ -57,16 +61,29 @@ const DoctorHome = () => {
         <Box
           sx={{
             position: "absolute",
-            width: 200,
-            height: 200,
+            width: 220,
+            height: 220,
             borderRadius: "50%",
             background: "rgba(255,255,255,0.06)",
-            top: -60,
-            right: -40,
+            top: -70,
+            right: -50,
+            animation: "float-slow 10s ease-in-out infinite",
+          }}
+        />
+        <Box
+          sx={{
+            position: "absolute",
+            width: 100,
+            height: 100,
+            borderRadius: "50%",
+            background: "rgba(255,255,255,0.04)",
+            bottom: -20,
+            right: 150,
+            animation: "float 8s ease-in-out infinite",
           }}
         />
         <Box sx={{ position: "relative", zIndex: 1 }}>
-          <Typography variant="h5" fontWeight={700} mb={0.5}>
+          <Typography variant="h5" fontWeight={700} mb={0.5} sx={{ fontFamily: "'Outfit', sans-serif" }}>
             Dr. {user?.name}
           </Typography>
           <Typography variant="body1" sx={{ opacity: 0.85 }}>
@@ -75,19 +92,20 @@ const DoctorHome = () => {
         </Box>
       </Box>
 
-      <Typography variant="h6" fontWeight={600} mb={2.5} color="text.primary">
+      <Typography variant="h6" fontWeight={600} mb={2.5} color="text.primary" sx={{ fontFamily: "'Outfit', sans-serif" }}>
         Quick Actions
       </Typography>
 
       <Grid container spacing={2.5}>
-        {sections.map((section) => (
+        {sections.map((section, index) => (
           <Grid size={{ xs: 12, sm: 6, md: 3 }} key={section.path}>
             <Card
+              className={`animate-fade-in stagger-${index + 1}`}
               sx={{
-                transition: "all 0.25s ease",
+                cursor: "pointer",
                 "&:hover": {
                   transform: "translateY(-6px)",
-                  boxShadow: "0 12px 28px rgba(27, 109, 161, 0.15)",
+                  boxShadow: `0 20px 40px ${section.shadow}`,
                 },
               }}
             >
@@ -95,8 +113,8 @@ const DoctorHome = () => {
                 <CardContent sx={{ p: 0 }}>
                   <Box
                     sx={{
-                      width: 54,
-                      height: 54,
+                      width: 56,
+                      height: 56,
                       borderRadius: 3,
                       background: section.gradient,
                       display: "flex",
@@ -104,7 +122,7 @@ const DoctorHome = () => {
                       justifyContent: "center",
                       color: "white",
                       mb: 2.5,
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                      boxShadow: `0 8px 20px ${section.shadow}`,
                     }}
                   >
                     {section.icon}

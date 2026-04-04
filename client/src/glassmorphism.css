@@ -1,0 +1,404 @@
+/* ====================================================
+   MediNIT Glassmorphism Design System
+   Global CSS Variables, Animations & Utilities
+   ==================================================== */
+
+:root {
+  /* Glass tokens — more translucent for visible glass */
+  --glass-bg: rgba(255, 255, 255, 0.18);
+  --glass-bg-strong: rgba(255, 255, 255, 0.28);
+  --glass-bg-subtle: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.35);
+  --glass-border-subtle: rgba(255, 255, 255, 0.18);
+  --glass-blur: 20px;
+  --glass-shadow: 0 8px 32px rgba(59, 130, 246, 0.12);
+  --glass-shadow-hover: 0 16px 48px rgba(59, 130, 246, 0.2);
+
+  /* Color tokens */
+  --blue-50: #eff6ff;
+  --blue-100: #dbeafe;
+  --blue-200: #bfdbfe;
+  --blue-300: #93c5fd;
+  --blue-400: #60a5fa;
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --blue-700: #1d4ed8;
+  --blue-800: #1e40af;
+  --blue-900: #1e3a5f;
+
+  /* Spacing & radius */
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+}
+
+/* ====================================================
+   Global styles
+   ==================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.35);
+}
+
+/* ====================================================
+   Animations
+   ==================================================== */
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-15px) rotate(2deg);
+  }
+  66% {
+    transform: translateY(8px) rotate(-1deg);
+  }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.03);
+  }
+}
+
+@keyframes float-reverse {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  50% {
+    transform: translateY(15px) translateX(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes orb-drift-1 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  25% {
+    transform: translate(30px, -40px) scale(1.1);
+  }
+  50% {
+    transform: translate(-20px, -60px) scale(0.95);
+  }
+  75% {
+    transform: translate(15px, -20px) scale(1.05);
+  }
+}
+
+@keyframes orb-drift-2 {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  25% {
+    transform: translate(-40px, 20px) scale(1.05);
+  }
+  50% {
+    transform: translate(30px, 40px) scale(0.9);
+  }
+  75% {
+    transform: translate(-20px, 10px) scale(1.08);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ====================================================
+   Auth page animated background
+   ==================================================== */
+
+.auth-bg {
+  min-height: 100vh;
+  background: linear-gradient(-45deg,
+    #1e3a5f,
+    #1d4ed8,
+    #2563eb,
+    #3b82f6,
+    #1e40af,
+    #1e3a5f);
+  background-size: 400% 400%;
+  animation: gradient-shift 18s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(96, 165, 250, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(37, 99, 235, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Floating orbs for auth pages */
+.glass-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+.glass-orb-1 {
+  width: 300px;
+  height: 300px;
+  top: -80px;
+  left: -60px;
+  animation: orb-drift-1 20s ease-in-out infinite;
+}
+
+.glass-orb-2 {
+  width: 200px;
+  height: 200px;
+  bottom: -40px;
+  right: -30px;
+  animation: orb-drift-2 25s ease-in-out infinite;
+}
+
+.glass-orb-3 {
+  width: 140px;
+  height: 140px;
+  top: 40%;
+  right: 20%;
+  background: rgba(255, 255, 255, 0.04);
+  animation: orb-drift-1 15s ease-in-out infinite reverse;
+}
+
+.glass-orb-4 {
+  width: 80px;
+  height: 80px;
+  top: 20%;
+  left: 30%;
+  background: rgba(255, 255, 255, 0.05);
+  animation: float-slow 12s ease-in-out infinite;
+}
+
+.glass-orb-5 {
+  width: 120px;
+  height: 120px;
+  bottom: 20%;
+  left: 10%;
+  background: rgba(255, 255, 255, 0.03);
+  animation: orb-drift-2 18s ease-in-out infinite reverse;
+}
+
+/* ====================================================
+   Dashboard background — rich gradient blobs for glass to blur
+   ==================================================== */
+
+.dashboard-bg {
+  position: relative;
+  background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 30%, #e0e7ff 60%, #dbeafe 100%);
+  overflow: hidden;
+}
+
+.dashboard-bg::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle 600px at 10% 20%, rgba(59, 130, 246, 0.18) 0%, transparent 70%),
+    radial-gradient(circle 500px at 80% 10%, rgba(99, 102, 241, 0.14) 0%, transparent 60%),
+    radial-gradient(circle 400px at 60% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 60%),
+    radial-gradient(circle 350px at 30% 70%, rgba(139, 92, 246, 0.10) 0%, transparent 55%),
+    radial-gradient(circle 300px at 90% 60%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: gradient-shift 25s ease infinite;
+  background-size: 200% 200%;
+}
+
+.dashboard-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ====================================================
+   Utility Classes
+   ==================================================== */
+
+.glass-card {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.glass-card:hover {
+  box-shadow: var(--glass-shadow-hover) !important;
+  transform: translateY(-2px);
+}
+
+.glass-card-strong {
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+}
+
+.glass-subtle {
+  background: var(--glass-bg-subtle) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid var(--glass-border-subtle) !important;
+}
+
+.animate-fade-in {
+  animation: fade-in-up 0.5s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s ease-out both;
+}
+
+/* Stagger animation for lists */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+.stagger-7 { animation-delay: 0.35s; }
+.stagger-8 { animation-delay: 0.4s; }
+
+/* ====================================================
+   Gradient text
+   ==================================================== */
+
+.gradient-text {
+  background: linear-gradient(135deg, #3b82f6, #60a5fa, #2563eb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ====================================================
+   MUI override helpers
+   ==================================================== */
+
+/* Glass chip/badge */
+.glass-chip {
+  background: rgba(59, 130, 246, 0.08) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(59, 130, 246, 0.15) !important;
+}
+
+/* Glass input */
+.glass-input .MuiOutlinedInput-root {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 14px;
+}
+
+.glass-input .MuiOutlinedInput-root fieldset {
+  border-color: rgba(59, 130, 246, 0.15);
+}
+
+.glass-input .MuiOutlinedInput-root:hover fieldset {
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.glass-input .MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: #3b82f6;
+}

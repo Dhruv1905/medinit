@@ -108,7 +108,7 @@ const BookAppointment = () => {
     return (
       <Box sx={{ textAlign: "center", py: 8 }}>
         <CheckCircleOutlineIcon sx={{ fontSize: 80, color: "success.main", mb: 2 }} />
-        <Typography variant="h4" fontWeight={700} gutterBottom>
+        <Typography variant="h4" fontWeight={700} gutterBottom sx={{ fontFamily: "'Outfit', sans-serif" }}>
           Appointment Booked!
         </Typography>
         <Typography variant="body1" color="text.secondary" mb={1}>
@@ -121,8 +121,8 @@ const BookAppointment = () => {
           variant="contained"
           onClick={() => navigate("/dashboard/appointments")}
           sx={{
-            background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
-            "&:hover": { background: "linear-gradient(135deg, #0E4D73, #1B6DA1)" },
+            background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+            "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" },
           }}
         >
           View My Appointments
@@ -133,7 +133,7 @@ const BookAppointment = () => {
 
   return (
     <Box>
-      <Typography variant="h4" fontWeight={700} gutterBottom>
+      <Typography variant="h4" fontWeight={700} gutterBottom sx={{ fontFamily: "'Outfit', sans-serif" }}>
         Book Appointment
       </Typography>
       <Typography variant="body1" color="text.secondary" mb={4}>
@@ -224,8 +224,8 @@ const BookAppointment = () => {
                 disabled={!selectedDoctor || !selectedDate || !reason}
                 onClick={() => setActiveStep(1)}
                 sx={{
-                  background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
-                  "&:hover": { background: "linear-gradient(135deg, #0E4D73, #1B6DA1)" },
+                  background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+                  "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" },
                 }}
               >
                 Next — Choose Time
@@ -268,10 +268,10 @@ const BookAppointment = () => {
                       fontSize: "0.9rem",
                       fontWeight: 500,
                       borderRadius: 3,
-                      border: selectedSlot === slot ? "2px solid #1B6DA1" : "2px solid transparent",
-                      bgcolor: selectedSlot === slot ? "#EBF4FA" : "#F4F7FC",
+                      border: selectedSlot === slot ? "2px solid #3B82F6" : "2px solid rgba(59,130,246,0.1)",
+                      bgcolor: selectedSlot === slot ? "rgba(59,130,246,0.08)" : "rgba(255,255,255,0.5)",
                       color: selectedSlot === slot ? "primary.dark" : "text.primary",
-                      "&:hover": { bgcolor: "#E3EFF8" },
+                      "&:hover": { bgcolor: "rgba(59,130,246,0.06)" },
                     }}
                   />
                 ))}
@@ -287,8 +287,8 @@ const BookAppointment = () => {
                 disabled={!selectedSlot || loading}
                 onClick={handleBook}
                 sx={{
-                  background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
-                  "&:hover": { background: "linear-gradient(135deg, #0E4D73, #1B6DA1)" },
+                  background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+                  "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" },
                 }}
               >
                 {loading ? <CircularProgress size={24} sx={{ color: "white" }} /> : "Confirm Booking"}

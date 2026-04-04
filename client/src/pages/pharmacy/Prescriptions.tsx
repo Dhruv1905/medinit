@@ -126,7 +126,7 @@ const Prescriptions = () => {
             <MenuItem value="">All</MenuItem>
           </TextField>
           <Tooltip title="Refresh">
-            <IconButton onClick={fetchData} sx={{ bgcolor: "#EBF4FA" }}>
+            <IconButton onClick={fetchData} sx={{ bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)" }}>
               <RefreshIcon sx={{ color: "primary.main" }} />
             </IconButton>
           </Tooltip>
@@ -149,7 +149,7 @@ const Prescriptions = () => {
               key={rx._id}
               sx={{
                 transition: "all 0.2s",
-                borderLeft: `4px solid ${rx.prescriptionFulfilled ? "#43A047" : "#1B6DA1"}`,
+                borderLeft: `4px solid ${rx.prescriptionFulfilled ? "#10B981" : "#3B82F6"}`,
                 opacity: rx.prescriptionFulfilled ? 0.75 : 1,
                 "&:hover": { boxShadow: "0 8px 24px rgba(0,0,0,0.08)" },
               }}
@@ -163,8 +163,8 @@ const Prescriptions = () => {
                         width: 44,
                         height: 44,
                         background: rx.prescriptionFulfilled
-                          ? "linear-gradient(135deg, #43A047, #66BB6A)"
-                          : "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
+                          ? "linear-gradient(135deg, #10B981, #34D399)"
+                          : "linear-gradient(135deg, #3B82F6, #60A5FA)",
                         fontWeight: 700,
                       }}
                     >
@@ -209,8 +209,8 @@ const Prescriptions = () => {
                         onClick={() => setFulfillDialog(rx)}
                         sx={{
                           borderRadius: 2,
-                          background: "linear-gradient(135deg, #43A047, #66BB6A)",
-                          "&:hover": { background: "linear-gradient(135deg, #2E7D32, #43A047)" },
+                          background: "linear-gradient(135deg, #10B981, #34D399)",
+                          "&:hover": { background: "linear-gradient(135deg, #059669, #10B981)" },
                         }}
                       >
                         Dispense
@@ -221,20 +221,20 @@ const Prescriptions = () => {
 
                 {/* Diagnosis */}
                 {rx.diagnosis && (
-                  <Box sx={{ mt: 2, p: 2, bgcolor: "#EBF4FA", borderRadius: 2 }}>
+                  <Box sx={{ mt: 2, p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 2 }}>
                     <Typography variant="caption" fontWeight={600} color="primary.main">DIAGNOSIS</Typography>
                     <Typography variant="body2">{rx.diagnosis}</Typography>
                   </Box>
                 )}
 
                 {/* Prescription */}
-                <Box sx={{ mt: 1.5, p: 2, bgcolor: "#F4F7FC", borderRadius: 2 }}>
+                <Box sx={{ mt: 1.5, p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2 }}>
                   <Typography variant="caption" fontWeight={600} color="text.secondary">PRESCRIPTION</Typography>
                   {rx.prescription && <Typography variant="body2" sx={{ whiteSpace: "pre-wrap", mb: rx.prescriptionItems?.length ? 1 : 0 }}>{rx.prescription}</Typography>}
                   {rx.prescriptionItems && rx.prescriptionItems.length > 0 && (
                     <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                       {rx.prescriptionItems.map((item, idx) => (
-                        <Box key={idx} sx={{ display: "flex", gap: 2, bgcolor: "#EBF4FA", p: 1, borderRadius: 1 }}>
+                        <Box key={idx} sx={{ display: "flex", gap: 2, bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)", p: 1, borderRadius: 1 }}>
                           <Typography variant="body2" fontWeight={600}>{item.medicineName}</Typography>
                           <Typography variant="body2">Qty: {item.quantity}</Typography>
                           <Typography variant="body2">Dose: {item.dose}</Typography>
@@ -265,7 +265,7 @@ const Prescriptions = () => {
         <DialogContent>
           {fulfillDialog && (
             <Box sx={{ pt: 1 }}>
-              <Box sx={{ p: 2, bgcolor: "#F4F7FC", borderRadius: 2, mb: 3 }}>
+              <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2, mb: 3 }}>
                 <Typography variant="body2"><strong>Patient:</strong> {fulfillDialog.patient?.name || "Unknown"} ({fulfillDialog.patient?.instituteId || "N/A"})</Typography>
                 <Typography variant="body2"><strong>Doctor:</strong> Dr. {fulfillDialog.doctor?.name || "Unknown"}</Typography>
                 <Divider sx={{ my: 1.5 }} />
@@ -274,7 +274,7 @@ const Prescriptions = () => {
                 {fulfillDialog.prescriptionItems && fulfillDialog.prescriptionItems.length > 0 && (
                   <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                     {fulfillDialog.prescriptionItems.map((item, idx) => (
-                      <Box key={idx} sx={{ display: "flex", gap: 2, bgcolor: "#EBF4FA", p: 1, borderRadius: 1 }}>
+                      <Box key={idx} sx={{ display: "flex", gap: 2, bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)", p: 1, borderRadius: 1 }}>
                         <Typography variant="body2" fontWeight={600}>{item.medicineName}</Typography>
                         <Typography variant="body2">Qty: {item.quantity}</Typography>
                         <Typography variant="body2">Dose: {item.dose}</Typography>
@@ -305,8 +305,8 @@ const Prescriptions = () => {
             disabled={saving}
             sx={{
               borderRadius: 2,
-              background: "linear-gradient(135deg, #43A047, #66BB6A)",
-              "&:hover": { background: "linear-gradient(135deg, #2E7D32, #43A047)" },
+              background: "linear-gradient(135deg, #10B981, #34D399)",
+              "&:hover": { background: "linear-gradient(135deg, #059669, #10B981)" },
             }}
           >
             {saving ? <CircularProgress size={22} sx={{ color: "white" }} /> : "Confirm Dispensed"}

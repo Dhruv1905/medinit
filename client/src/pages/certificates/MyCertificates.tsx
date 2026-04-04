@@ -181,8 +181,8 @@ const MyCertificates = () => {
             startIcon={<AddIcon />}
             onClick={() => setRequestOpen(true)}
             sx={{
-              background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
-              "&:hover": { background: "linear-gradient(135deg, #0E4D73, #1B6DA1)" },
+              background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+              "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" },
             }}
           >
             Request Certificate
@@ -209,10 +209,10 @@ const MyCertificates = () => {
                   transition: "all 0.2s",
                   cursor: "pointer",
                   "&:hover": { transform: "translateY(-4px)", boxShadow: "0 12px 28px rgba(0,0,0,0.08)" },
-                  borderTop: `4px solid ${cert.status === "approved" ? "#43A047"
-                    : cert.status === "rejected" ? "#E53935"
+                  borderTop: `4px solid ${cert.status === "approved" ? "#10B981"
+                    : cert.status === "rejected" ? "#EF4444"
                       : cert.status === "revoked" ? "#9E9E9E"
-                        : "#1B6DA1"
+                        : "#3B82F6"
                     }`,
                 }}
                 onClick={() => setDetailDialog(cert)}
@@ -222,7 +222,7 @@ const MyCertificates = () => {
                     <Chip
                       label={typeLabels[cert.type] || cert.type}
                       size="small"
-                      sx={{ bgcolor: "#EBF4FA", color: "primary.main", fontWeight: 600, fontSize: "0.7rem" }}
+                      sx={{ bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)", color: "primary.main", fontWeight: 600, fontSize: "0.7rem" }}
                     />
                     <Chip
                       label={statusConfig[cert.status]?.label || cert.status}
@@ -363,8 +363,8 @@ const MyCertificates = () => {
             disabled={saving || !form.doctor || !form.reason || !form.startDate || !form.endDate}
             sx={{
               borderRadius: 2,
-              background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
-              "&:hover": { background: "linear-gradient(135deg, #0E4D73, #1B6DA1)" },
+              background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+              "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" },
             }}
           >
             {saving ? <CircularProgress size={22} sx={{ color: "white" }} /> : "Submit Request"}
@@ -459,8 +459,8 @@ const MyCertificates = () => {
                       sx={{
                         mt: 1,
                         borderRadius: 2,
-                        background: "linear-gradient(135deg, #43A047, #66BB6A)",
-                        "&:hover": { background: "linear-gradient(135deg, #2E7D32, #43A047)" },
+                        background: "linear-gradient(135deg, #10B981, #34D399)",
+                        "&:hover": { background: "linear-gradient(135deg, #059669, #10B981)" },
                       }}
                     >
                       Download PDF

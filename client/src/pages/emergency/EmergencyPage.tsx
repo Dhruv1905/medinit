@@ -197,8 +197,8 @@ const EmergencyPage = () => {
             startIcon={<AddIcon />}
             onClick={() => setReportOpen(true)}
             sx={{
-              background: "linear-gradient(135deg, #E53935, #EF5350)",
-              "&:hover": { background: "linear-gradient(135deg, #C62828, #E53935)" },
+              background: "linear-gradient(135deg, #EF4444, #F87171)",
+              "&:hover": { background: "linear-gradient(135deg, #C62828, #EF4444)" },
             }}
           >
             Report Emergency
@@ -224,9 +224,9 @@ const EmergencyPage = () => {
               key={em._id}
               sx={{
                 borderLeft: `5px solid ${
-                  em.severity === "critical" ? "#E53935"
-                  : em.severity === "high" ? "#FB8C00"
-                  : "#1B6DA1"
+                  em.severity === "critical" ? "#EF4444"
+                  : em.severity === "high" ? "#F59E0B"
+                  : "#3B82F6"
                 }`,
                 transition: "all 0.2s",
                 "&:hover": { boxShadow: "0 8px 24px rgba(0,0,0,0.08)" },
@@ -241,7 +241,7 @@ const EmergencyPage = () => {
                         width: 46,
                         height: 46,
                         bgcolor: severityConfig[em.severity]?.bg || "#EEE",
-                        color: em.severity === "critical" ? "#E53935" : em.severity === "high" ? "#FB8C00" : "#1B6DA1",
+                        color: em.severity === "critical" ? "#EF4444" : em.severity === "high" ? "#F59E0B" : "#3B82F6",
                         fontWeight: 700,
                       }}
                     >
@@ -280,7 +280,7 @@ const EmergencyPage = () => {
                       sx={{
                         fontWeight: 600,
                         bgcolor: em.status === "resolved" ? "#E8F5E9" : "#FFF3E0",
-                        color: em.status === "resolved" ? "#43A047" : "#FB8C00",
+                        color: em.status === "resolved" ? "#10B981" : "#F59E0B",
                       }}
                     />
                     {isStaff && em.status !== "resolved" && (
@@ -335,7 +335,7 @@ const EmergencyPage = () => {
 
                 {/* Action log */}
                 {em.actions.length > 0 && (
-                  <Box sx={{ mt: 2, p: 2, bgcolor: "#F4F7FC", borderRadius: 2 }}>
+                  <Box sx={{ mt: 2, p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2 }}>
                     <Typography variant="caption" fontWeight={600} color="text.secondary" mb={1} display="block">
                       ACTION LOG
                     </Typography>
@@ -400,8 +400,8 @@ const EmergencyPage = () => {
             disabled={saving || !form.description || !form.location}
             sx={{
               borderRadius: 2,
-              background: "linear-gradient(135deg, #E53935, #EF5350)",
-              "&:hover": { background: "linear-gradient(135deg, #C62828, #E53935)" },
+              background: "linear-gradient(135deg, #EF4444, #F87171)",
+              "&:hover": { background: "linear-gradient(135deg, #C62828, #EF4444)" },
             }}
           >
             {saving ? <CircularProgress size={22} sx={{ color: "white" }} /> : "Report Emergency"}
@@ -415,7 +415,7 @@ const EmergencyPage = () => {
         <DialogContent>
           {updateDialog && (
             <Box sx={{ pt: 1, display: "flex", flexDirection: "column", gap: 2.5 }}>
-              <Box sx={{ p: 2, bgcolor: "#F4F7FC", borderRadius: 2 }}>
+              <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2 }}>
                 <Typography variant="body2"><strong>Patient:</strong> {updateDialog.patient.name} ({updateDialog.patient.instituteId})</Typography>
                 <Typography variant="body2"><strong>Severity:</strong> {updateDialog.severity.toUpperCase()}</Typography>
                 <Typography variant="body2"><strong>Description:</strong> {updateDialog.description}</Typography>
@@ -486,8 +486,8 @@ const EmergencyPage = () => {
             disabled={saving}
             sx={{
               borderRadius: 2,
-              background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
-              "&:hover": { background: "linear-gradient(135deg, #0E4D73, #1B6DA1)" },
+              background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+              "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" },
             }}
           >
             {saving ? <CircularProgress size={22} sx={{ color: "white" }} /> : "Update"}

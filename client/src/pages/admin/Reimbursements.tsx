@@ -92,7 +92,7 @@ const Reimbursements = () => {
                 <TableContainer component={Paper} sx={{ borderRadius: 3, boxShadow: "0 1px 15px rgba(0,0,0,0.04)" }}>
                     <Table>
                         <TableHead>
-                            <TableRow sx={{ bgcolor: "#F4F7FC" }}>
+                            <TableRow sx={{ bgcolor: "rgba(255, 255, 255, 0.12)" }}>
                                 <TableCell sx={{ fontWeight: 700 }}>Date</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }}>Student</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }}>Hospital</TableCell>
@@ -103,7 +103,7 @@ const Reimbursements = () => {
                         </TableHead>
                         <TableBody>
                             {data.map((item) => (
-                                <TableRow key={item._id} sx={{ "&:hover": { bgcolor: "#FAFBFD" } }}>
+                                <TableRow key={item._id} sx={{ "&:hover": { bgcolor: "rgba(255, 255, 255, 0.08)" } }}>
                                     <TableCell>{new Date(item.createdAt).toLocaleDateString()}</TableCell>
                                     <TableCell>
                                         <Typography variant="body2" fontWeight={600}>{item.student.name}</Typography>
@@ -116,7 +116,7 @@ const Reimbursements = () => {
                                     </TableCell>
                                     <TableCell align="center">
                                         <Tooltip title="View Details">
-                                            <IconButton onClick={() => setDetailDialog(item)} sx={{ bgcolor: "#F4F7FC" }}>
+                                            <IconButton onClick={() => setDetailDialog(item)} sx={{ bgcolor: "rgba(255, 255, 255, 0.12)" }}>
                                                 <VisibilityIcon sx={{ fontSize: 18, color: "text.secondary" }} />
                                             </IconButton>
                                         </Tooltip>
@@ -149,7 +149,7 @@ const Reimbursements = () => {
                                 </Grid>
                             </Grid>
 
-                            <Box sx={{ mt: 3, p: 2, bgcolor: "#F4F7FC", borderRadius: 2 }}>
+                            <Box sx={{ mt: 3, p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2 }}>
                                 <Typography variant="subtitle2" gutterBottom>Bank Details</Typography>
                                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                                     <Typography variant="caption">Bank:</Typography>

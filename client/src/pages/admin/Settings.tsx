@@ -60,8 +60,8 @@ const Settings = () => {
           startIcon={<SaveIcon />}
           onClick={handleSave}
           sx={{
-            background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
-            "&:hover": { background: "linear-gradient(135deg, #0E4D73, #1B6DA1)" },
+            background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+            "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" },
           }}
         >
           Save Changes

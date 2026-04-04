@@ -14,35 +14,40 @@ const quickActions = [
     desc: "Schedule a visit with a doctor",
     path: "/dashboard/appointments/book",
     icon: <CalendarMonthIcon sx={{ fontSize: 28 }} />,
-    gradient: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
+    gradient: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+    shadow: "rgba(59, 130, 246, 0.25)",
   },
   {
     label: "My Appointments",
     desc: "View upcoming & past visits",
     path: "/dashboard/appointments",
     icon: <AssignmentIcon sx={{ fontSize: 28 }} />,
-    gradient: "linear-gradient(135deg, #0097A7, #00BCD4)",
+    gradient: "linear-gradient(135deg, #06B6D4, #22D3EE)",
+    shadow: "rgba(6, 182, 212, 0.25)",
   },
   {
     label: "Visit History",
     desc: "Complete medical visit log",
     path: "/dashboard/history",
     icon: <HistoryIcon sx={{ fontSize: 28 }} />,
-    gradient: "linear-gradient(135deg, #43A047, #66BB6A)",
+    gradient: "linear-gradient(135deg, #10B981, #34D399)",
+    shadow: "rgba(16, 185, 129, 0.25)",
   },
   {
     label: "Medical Certificates",
     desc: "Request & download certificates",
     path: "/dashboard/certificates",
     icon: <DescriptionIcon sx={{ fontSize: 28 }} />,
-    gradient: "linear-gradient(135deg, #7B1FA2, #AB47BC)",
+    gradient: "linear-gradient(135deg, #8B5CF6, #A78BFA)",
+    shadow: "rgba(139, 92, 246, 0.25)",
   },
   {
     label: "Emergency",
     desc: "Report an emergency case",
     path: "/dashboard/emergency",
     icon: <EmergencyIcon sx={{ fontSize: 28 }} />,
-    gradient: "linear-gradient(135deg, #E53935, #EF5350)",
+    gradient: "linear-gradient(135deg, #EF4444, #F87171)",
+    shadow: "rgba(239, 68, 68, 0.25)",
   },
 ];
 
@@ -63,77 +68,115 @@ const PatientHome = () => {
       <Box
         sx={{
           p: 4,
-          borderRadius: 4,
-          background: "linear-gradient(135deg, #0E4D73 0%, #1B6DA1 50%, #4BA3D8 100%)",
+          borderRadius: 5,
+          background: "linear-gradient(135deg, #1E3A5F 0%, #1D4ED8 50%, #3B82F6 100%)",
           color: "white",
           mb: 4,
           position: "relative",
           overflow: "hidden",
         }}
       >
-        {/* Decorative shapes */}
+        {/* Decorative glass shapes */}
         <Box
           sx={{
             position: "absolute",
-            width: 200,
-            height: 200,
+            width: 220,
+            height: 220,
             borderRadius: "50%",
             background: "rgba(255,255,255,0.06)",
-            top: -60,
-            right: -40,
+            top: -70,
+            right: -50,
+            animation: "float-slow 10s ease-in-out infinite",
           }}
         />
         <Box
           sx={{
             position: "absolute",
-            width: 120,
-            height: 120,
+            width: 140,
+            height: 140,
             borderRadius: "50%",
             background: "rgba(255,255,255,0.04)",
-            bottom: -30,
-            right: 100,
+            bottom: -40,
+            right: 120,
+            animation: "float-reverse 12s ease-in-out infinite",
+          }}
+        />
+        <Box
+          sx={{
+            position: "absolute",
+            width: 80,
+            height: 80,
+            borderRadius: "50%",
+            background: "rgba(255,255,255,0.05)",
+            top: 30,
+            left: "60%",
+            animation: "float 8s ease-in-out infinite",
           }}
         />
 
         <Box sx={{ position: "relative", zIndex: 1 }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
-            <WavingHandIcon sx={{ fontSize: 28 }} />
-            <Typography variant="h5" fontWeight={700}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 1 }}>
+            <Box
+              sx={{
+                width: 44,
+                height: 44,
+                borderRadius: "50%",
+                background: "rgba(255,255,255,0.12)",
+                backdropFilter: "blur(8px)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <WavingHandIcon sx={{ fontSize: 24 }} />
+            </Box>
+            <Typography variant="h5" fontWeight={700} sx={{ fontFamily: "'Outfit', sans-serif" }}>
               {getGreeting()}, {user?.name?.split(" ")[0]}!
             </Typography>
           </Box>
-          <Typography variant="body1" sx={{ opacity: 0.85, maxWidth: 500 }}>
+          <Typography variant="body1" sx={{ opacity: 0.85, maxWidth: 500, ml: 7 }}>
             Welcome to MediNIT clinic portal. How can we help you today?
           </Typography>
-          <Chip
-            label={`ID: ${user?.instituteId}`}
-            size="small"
-            sx={{
-              mt: 2,
-              bgcolor: "rgba(255,255,255,0.15)",
-              color: "white",
-              fontWeight: 500,
-              fontSize: "0.75rem",
-            }}
-          />
+
+          {/* Glass stats pills */}
+          <Box sx={{ display: "flex", gap: 2, mt: 3, flexWrap: "wrap" }}>
+            <Chip
+              label={`ID: ${user?.instituteId}`}
+              size="small"
+              sx={{
+                bgcolor: "rgba(255,255,255,0.12)",
+                backdropFilter: "blur(8px)",
+                border: "1px solid rgba(255,255,255,0.15)",
+                color: "white",
+                fontWeight: 500,
+                fontSize: "0.75rem",
+              }}
+            />
+          </Box>
         </Box>
       </Box>
 
       {/* Quick actions */}
-      <Typography variant="h6" fontWeight={600} mb={2.5} color="text.primary">
+      <Typography
+        variant="h6"
+        fontWeight={600}
+        mb={2.5}
+        color="text.primary"
+        sx={{ fontFamily: "'Outfit', sans-serif" }}
+      >
         Quick Actions
       </Typography>
 
       <Grid container spacing={2.5}>
-        {quickActions.map((action) => (
+        {quickActions.map((action, index) => (
           <Grid size={{ xs: 12, sm: 6, md: 4 }} key={action.path}>
             <Card
+              className={`animate-fade-in stagger-${index + 1}`}
               sx={{
-                transition: "all 0.25s ease",
                 cursor: "pointer",
                 "&:hover": {
                   transform: "translateY(-6px)",
-                  boxShadow: "0 12px 28px rgba(27, 109, 161, 0.15)",
+                  boxShadow: `0 20px 40px ${action.shadow}`,
                 },
               }}
             >
@@ -141,8 +184,8 @@ const PatientHome = () => {
                 <CardContent sx={{ p: 0 }}>
                   <Box
                     sx={{
-                      width: 54,
-                      height: 54,
+                      width: 56,
+                      height: 56,
                       borderRadius: 3,
                       background: action.gradient,
                       display: "flex",
@@ -150,7 +193,7 @@ const PatientHome = () => {
                       justifyContent: "center",
                       color: "white",
                       mb: 2.5,
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                      boxShadow: `0 8px 20px ${action.shadow}`,
                     }}
                   >
                     {action.icon}

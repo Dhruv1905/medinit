@@ -132,18 +132,48 @@ const DashboardLayout = () => {
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        background: "linear-gradient(180deg, #0E4D73 0%, #1B6DA1 40%, #4BA3D8 100%)",
+        background: "linear-gradient(180deg, #1E3A5F 0%, #1D4ED8 50%, #3B82F6 100%)",
         color: "white",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
+      {/* Decorative glass orbs */}
+      <Box
+        sx={{
+          position: "absolute",
+          width: 180,
+          height: 180,
+          borderRadius: "50%",
+          background: "rgba(255,255,255,0.04)",
+          top: -60,
+          right: -60,
+          pointerEvents: "none",
+        }}
+      />
+      <Box
+        sx={{
+          position: "absolute",
+          width: 120,
+          height: 120,
+          borderRadius: "50%",
+          background: "rgba(255,255,255,0.03)",
+          bottom: 80,
+          left: -40,
+          pointerEvents: "none",
+        }}
+      />
+
       {/* Logo */}
-      <Box sx={{ p: 3, pb: 2, display: "flex", alignItems: "center", gap: 1.5 }}>
+      <Box sx={{ p: 3, pb: 2, display: "flex", alignItems: "center", gap: 1.5, zIndex: 1 }}>
         <Box
           sx={{
-            width: 42,
-            height: 42,
+            width: 44,
+            height: 44,
             borderRadius: "50%",
-            bgcolor: "rgba(255,255,255,0.2)",
+            bgcolor: "rgba(255,255,255,0.15)",
+            backdropFilter: "blur(8px)",
+            border: "1px solid rgba(255,255,255,0.2)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -152,28 +182,34 @@ const DashboardLayout = () => {
           <LocalHospitalIcon sx={{ fontSize: 24 }} />
         </Box>
         <Box>
-          <Typography variant="h6" fontWeight={800} lineHeight={1.1} letterSpacing="0.02em">
+          <Typography
+            variant="h6"
+            fontWeight={800}
+            lineHeight={1.1}
+            letterSpacing="0.02em"
+            sx={{ fontFamily: "'Outfit', sans-serif" }}
+          >
             MediNIT
           </Typography>
-          <Typography variant="caption" sx={{ opacity: 0.7, fontSize: "0.65rem" }}>
+          <Typography variant="caption" sx={{ opacity: 0.6, fontSize: "0.65rem", letterSpacing: "0.1em" }}>
             CLINIC MANAGEMENT
           </Typography>
         </Box>
       </Box>
 
-      {/* Decorative curve */}
+      {/* Decorative line */}
       <Box sx={{ px: 3, pb: 2 }}>
         <Box
           sx={{
-            height: 3,
+            height: 2,
             borderRadius: 2,
-            background: "linear-gradient(90deg, rgba(255,255,255,0.5), rgba(255,255,255,0.05))",
+            background: "linear-gradient(90deg, rgba(255,255,255,0.4), rgba(255,255,255,0.02))",
           }}
         />
       </Box>
 
       {/* Navigation */}
-      <List sx={{ flex: 1, px: 2, py: 1, overflowY: "auto" }}>
+      <List sx={{ flex: 1, px: 2, py: 1, overflowY: "auto", zIndex: 1 }}>
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
@@ -188,16 +224,18 @@ const DashboardLayout = () => {
                 mb: 0.5,
                 px: 2,
                 py: 1.3,
-                bgcolor: isActive ? "rgba(255,255,255,0.2)" : "transparent",
-                backdropFilter: isActive ? "blur(10px)" : "none",
+                bgcolor: isActive ? "rgba(255,255,255,0.18)" : "transparent",
+                backdropFilter: isActive ? "blur(12px)" : "none",
+                border: isActive ? "1px solid rgba(255,255,255,0.15)" : "1px solid transparent",
+                transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
                 "&:hover": {
                   bgcolor: isActive
-                    ? "rgba(255,255,255,0.25)"
+                    ? "rgba(255,255,255,0.22)"
                     : "rgba(255,255,255,0.08)",
                 },
               }}
             >
-              <ListItemIcon sx={{ color: "white", minWidth: 38, opacity: isActive ? 1 : 0.7 }}>
+              <ListItemIcon sx={{ color: "white", minWidth: 38, opacity: isActive ? 1 : 0.65 }}>
                 {item.icon}
               </ListItemIcon>
               <ListItemText
@@ -210,10 +248,11 @@ const DashboardLayout = () => {
               {isActive && (
                 <Box
                   sx={{
-                    width: 6,
-                    height: 6,
+                    width: 8,
+                    height: 8,
                     borderRadius: "50%",
-                    bgcolor: "white",
+                    background: "linear-gradient(135deg, #60A5FA, white)",
+                    boxShadow: "0 0 8px rgba(96,165,250,0.6)",
                   }}
                 />
               )}
@@ -223,13 +262,14 @@ const DashboardLayout = () => {
       </List>
 
       {/* User card at bottom */}
-      <Box sx={{ p: 2, pt: 1 }}>
+      <Box sx={{ p: 2, pt: 1, zIndex: 1 }}>
         <Box
           sx={{
             p: 2,
             borderRadius: 3,
             bgcolor: "rgba(255,255,255,0.1)",
-            backdropFilter: "blur(10px)",
+            backdropFilter: "blur(12px)",
+            border: "1px solid rgba(255,255,255,0.12)",
             display: "flex",
             alignItems: "center",
             gap: 1.5,
@@ -239,9 +279,11 @@ const DashboardLayout = () => {
             sx={{
               width: 38,
               height: 38,
-              bgcolor: "rgba(255,255,255,0.25)",
+              bgcolor: "rgba(255,255,255,0.2)",
+              backdropFilter: "blur(8px)",
               fontSize: "0.9rem",
               fontWeight: 700,
+              border: "1px solid rgba(255,255,255,0.2)",
             }}
           >
             {user.name.charAt(0).toUpperCase()}
@@ -250,7 +292,7 @@ const DashboardLayout = () => {
             <Typography variant="body2" fontWeight={600} noWrap>
               {user.name}
             </Typography>
-            <Typography variant="caption" sx={{ opacity: 0.7 }} noWrap>
+            <Typography variant="caption" sx={{ opacity: 0.6 }} noWrap>
               {user.instituteId}
             </Typography>
           </Box>
@@ -260,7 +302,7 @@ const DashboardLayout = () => {
   );
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "background.default" }}>
+    <Box className="dashboard-bg" sx={{ display: "flex", minHeight: "100vh" }}>
       {/* Sidebar */}
       <Drawer
         variant={isMobile ? "temporary" : "permanent"}
@@ -286,9 +328,11 @@ const DashboardLayout = () => {
           position="sticky"
           elevation={0}
           sx={{
-            bgcolor: "white",
+            bgcolor: "rgba(255, 255, 255, 0.15)",
+            backdropFilter: "blur(20px)",
+            WebkitBackdropFilter: "blur(20px)",
             color: "text.primary",
-            borderBottom: "1px solid #E8EDF2",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
           }}
         >
           <Toolbar sx={{ gap: 1 }}>
@@ -303,12 +347,20 @@ const DashboardLayout = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                bgcolor: "#F4F7FC",
+                bgcolor: "rgba(255, 255, 255, 0.15)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(255, 255, 255, 0.25)",
                 borderRadius: 3,
                 px: 2,
                 py: 0.8,
                 flex: 1,
                 maxWidth: 400,
+                transition: "all 0.25s ease",
+                "&:focus-within": {
+                  border: "1px solid rgba(255, 255, 255, 0.4)",
+                  boxShadow: "0 0 0 3px rgba(59, 130, 246, 0.08)",
+                  bgcolor: "rgba(255, 255, 255, 0.22)",
+                },
               }}
             >
               <SearchIcon sx={{ color: "text.secondary", fontSize: 20, mr: 1 }} />
@@ -325,17 +377,29 @@ const DashboardLayout = () => {
               label={roleLabels[user.role] || user.role}
               size="small"
               sx={{
-                bgcolor: "#EBF4FA",
+                bgcolor: "rgba(255, 255, 255, 0.12)",
+                backdropFilter: "blur(12px)",
                 color: "primary.main",
                 fontWeight: 600,
                 fontSize: "0.75rem",
                 borderRadius: 2,
+                border: "1px solid rgba(255, 255, 255, 0.25)",
               }}
             />
 
             {/* Notification bell */}
-            <IconButton sx={{ color: "text.secondary" }}>
-              <NotificationsNoneIcon />
+            <IconButton
+              sx={{
+                color: "text.secondary",
+                bgcolor: "rgba(255,255,255,0.12)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(255, 255, 255, 0.25)",
+                "&:hover": {
+                  bgcolor: "rgba(255,255,255,0.22)",
+                },
+              }}
+            >
+              <NotificationsNoneIcon sx={{ fontSize: 20 }} />
             </IconButton>
 
             {/* Profile */}
@@ -344,9 +408,10 @@ const DashboardLayout = () => {
                 sx={{
                   width: 36,
                   height: 36,
-                  background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
+                  background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
                   fontSize: "0.85rem",
                   fontWeight: 700,
+                  boxShadow: "0 4px 14px rgba(59, 130, 246, 0.3)",
                 }}
               >
                 {user.name.charAt(0).toUpperCase()}
@@ -360,7 +425,15 @@ const DashboardLayout = () => {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               PaperProps={{
-                sx: { borderRadius: 3, mt: 1, minWidth: 200, boxShadow: "0 8px 30px rgba(0,0,0,0.12)" },
+                sx: {
+                  borderRadius: 3,
+                  mt: 1,
+                  minWidth: 200,
+                  background: "rgba(255, 255, 255, 0.2)",
+                  backdropFilter: "blur(24px)",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                  boxShadow: "0 16px 48px rgba(31, 38, 135, 0.15)",
+                },
               }}
             >
               <Box sx={{ px: 2, py: 1.5 }}>

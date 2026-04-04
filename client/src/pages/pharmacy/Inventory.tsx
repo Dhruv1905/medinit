@@ -238,8 +238,8 @@ const Inventory = () => {
             startIcon={<AddIcon />}
             onClick={handleOpenAdd}
             sx={{
-              background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
-              "&:hover": { background: "linear-gradient(135deg, #0E4D73, #1B6DA1)" },
+              background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+              "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" },
             }}
           >
             Add Medicine
@@ -258,7 +258,7 @@ const Inventory = () => {
                     width: 44,
                     height: 44,
                     borderRadius: 2.5,
-                    background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
+                    background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -282,7 +282,7 @@ const Inventory = () => {
                     width: 44,
                     height: 44,
                     borderRadius: 2.5,
-                    background: "linear-gradient(135deg, #FB8C00, #FFA726)",
+                    background: "linear-gradient(135deg, #F59E0B, #FBBF24)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -292,7 +292,7 @@ const Inventory = () => {
                   <WarningAmberIcon fontSize="small" />
                 </Box>
                 <Box>
-                  <Typography variant="h5" fontWeight={800} color="#FB8C00">{stats.lowStockCount}</Typography>
+                  <Typography variant="h5" fontWeight={800} color="#F59E0B">{stats.lowStockCount}</Typography>
                   <Typography variant="caption" color="text.secondary">Low Stock</Typography>
                 </Box>
               </CardContent>
@@ -306,7 +306,7 @@ const Inventory = () => {
                     width: 44,
                     height: 44,
                     borderRadius: 2.5,
-                    background: "linear-gradient(135deg, #E53935, #EF5350)",
+                    background: "linear-gradient(135deg, #EF4444, #F87171)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -330,7 +330,7 @@ const Inventory = () => {
                     width: 44,
                     height: 44,
                     borderRadius: 2.5,
-                    background: "linear-gradient(135deg, #43A047, #66BB6A)",
+                    background: "linear-gradient(135deg, #10B981, #34D399)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -385,8 +385,8 @@ const Inventory = () => {
             sx={{
               fontWeight: 600,
               bgcolor: showLowStock ? "#FFF3E0" : "transparent",
-              color: showLowStock ? "#FB8C00" : "text.secondary",
-              border: showLowStock ? "1px solid #FB8C00" : "1px solid #ddd",
+              color: showLowStock ? "#F59E0B" : "text.secondary",
+              border: showLowStock ? "1px solid #F59E0B" : "1px solid #ddd",
             }}
           />
           <Chip
@@ -396,12 +396,12 @@ const Inventory = () => {
             sx={{
               fontWeight: 600,
               bgcolor: showExpired ? "#FFEBEE" : "transparent",
-              color: showExpired ? "#E53935" : "text.secondary",
-              border: showExpired ? "1px solid #E53935" : "1px solid #ddd",
+              color: showExpired ? "#EF4444" : "text.secondary",
+              border: showExpired ? "1px solid #EF4444" : "1px solid #ddd",
             }}
           />
           <Tooltip title="Refresh">
-            <IconButton onClick={fetchData} sx={{ bgcolor: "#EBF4FA" }}>
+            <IconButton onClick={fetchData} sx={{ bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)" }}>
               <RefreshIcon sx={{ color: "primary.main" }} />
             </IconButton>
           </Tooltip>
@@ -426,7 +426,7 @@ const Inventory = () => {
         <TableContainer component={Paper} sx={{ borderRadius: 3, boxShadow: "0 1px 15px rgba(0,0,0,0.04)" }}>
           <Table>
             <TableHead>
-              <TableRow sx={{ bgcolor: "#F4F7FC" }}>
+              <TableRow sx={{ bgcolor: "rgba(255, 255, 255, 0.12)" }}>
                 <TableCell sx={{ fontWeight: 700 }}>Medicine</TableCell>
                 <TableCell sx={{ fontWeight: 700 }}>Category</TableCell>
                 <TableCell sx={{ fontWeight: 700 }}>Batch</TableCell>
@@ -442,7 +442,7 @@ const Inventory = () => {
                 <TableRow
                   key={med._id}
                   sx={{
-                    "&:hover": { bgcolor: "#FAFBFD" },
+                    "&:hover": { bgcolor: "rgba(255, 255, 255, 0.08)" },
                     opacity: isExpired(med.expiryDate) ? 0.6 : 1,
                   }}
                 >
@@ -458,7 +458,7 @@ const Inventory = () => {
                         textTransform: "capitalize",
                         fontWeight: 500,
                         fontSize: "0.7rem",
-                        bgcolor: "#EBF4FA",
+                        bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)",
                         color: "primary.main",
                       }}
                     />
@@ -503,7 +503,7 @@ const Inventory = () => {
                   <TableCell align="center">
                     <Box sx={{ display: "flex", gap: 0.5, justifyContent: "center" }}>
                       <Tooltip title="Edit">
-                        <IconButton size="small" onClick={() => handleOpenEdit(med)} sx={{ bgcolor: "#EBF4FA" }}>
+                        <IconButton size="small" onClick={() => handleOpenEdit(med)} sx={{ bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)" }}>
                           <EditIcon sx={{ fontSize: 18, color: "primary.main" }} />
                         </IconButton>
                       </Tooltip>
@@ -578,8 +578,8 @@ const Inventory = () => {
             disabled={saving || !form.name || !form.genericName || !form.batchNumber}
             sx={{
               borderRadius: 2,
-              background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
-              "&:hover": { background: "linear-gradient(135deg, #0E4D73, #1B6DA1)" },
+              background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+              "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" },
             }}
           >
             {saving ? <CircularProgress size={22} sx={{ color: "white" }} /> : editingId ? "Update" : "Add Medicine"}

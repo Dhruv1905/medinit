@@ -161,7 +161,7 @@ const DoctorCertificates = () => {
               <CardContent sx={{ p: 3 }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 2 }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    <Avatar sx={{ width: 44, height: 44, background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)", fontWeight: 700 }}>
+                    <Avatar sx={{ width: 44, height: 44, background: "linear-gradient(135deg, #3B82F6, #60A5FA)", fontWeight: 700 }}>
                       {cert.patient.name.charAt(0)}
                     </Avatar>
                     <Box>
@@ -183,8 +183,8 @@ const DoctorCertificates = () => {
                           onClick={() => handleOpenProcess(cert, "approved")}
                           sx={{
                             borderRadius: 2,
-                            background: "linear-gradient(135deg, #43A047, #66BB6A)",
-                            "&:hover": { background: "linear-gradient(135deg, #2E7D32, #43A047)" },
+                            background: "linear-gradient(135deg, #10B981, #34D399)",
+                            "&:hover": { background: "linear-gradient(135deg, #059669, #10B981)" },
                           }}
                         >
                           Approve
@@ -223,7 +223,7 @@ const DoctorCertificates = () => {
         <DialogContent>
           {processDialog && (
             <Box sx={{ pt: 1 }}>
-              <Box sx={{ p: 2, bgcolor: "#F4F7FC", borderRadius: 2, mb: 3 }}>
+              <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2, mb: 3 }}>
                 <Typography variant="body2"><strong>Patient:</strong> {processDialog.patient.name} ({processDialog.patient.instituteId})</Typography>
                 <Typography variant="body2"><strong>Type:</strong> {typeLabels[processDialog.type]}</Typography>
                 <Typography variant="body2"><strong>Period:</strong> {formatDate(processDialog.startDate)} — {formatDate(processDialog.endDate)}</Typography>
@@ -273,12 +273,12 @@ const DoctorCertificates = () => {
             sx={{
               borderRadius: 2,
               background: processAction === "approved"
-                ? "linear-gradient(135deg, #43A047, #66BB6A)"
-                : "linear-gradient(135deg, #E53935, #EF5350)",
+                ? "linear-gradient(135deg, #10B981, #34D399)"
+                : "linear-gradient(135deg, #EF4444, #F87171)",
               "&:hover": {
                 background: processAction === "approved"
-                  ? "linear-gradient(135deg, #2E7D32, #43A047)"
-                  : "linear-gradient(135deg, #C62828, #E53935)",
+                  ? "linear-gradient(135deg, #059669, #10B981)"
+                  : "linear-gradient(135deg, #C62828, #EF4444)",
               },
             }}
           >

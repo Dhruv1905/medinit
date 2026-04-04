@@ -4,6 +4,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import theme from "./theme";
 import App from "./App";
+import "./glassmorphism.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

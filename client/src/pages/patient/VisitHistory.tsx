@@ -169,7 +169,7 @@ const VisitHistory = () => {
                       width: 14,
                       height: 14,
                       borderRadius: "50%",
-                      background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
+                      background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
                       border: "3px solid #E3EFF8",
                       zIndex: 1,
                     }}
@@ -196,7 +196,7 @@ const VisitHistory = () => {
                           sx={{
                             width: 40,
                             height: 40,
-                            background: "linear-gradient(135deg, #43A047, #66BB6A)",
+                            background: "linear-gradient(135deg, #10B981, #34D399)",
                             fontWeight: 700,
                             fontSize: "0.9rem",
                           }}
@@ -284,7 +284,7 @@ const VisitHistory = () => {
               {detailDialog.diagnosis && (
                 <>
                   <Typography variant="caption" color="text.secondary" fontWeight={600}>DIAGNOSIS</Typography>
-                  <Box sx={{ p: 2, bgcolor: "#EBF4FA", borderRadius: 2, mb: 2, mt: 0.5 }}>
+                  <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 2, mb: 2, mt: 0.5 }}>
                     <Typography variant="body2">{detailDialog.diagnosis}</Typography>
                   </Box>
                 </>
@@ -309,7 +309,7 @@ const VisitHistory = () => {
               {detailDialog.vitals && Object.values(detailDialog.vitals).some((v) => v) && (
                 <>
                   <Typography variant="caption" color="text.secondary" fontWeight={600}>VITALS</Typography>
-                  <Box sx={{ p: 2, bgcolor: "#F4F7FC", borderRadius: 2, mt: 0.5, display: "flex", flexWrap: "wrap", gap: 3 }}>
+                  <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2, mt: 0.5, display: "flex", flexWrap: "wrap", gap: 3 }}>
                     {detailDialog.vitals.bloodPressure && <Typography variant="body2"><strong>BP:</strong> {detailDialog.vitals.bloodPressure}</Typography>}
                     {detailDialog.vitals.temperature && <Typography variant="body2"><strong>Temp:</strong> {detailDialog.vitals.temperature}°F</Typography>}
                     {detailDialog.vitals.pulse && <Typography variant="body2"><strong>Pulse:</strong> {detailDialog.vitals.pulse} bpm</Typography>}

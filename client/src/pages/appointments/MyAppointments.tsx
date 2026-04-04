@@ -218,7 +218,7 @@ const MyAppointments = () => {
                     <Chip
                       label={`Queue #${apt.queueNumber}`}
                       size="small"
-                      sx={{ mt: 1, bgcolor: "#EBF4FA", color: "primary.main", fontWeight: 600 }}
+                      sx={{ mt: 1, bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)", color: "primary.main", fontWeight: 600 }}
                     />
                   )}
 

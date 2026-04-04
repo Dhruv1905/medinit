@@ -160,7 +160,7 @@ const TriageQueue = () => {
                 sx={{
                   transition: "all 0.2s",
                   "&:hover": { boxShadow: "0 8px 24px rgba(0,0,0,0.08)" },
-                  border: hasVitals(apt) ? "2px solid #43A047" : "2px solid transparent",
+                  border: hasVitals(apt) ? "2px solid #10B981" : "2px solid transparent",
                 }}
               >
                 <CardContent sx={{ p: 3 }}>
@@ -169,7 +169,7 @@ const TriageQueue = () => {
                       sx={{
                         width: 44,
                         height: 44,
-                        background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
+                        background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
                         fontWeight: 700,
                       }}
                     >
@@ -229,8 +229,8 @@ const TriageQueue = () => {
                     sx={{
                       borderRadius: 2,
                       ...(!hasVitals(apt) && {
-                        background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
-                        "&:hover": { background: "linear-gradient(135deg, #0E4D73, #1B6DA1)" },
+                        background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+                        "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" },
                       }),
                     }}
                   >
@@ -322,8 +322,8 @@ const TriageQueue = () => {
             disabled={saving}
             sx={{
               borderRadius: 2,
-              background: "linear-gradient(135deg, #43A047, #66BB6A)",
-              "&:hover": { background: "linear-gradient(135deg, #2E7D32, #43A047)" },
+              background: "linear-gradient(135deg, #10B981, #34D399)",
+              "&:hover": { background: "linear-gradient(135deg, #059669, #10B981)" },
             }}
           >
             {saving ? <CircularProgress size={22} sx={{ color: "white" }} /> : "Save Vitals"}

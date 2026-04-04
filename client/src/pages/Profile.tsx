@@ -22,12 +22,12 @@ import EmailIcon from "@mui/icons-material/Email";
 import BadgeIcon from "@mui/icons-material/Badge";
 
 const roleColors: Record<string, string> = {
-  student: "#1B6DA1",
-  faculty: "#0097A7",
-  doctor: "#43A047",
-  nurse: "#FB8C00",
-  pharmacist: "#7B1FA2",
-  admin: "#E53935",
+  student: "#3B82F6",
+  faculty: "#06B6D4",
+  doctor: "#10B981",
+  nurse: "#F59E0B",
+  pharmacist: "#8B5CF6",
+  admin: "#EF4444",
 };
 
 const Profile = () => {
@@ -112,9 +112,13 @@ const Profile = () => {
 
   if (!user) return null;
 
+  const roleColor = roleColors[user.role] || "#3B82F6";
+
   return (
     <Box>
-      <Typography variant="h4" fontWeight={700} gutterBottom>My Profile</Typography>
+      <Typography variant="h4" fontWeight={700} gutterBottom sx={{ fontFamily: "'Outfit', sans-serif" }}>
+        My Profile
+      </Typography>
       <Typography variant="body1" color="text.secondary" mb={4}>
         Manage your personal information and security
       </Typography>
@@ -122,7 +126,7 @@ const Profile = () => {
       <Grid container spacing={3}>
         {/* Profile card */}
         <Grid size={{ xs: 12, md: 4 }}>
-          <Card>
+          <Card className="animate-fade-in">
             <CardContent sx={{ p: 4, textAlign: "center" }}>
               <Avatar
                 sx={{
@@ -132,42 +136,82 @@ const Profile = () => {
                   mb: 2,
                   fontSize: "2rem",
                   fontWeight: 800,
-                  background: `linear-gradient(135deg, ${roleColors[user.role] || "#1B6DA1"}, ${roleColors[user.role] || "#1B6DA1"}99)`,
+                  background: `linear-gradient(135deg, ${roleColor}, ${roleColor}99)`,
+                  boxShadow: `0 8px 24px ${roleColor}40`,
                 }}
               >
                 {user.name.charAt(0).toUpperCase()}
               </Avatar>
-              <Typography variant="h6" fontWeight={700}>{user.name}</Typography>
+              <Typography variant="h6" fontWeight={700} sx={{ fontFamily: "'Outfit', sans-serif" }}>
+                {user.name}
+              </Typography>
               <Chip
                 label={user.role.charAt(0).toUpperCase() + user.role.slice(1)}
                 size="small"
                 sx={{
                   mt: 1,
                   fontWeight: 600,
-                  bgcolor: (roleColors[user.role] || "#1B6DA1") + "18",
-                  color: roleColors[user.role] || "#1B6DA1",
+                  bgcolor: `${roleColor}15`,
+                  color: roleColor,
+                  border: `1px solid ${roleColor}25`,
                 }}
               />
 
-              <Divider sx={{ my: 3 }} />
+              <Divider sx={{ my: 3, borderColor: "rgba(59, 130, 246, 0.08)" }} />
 
               <Box sx={{ textAlign: "left" }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
-                  <EmailIcon sx={{ fontSize: 20, color: "text.secondary" }} />
+                  <Box
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: 2,
+                      bgcolor: "rgba(59, 130, 246, 0.06)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <EmailIcon sx={{ fontSize: 18, color: "primary.main" }} />
+                  </Box>
                   <Box>
                     <Typography variant="caption" color="text.secondary">Email</Typography>
                     <Typography variant="body2" fontWeight={500}>{user.email}</Typography>
                   </Box>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
-                  <BadgeIcon sx={{ fontSize: 20, color: "text.secondary" }} />
+                  <Box
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: 2,
+                      bgcolor: "rgba(59, 130, 246, 0.06)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <BadgeIcon sx={{ fontSize: 18, color: "primary.main" }} />
+                  </Box>
                   <Box>
                     <Typography variant="caption" color="text.secondary">Institute ID</Typography>
                     <Typography variant="body2" fontWeight={500}>{user.instituteId}</Typography>
                   </Box>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                  <PersonIcon sx={{ fontSize: 20, color: "text.secondary" }} />
+                  <Box
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: 2,
+                      bgcolor: "rgba(59, 130, 246, 0.06)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <PersonIcon sx={{ fontSize: 18, color: "primary.main" }} />
+                  </Box>
                   <Box>
                     <Typography variant="caption" color="text.secondary">Role</Typography>
                     <Typography variant="body2" fontWeight={500} textTransform="capitalize">{user.role}</Typography>
@@ -181,12 +225,14 @@ const Profile = () => {
         {/* Edit profile + Change password */}
         <Grid size={{ xs: 12, md: 8 }}>
           {/* Edit Profile */}
-          <Card sx={{ mb: 3 }}>
+          <Card sx={{ mb: 3 }} className="animate-fade-in stagger-1">
             <CardContent sx={{ p: 3 }}>
-              <Typography variant="subtitle1" fontWeight={700} mb={2.5}>Edit Profile</Typography>
+              <Typography variant="subtitle1" fontWeight={700} mb={2.5} sx={{ fontFamily: "'Outfit', sans-serif" }}>
+                Edit Profile
+              </Typography>
 
-              {profileSuccess && <Alert severity="success" sx={{ mb: 2, borderRadius: 2 }}>{profileSuccess}</Alert>}
-              {profileError && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{profileError}</Alert>}
+              {profileSuccess && <Alert severity="success" sx={{ mb: 2 }}>{profileSuccess}</Alert>}
+              {profileError && <Alert severity="error" sx={{ mb: 2 }}>{profileError}</Alert>}
 
               <Grid container spacing={2}>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -233,8 +279,8 @@ const Profile = () => {
                   onClick={handleProfileUpdate}
                   disabled={saving || !form.name}
                   sx={{
-                    background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
-                    "&:hover": { background: "linear-gradient(135deg, #0E4D73, #1B6DA1)" },
+                    background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+                    "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" },
                   }}
                 >
                   Save Changes
@@ -244,15 +290,29 @@ const Profile = () => {
           </Card>
 
           {/* Change Password */}
-          <Card>
+          <Card className="animate-fade-in stagger-2">
             <CardContent sx={{ p: 3 }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2.5 }}>
-                <LockIcon sx={{ color: "text.secondary" }} />
-                <Typography variant="subtitle1" fontWeight={700}>Change Password</Typography>
+                <Box
+                  sx={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: 2,
+                    bgcolor: "rgba(245, 158, 11, 0.08)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <LockIcon sx={{ color: "#F59E0B", fontSize: 18 }} />
+                </Box>
+                <Typography variant="subtitle1" fontWeight={700} sx={{ fontFamily: "'Outfit', sans-serif" }}>
+                  Change Password
+                </Typography>
               </Box>
 
-              {passwordSuccess && <Alert severity="success" sx={{ mb: 2, borderRadius: 2 }}>{passwordSuccess}</Alert>}
-              {passwordError && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{passwordError}</Alert>}
+              {passwordSuccess && <Alert severity="success" sx={{ mb: 2 }}>{passwordSuccess}</Alert>}
+              {passwordError && <Alert severity="error" sx={{ mb: 2 }}>{passwordError}</Alert>}
 
               <Grid container spacing={2}>
                 <Grid size={{ xs: 12 }}>
@@ -291,8 +351,8 @@ const Profile = () => {
                   onClick={handleChangePassword}
                   disabled={changingPassword || !passwordForm.currentPassword || !passwordForm.newPassword || !passwordForm.confirmPassword}
                   sx={{
-                    background: "linear-gradient(135deg, #FB8C00, #FFA726)",
-                    "&:hover": { background: "linear-gradient(135deg, #E65100, #FB8C00)" },
+                    background: "linear-gradient(135deg, #F59E0B, #FBBF24)",
+                    "&:hover": { background: "linear-gradient(135deg, #D97706, #F59E0B)" },
                   }}
                 >
                   Change Password

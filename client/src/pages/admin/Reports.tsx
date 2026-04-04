@@ -38,12 +38,12 @@ interface Report {
 }
 
 const roleColors: Record<string, string> = {
-  student: "#1B6DA1",
-  faculty: "#0097A7",
-  doctor: "#43A047",
-  nurse: "#FB8C00",
-  pharmacist: "#7B1FA2",
-  admin: "#E53935",
+  student: "#3B82F6",
+  faculty: "#06B6D4",
+  doctor: "#10B981",
+  nurse: "#F59E0B",
+  pharmacist: "#8B5CF6",
+  admin: "#EF4444",
 };
 
 const Reports = () => {
@@ -91,7 +91,7 @@ const Reports = () => {
         <Grid size={{ xs: 6, sm: 4, md: 2.4 }}>
           <Card>
             <CardContent sx={{ p: 2.5, textAlign: "center" }}>
-              <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", mx: "auto", mb: 1.5 }}>
+              <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #3B82F6, #60A5FA)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", mx: "auto", mb: 1.5 }}>
                 <PeopleIcon fontSize="small" />
               </Box>
               <Typography variant="h5" fontWeight={800}>{report.users.total}</Typography>
@@ -102,7 +102,7 @@ const Reports = () => {
         <Grid size={{ xs: 6, sm: 4, md: 2.4 }}>
           <Card>
             <CardContent sx={{ p: 2.5, textAlign: "center" }}>
-              <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #43A047, #66BB6A)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", mx: "auto", mb: 1.5 }}>
+              <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #10B981, #34D399)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", mx: "auto", mb: 1.5 }}>
                 <CalendarMonthIcon fontSize="small" />
               </Box>
               <Typography variant="h5" fontWeight={800}>{report.appointments.today}</Typography>
@@ -113,7 +113,7 @@ const Reports = () => {
         <Grid size={{ xs: 6, sm: 4, md: 2.4 }}>
           <Card>
             <CardContent sx={{ p: 2.5, textAlign: "center" }}>
-              <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #E53935, #EF5350)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", mx: "auto", mb: 1.5 }}>
+              <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #EF4444, #F87171)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", mx: "auto", mb: 1.5 }}>
                 <EmergencyIcon fontSize="small" />
               </Box>
               <Typography variant="h5" fontWeight={800} color="error.main">{report.emergencies.active}</Typography>
@@ -124,10 +124,10 @@ const Reports = () => {
         <Grid size={{ xs: 6, sm: 4, md: 2.4 }}>
           <Card>
             <CardContent sx={{ p: 2.5, textAlign: "center" }}>
-              <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #FB8C00, #FFA726)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", mx: "auto", mb: 1.5 }}>
+              <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #F59E0B, #FBBF24)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", mx: "auto", mb: 1.5 }}>
                 <InventoryIcon fontSize="small" />
               </Box>
-              <Typography variant="h5" fontWeight={800} color="#FB8C00">{report.medicines.lowStock}</Typography>
+              <Typography variant="h5" fontWeight={800} color="#F59E0B">{report.medicines.lowStock}</Typography>
               <Typography variant="caption" color="text.secondary">Low Stock Medicines</Typography>
             </CardContent>
           </Card>
@@ -135,7 +135,7 @@ const Reports = () => {
         <Grid size={{ xs: 6, sm: 4, md: 2.4 }}>
           <Card>
             <CardContent sx={{ p: 2.5, textAlign: "center" }}>
-              <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #7B1FA2, #AB47BC)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", mx: "auto", mb: 1.5 }}>
+              <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #8B5CF6, #A78BFA)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", mx: "auto", mb: 1.5 }}>
                 <DescriptionIcon fontSize="small" />
               </Box>
               <Typography variant="h5" fontWeight={800}>{report.certificates.pending}</Typography>
@@ -200,10 +200,10 @@ const Reports = () => {
                         sx={{
                           height: 20,
                           borderRadius: 2,
-                          bgcolor: "#F4F7FC",
+                          bgcolor: "rgba(255, 255, 255, 0.12)",
                           "& .MuiLinearProgress-bar": {
                             borderRadius: 2,
-                            background: "linear-gradient(90deg, #1B6DA1, #4BA3D8)",
+                            background: "linear-gradient(90deg, #3B82F6, #60A5FA)",
                           },
                         }}
                       />
@@ -229,7 +229,7 @@ const Reports = () => {
                 report.doctorWorkload.map((doc, i) => (
                   <Box key={i} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                     <Typography variant="body2">Dr. {doc.name}</Typography>
-                    <Chip label={`${doc.count} patients`} size="small" sx={{ bgcolor: "#EBF4FA", color: "primary.main", fontWeight: 600, fontSize: "0.7rem" }} />
+                    <Chip label={`${doc.count} patients`} size="small" sx={{ bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)", color: "primary.main", fontWeight: 600, fontSize: "0.7rem" }} />
                   </Box>
                 ))
               )}
@@ -275,7 +275,7 @@ const Reports = () => {
                         {reason._id}
                       </Typography>
                     </Box>
-                    <Chip label={`${reason.count}`} size="small" sx={{ fontWeight: 700, bgcolor: "#EBF4FA", color: "primary.main" }} />
+                    <Chip label={`${reason.count}`} size="small" sx={{ fontWeight: 700, bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)", color: "primary.main" }} />
                   </Box>
                 ))
               )}

@@ -13,6 +13,7 @@ import {
   MenuItem,
   Divider,
   Grid,
+  Stack,
 } from "@mui/material";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -27,6 +28,23 @@ const roles = [
   { value: "student", label: "Student" },
   { value: "faculty", label: "Faculty / Staff" },
 ];
+
+const glassInputSx = {
+  "& .MuiOutlinedInput-root": {
+    background: "rgba(255,255,255,0.08)",
+    backdropFilter: "blur(8px)",
+    color: "white",
+    "& fieldset": { borderColor: "rgba(255,255,255,0.2)" },
+    "&:hover fieldset": { borderColor: "rgba(255,255,255,0.4)" },
+    "&.Mui-focused fieldset": {
+      borderColor: "#60A5FA",
+      boxShadow: "0 0 0 3px rgba(96,165,250,0.15)",
+    },
+  },
+  "& .MuiInputLabel-root": { color: "rgba(255,255,255,0.6)" },
+  "& .MuiInputLabel-root.Mui-focused": { color: "#60A5FA" },
+  "& .MuiSelect-icon": { color: "rgba(255,255,255,0.5)" },
+};
 
 const Register = () => {
   const { register } = useAuth();
@@ -62,27 +80,13 @@ const Register = () => {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        display: "flex",
-        background: "linear-gradient(135deg, #0D6E6E 0%, #2D82B7 50%, #0D6E6E 100%)",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* Decorative circles */}
-      <Box
-        sx={{
-          position: "absolute",
-          width: 400,
-          height: 400,
-          borderRadius: "50%",
-          background: "rgba(255,255,255,0.05)",
-          top: -100,
-          right: -100,
-        }}
-      />
+    <Box className="auth-bg" sx={{ display: "flex", minHeight: "100vh" }}>
+      {/* Floating glass orbs */}
+      <div className="glass-orb glass-orb-1" />
+      <div className="glass-orb glass-orb-2" />
+      <div className="glass-orb glass-orb-3" />
+      <div className="glass-orb glass-orb-4" />
+      <div className="glass-orb glass-orb-5" />
 
       {/* Left panel */}
       <Box
@@ -97,17 +101,56 @@ const Register = () => {
           zIndex: 1,
         }}
       >
-        <LocalHospitalIcon sx={{ fontSize: 80, mb: 3, opacity: 0.9 }} />
-        <Typography variant="h3" fontWeight={700} mb={1}>
+        <Box
+          sx={{
+            width: 90,
+            height: 90,
+            borderRadius: "50%",
+            background: "rgba(255,255,255,0.1)",
+            backdropFilter: "blur(12px)",
+            border: "1px solid rgba(255,255,255,0.2)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            mb: 3,
+            animation: "pulse-glow 3s ease-in-out infinite",
+          }}
+        >
+          <LocalHospitalIcon sx={{ fontSize: 44, color: "white" }} />
+        </Box>
+
+        <Typography
+          variant="h3"
+          fontWeight={800}
+          mb={1}
+          sx={{ fontFamily: "'Outfit', sans-serif" }}
+        >
           MediNIT
         </Typography>
-        <Typography variant="h6" fontWeight={300} textAlign="center" sx={{ opacity: 0.85, maxWidth: 400 }}>
+        <Typography
+          variant="h6"
+          fontWeight={300}
+          textAlign="center"
+          sx={{ opacity: 0.85, maxWidth: 400 }}
+        >
           Join the campus healthcare network
         </Typography>
-        <Divider sx={{ width: 60, borderColor: "rgba(255,255,255,0.4)", my: 3 }} />
-        <Typography variant="body2" sx={{ opacity: 0.75, maxWidth: 350, textAlign: "center" }}>
-          Register with your institute email to access appointments, prescriptions, medical certificates, and more.
-        </Typography>
+
+        <Divider sx={{ width: 60, borderColor: "rgba(255,255,255,0.3)", my: 4 }} />
+
+        <Stack
+          spacing={1.5}
+          sx={{
+            maxWidth: 350,
+            opacity: 0.8,
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="body2">
+            Register with your institute email to access appointments,
+            prescriptions, medical certificates, and more.
+          </Typography>
+        </Stack>
       </Box>
 
       {/* Right panel - Register form */}
@@ -121,21 +164,68 @@ const Register = () => {
           zIndex: 1,
         }}
       >
-        <Card sx={{ width: "100%", maxWidth: 500, p: { xs: 2, sm: 3 } }}>
+        <Card
+          className="animate-scale-in"
+          sx={{
+            width: "100%",
+            maxWidth: 500,
+            p: { xs: 2, sm: 3 },
+            background: "rgba(255, 255, 255, 0.12)",
+            backdropFilter: "blur(24px)",
+            WebkitBackdropFilter: "blur(24px)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            boxShadow: "0 24px 80px rgba(0, 0, 0, 0.15)",
+            color: "white",
+          }}
+        >
           <CardContent>
             <Box sx={{ display: { xs: "flex", md: "none" }, justifyContent: "center", mb: 2 }}>
-              <LocalHospitalIcon sx={{ fontSize: 40, color: "primary.main" }} />
+              <Box
+                sx={{
+                  width: 56,
+                  height: 56,
+                  borderRadius: "50%",
+                  background: "rgba(255,255,255,0.15)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <LocalHospitalIcon sx={{ fontSize: 28, color: "white" }} />
+              </Box>
             </Box>
 
-            <Typography variant="h5" textAlign="center" color="primary.dark" gutterBottom>
+            <Typography
+              variant="h5"
+              textAlign="center"
+              fontWeight={700}
+              gutterBottom
+              sx={{ color: "white", fontFamily: "'Outfit', sans-serif" }}
+            >
               Create Account
             </Typography>
-            <Typography variant="body2" textAlign="center" color="text.secondary" mb={3}>
+            <Typography
+              variant="body2"
+              textAlign="center"
+              mb={3}
+              sx={{ color: "rgba(255,255,255,0.7)" }}
+            >
               Fill in your details to get started
             </Typography>
 
             {error && (
-              <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>
+              <Alert
+                severity="error"
+                sx={{
+                  mb: 2,
+                  borderRadius: 2,
+                  background: "rgba(239, 68, 68, 0.15)",
+                  backdropFilter: "blur(8px)",
+                  color: "#fca5a5",
+                  border: "1px solid rgba(239, 68, 68, 0.3)",
+                  "& .MuiAlert-icon": { color: "#fca5a5" },
+                }}
+              >
                 {error}
               </Alert>
             )}
@@ -148,11 +238,11 @@ const Register = () => {
                 required
                 value={form.name}
                 onChange={handleChange}
-                sx={{ mb: 2 }}
+                sx={{ mb: 2, ...glassInputSx }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <PersonOutlineIcon sx={{ color: "text.secondary", fontSize: 20 }} />
+                      <PersonOutlineIcon sx={{ color: "rgba(255,255,255,0.5)", fontSize: 20 }} />
                     </InputAdornment>
                   ),
                 }}
@@ -169,10 +259,11 @@ const Register = () => {
                     value={form.email}
                     onChange={handleChange}
                     placeholder="you@nitw.ac.in"
+                    sx={glassInputSx}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <EmailOutlinedIcon sx={{ color: "text.secondary", fontSize: 20 }} />
+                          <EmailOutlinedIcon sx={{ color: "rgba(255,255,255,0.5)", fontSize: 20 }} />
                         </InputAdornment>
                       ),
                     }}
@@ -187,10 +278,11 @@ const Register = () => {
                     value={form.instituteId}
                     onChange={handleChange}
                     placeholder="CS2021001"
+                    sx={glassInputSx}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <BadgeOutlinedIcon sx={{ color: "text.secondary", fontSize: 20 }} />
+                          <BadgeOutlinedIcon sx={{ color: "rgba(255,255,255,0.5)", fontSize: 20 }} />
                         </InputAdornment>
                       ),
                     }}
@@ -206,11 +298,11 @@ const Register = () => {
                 required
                 value={form.password}
                 onChange={handleChange}
-                sx={{ mb: 2 }}
+                sx={{ mb: 2, ...glassInputSx }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <LockOutlinedIcon sx={{ color: "text.secondary", fontSize: 20 }} />
+                      <LockOutlinedIcon sx={{ color: "rgba(255,255,255,0.5)", fontSize: 20 }} />
                     </InputAdornment>
                   ),
                 }}
@@ -223,7 +315,7 @@ const Register = () => {
                 fullWidth
                 value={form.role}
                 onChange={handleChange}
-                sx={{ mb: 2 }}
+                sx={{ mb: 2, ...glassInputSx }}
               >
                 {roles.map((r) => (
                   <MenuItem key={r.value} value={r.value}>
@@ -240,10 +332,11 @@ const Register = () => {
                     fullWidth
                     value={form.phone}
                     onChange={handleChange}
+                    sx={glassInputSx}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <PhoneOutlinedIcon sx={{ color: "text.secondary", fontSize: 20 }} />
+                          <PhoneOutlinedIcon sx={{ color: "rgba(255,255,255,0.5)", fontSize: 20 }} />
                         </InputAdornment>
                       ),
                     }}
@@ -256,10 +349,11 @@ const Register = () => {
                     fullWidth
                     value={form.bloodGroup}
                     onChange={handleChange}
+                    sx={glassInputSx}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <BloodtypeOutlinedIcon sx={{ color: "text.secondary", fontSize: 20 }} />
+                          <BloodtypeOutlinedIcon sx={{ color: "rgba(255,255,255,0.5)", fontSize: 20 }} />
                         </InputAdornment>
                       ),
                     }}
@@ -276,9 +370,12 @@ const Register = () => {
                 sx={{
                   py: 1.5,
                   fontSize: "1rem",
-                  background: "linear-gradient(135deg, #0D6E6E, #2D82B7)",
+                  fontWeight: 700,
+                  background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+                  boxShadow: "0 8px 32px rgba(59, 130, 246, 0.35)",
                   "&:hover": {
-                    background: "linear-gradient(135deg, #094F4F, #1A5F8A)",
+                    background: "linear-gradient(135deg, #1D4ED8, #3B82F6)",
+                    boxShadow: "0 12px 40px rgba(59, 130, 246, 0.45)",
                   },
                 }}
               >
@@ -286,15 +383,21 @@ const Register = () => {
               </Button>
             </form>
 
-            <Divider sx={{ my: 2.5 }}>
-              <Typography variant="caption" color="text.secondary">
+            <Divider
+              sx={{
+                my: 2.5,
+                borderColor: "rgba(255,255,255,0.15)",
+                "&::before, &::after": { borderColor: "rgba(255,255,255,0.15)" },
+              }}
+            >
+              <Typography variant="caption" sx={{ color: "rgba(255,255,255,0.5)" }}>
                 OR
               </Typography>
             </Divider>
 
-            <Typography variant="body2" textAlign="center">
+            <Typography variant="body2" textAlign="center" sx={{ color: "rgba(255,255,255,0.7)" }}>
               Already have an account?{" "}
-              <Link to="/login" style={{ color: "#1B6DA1", fontWeight: 600, textDecoration: "none" }}>
+              <Link to="/login" style={{ color: "#60A5FA", fontWeight: 600, textDecoration: "none" }}>
                 Sign In
               </Link>
             </Typography>

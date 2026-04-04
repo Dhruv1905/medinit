@@ -204,11 +204,11 @@ const PatientQueue = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "scheduled": return "#1B6DA1";
-      case "in_queue": return "#0097A7";
-      case "in_consultation": return "#FB8C00";
-      case "completed": return "#43A047";
-      case "cancelled": return "#E53935";
+      case "scheduled": return "#3B82F6";
+      case "in_queue": return "#06B6D4";
+      case "in_consultation": return "#F59E0B";
+      case "completed": return "#10B981";
+      case "cancelled": return "#EF4444";
       case "no_show": return "#9E9E9E";
       default: return "#9E9E9E";
     }
@@ -258,7 +258,7 @@ const PatientQueue = () => {
             sx={{ width: 180 }}
           />
           <Tooltip title="Refresh">
-            <IconButton onClick={fetchAppointments} sx={{ bgcolor: "#EBF4FA" }}>
+            <IconButton onClick={fetchAppointments} sx={{ bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)" }}>
               <RefreshIcon sx={{ color: "primary.main" }} />
             </IconButton>
           </Tooltip>
@@ -280,7 +280,7 @@ const PatientQueue = () => {
         <Grid size={{ xs: 6, sm: 3 }}>
           <Card>
             <CardContent sx={{ p: 2.5, textAlign: "center" }}>
-              <Typography variant="h4" fontWeight={800} color="#FB8C00">
+              <Typography variant="h4" fontWeight={800} color="#F59E0B">
                 {activeCount}
               </Typography>
               <Typography variant="body2" color="text.secondary">Active</Typography>
@@ -332,9 +332,9 @@ const PatientQueue = () => {
               sx={{
                 transition: "all 0.2s",
                 borderLeft: `4px solid ${apt.priority === "emergency"
-                  ? "#E53935"
+                  ? "#EF4444"
                   : apt.priority === "urgent"
-                    ? "#FB8C00"
+                    ? "#F59E0B"
                     : getStatusColor(apt.status)
                   }`,
                 opacity: ["completed", "cancelled", "no_show"].includes(apt.status) ? 0.65 : 1,
@@ -366,7 +366,7 @@ const PatientQueue = () => {
                             label={`#${apt.queueNumber}`}
                             size="small"
                             sx={{
-                              bgcolor: "#EBF4FA",
+                              bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)",
                               color: "primary.main",
                               fontWeight: 700,
                               fontSize: "0.7rem",
@@ -413,7 +413,7 @@ const PatientQueue = () => {
                         <Tooltip title="Start Consultation">
                           <IconButton
                             onClick={() => handleStartConsultation(apt)}
-                            sx={{ bgcolor: "#EBF4FA" }}
+                            sx={{ bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)" }}
                           >
                             <PlayArrowIcon sx={{ color: "primary.main" }} />
                           </IconButton>
@@ -423,7 +423,7 @@ const PatientQueue = () => {
                             onClick={() => handleMarkNoShow(apt._id)}
                             sx={{ bgcolor: "#FFF3E0" }}
                           >
-                            <PersonIcon sx={{ color: "#FB8C00" }} />
+                            <PersonIcon sx={{ color: "#F59E0B" }} />
                           </IconButton>
                         </Tooltip>
                       </>
@@ -443,7 +443,7 @@ const PatientQueue = () => {
                     <Tooltip title="View Details">
                       <IconButton
                         onClick={() => setDetailDialog(apt)}
-                        sx={{ bgcolor: "#F4F7FC" }}
+                        sx={{ bgcolor: "rgba(255, 255, 255, 0.12)" }}
                       >
                         <VisibilityIcon sx={{ color: "text.secondary" }} />
                       </IconButton>
@@ -457,7 +457,7 @@ const PatientQueue = () => {
                     sx={{
                       mt: 2,
                       p: 1.5,
-                      bgcolor: "#F4F7FC",
+                      bgcolor: "rgba(255, 255, 255, 0.12)",
                       borderRadius: 2,
                       display: "flex",
                       gap: 3,
@@ -516,7 +516,7 @@ const PatientQueue = () => {
         <DialogContent>
           <Box sx={{ pt: 1, display: "flex", flexDirection: "column", gap: 2.5 }}>
             {consultDialog?.reason && (
-              <Box sx={{ p: 2, bgcolor: "#F4F7FC", borderRadius: 2 }}>
+              <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2 }}>
                 <Typography variant="caption" color="text.secondary" fontWeight={600}>
                   REASON FOR VISIT
                 </Typography>
@@ -526,7 +526,7 @@ const PatientQueue = () => {
 
             {consultDialog?.vitals &&
               Object.keys(consultDialog.vitals).some((k) => (consultDialog.vitals as any)[k]) && (
-                <Box sx={{ p: 2, bgcolor: "#F4F7FC", borderRadius: 2 }}>
+                <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2 }}>
                   <Typography variant="caption" color="text.secondary" fontWeight={600} mb={1} display="block">
                     VITALS
                   </Typography>
@@ -571,7 +571,7 @@ const PatientQueue = () => {
               placeholder="Enter general prescription notes..."
             />
 
-            <Box sx={{ p: 2, bgcolor: "#F4F7FC", borderRadius: 2 }}>
+            <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
                 <Typography variant="subtitle2" fontWeight={700}>Medicines (Inventory Link)</Typography>
                 <Button
@@ -722,8 +722,8 @@ const PatientQueue = () => {
             disabled={!diagnosis || saving}
             sx={{
               borderRadius: 2,
-              background: "linear-gradient(135deg, #43A047, #66BB6A)",
-              "&:hover": { background: "linear-gradient(135deg, #2E7D32, #43A047)" },
+              background: "linear-gradient(135deg, #10B981, #34D399)",
+              "&:hover": { background: "linear-gradient(135deg, #059669, #10B981)" },
             }}
           >
             {saving ? <CircularProgress size={22} sx={{ color: "white" }} /> : "Complete & Save"}
@@ -798,7 +798,7 @@ const PatientQueue = () => {
                   <Typography variant="caption" color="text.secondary">Prescriptions</Typography>
                   <Box sx={{ mt: 1, display: "flex", flexDirection: "column", gap: 1 }}>
                     {detailDialog.prescriptionItems.map((item, idx) => (
-                      <Box key={idx} sx={{ display: "flex", gap: 2, bgcolor: "#F4F7FC", p: 1, borderRadius: 1 }}>
+                      <Box key={idx} sx={{ display: "flex", gap: 2, bgcolor: "rgba(255, 255, 255, 0.12)", p: 1, borderRadius: 1 }}>
                         <Typography variant="body2" fontWeight={600}>{item.medicineName}</Typography>
                         <Typography variant="body2">Qty: {item.quantity}</Typography>
                         <Typography variant="body2">Dose: {item.dose}</Typography>

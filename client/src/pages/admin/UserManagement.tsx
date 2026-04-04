@@ -74,12 +74,12 @@ const roles = [
 ];
 
 const roleColors: Record<string, string> = {
-  student: "#1B6DA1",
-  faculty: "#0097A7",
-  doctor: "#43A047",
-  nurse: "#FB8C00",
-  pharmacist: "#7B1FA2",
-  admin: "#E53935",
+  student: "#3B82F6",
+  faculty: "#06B6D4",
+  doctor: "#10B981",
+  nurse: "#F59E0B",
+  pharmacist: "#8B5CF6",
+  admin: "#EF4444",
 };
 
 const UserManagement = () => {
@@ -188,7 +188,7 @@ const UserManagement = () => {
           <Grid size={{ xs: 6, sm: 3 }}>
             <Card>
               <CardContent sx={{ p: 2.5, display: "flex", alignItems: "center", gap: 2 }}>
-                <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
+                <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #3B82F6, #60A5FA)", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
                   <PeopleIcon fontSize="small" />
                 </Box>
                 <Box>
@@ -201,7 +201,7 @@ const UserManagement = () => {
           <Grid size={{ xs: 6, sm: 3 }}>
             <Card>
               <CardContent sx={{ p: 2.5, display: "flex", alignItems: "center", gap: 2 }}>
-                <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #43A047, #66BB6A)", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
+                <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #10B981, #34D399)", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
                   <CheckCircleIcon fontSize="small" />
                 </Box>
                 <Box>
@@ -214,7 +214,7 @@ const UserManagement = () => {
           <Grid size={{ xs: 6, sm: 3 }}>
             <Card>
               <CardContent sx={{ p: 2.5, display: "flex", alignItems: "center", gap: 2 }}>
-                <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #E53935, #EF5350)", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
+                <Box sx={{ width: 44, height: 44, borderRadius: 2.5, background: "linear-gradient(135deg, #EF4444, #F87171)", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
                   <PersonOffIcon fontSize="small" />
                 </Box>
                 <Box>
@@ -277,12 +277,12 @@ const UserManagement = () => {
             <MenuItem value="inactive">Inactive</MenuItem>
           </TextField>
           <Tooltip title="Refresh">
-            <IconButton onClick={fetchData} sx={{ bgcolor: "#EBF4FA" }}>
+            <IconButton onClick={fetchData} sx={{ bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)" }}>
               <RefreshIcon sx={{ color: "primary.main" }} />
             </IconButton>
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
-          <Button variant="contained" onClick={() => setAddUserDialog(true)} sx={{ borderRadius: 2, background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)" }}>
+          <Button variant="contained" onClick={() => setAddUserDialog(true)} sx={{ borderRadius: 2, background: "linear-gradient(135deg, #3B82F6, #60A5FA)" }}>
             + Add User
           </Button>
         </CardContent>
@@ -303,7 +303,7 @@ const UserManagement = () => {
         <TableContainer component={Paper} sx={{ borderRadius: 3, boxShadow: "0 1px 15px rgba(0,0,0,0.04)" }}>
           <Table>
             <TableHead>
-              <TableRow sx={{ bgcolor: "#F4F7FC" }}>
+              <TableRow sx={{ bgcolor: "rgba(255, 255, 255, 0.12)" }}>
                 <TableCell sx={{ fontWeight: 700 }}>User</TableCell>
                 <TableCell sx={{ fontWeight: 700 }}>Institute ID</TableCell>
                 <TableCell sx={{ fontWeight: 700 }}>Role</TableCell>
@@ -314,7 +314,7 @@ const UserManagement = () => {
             </TableHead>
             <TableBody>
               {users.map((user) => (
-                <TableRow key={user._id} sx={{ "&:hover": { bgcolor: "#FAFBFD" }, opacity: user.isActive ? 1 : 0.6 }}>
+                <TableRow key={user._id} sx={{ "&:hover": { bgcolor: "rgba(255, 255, 255, 0.08)" }, opacity: user.isActive ? 1 : 0.6 }}>
                   <TableCell>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                       <Avatar
@@ -370,7 +370,7 @@ const UserManagement = () => {
                             setRoleDialog(user);
                             setNewRole(user.role);
                           }}
-                          sx={{ bgcolor: "#EBF4FA" }}
+                          sx={{ bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)" }}
                         >
                           <EditIcon sx={{ fontSize: 18, color: "primary.main" }} />
                         </IconButton>
@@ -382,7 +382,7 @@ const UserManagement = () => {
                           sx={{ bgcolor: user.isActive ? "#FFF3E0" : "#E8F5E9" }}
                         >
                           {user.isActive ? (
-                            <BlockIcon sx={{ fontSize: 18, color: "#FB8C00" }} />
+                            <BlockIcon sx={{ fontSize: 18, color: "#F59E0B" }} />
                           ) : (
                             <CheckCircleIcon sx={{ fontSize: 18, color: "success.main" }} />
                           )}
@@ -432,8 +432,8 @@ const UserManagement = () => {
             variant="contained"
             sx={{
               borderRadius: 2,
-              background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
-              "&:hover": { background: "linear-gradient(135deg, #0E4D73, #1B6DA1)" },
+              background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+              "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" },
             }}
           >
             Update Role
@@ -475,7 +475,7 @@ const UserManagement = () => {
         </DialogContent>
         <DialogActions sx={{ p: 3, pt: 1 }}>
           <Button onClick={() => setAddUserDialog(false)} variant="outlined" sx={{ borderRadius: 2 }}>Cancel</Button>
-          <Button onClick={handleAddUser} variant="contained" sx={{ borderRadius: 2, background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)" }}>Create User</Button>
+          <Button onClick={handleAddUser} variant="contained" sx={{ borderRadius: 2, background: "linear-gradient(135deg, #3B82F6, #60A5FA)" }}>Create User</Button>
         </DialogActions>
       </Dialog>
     </Box>
