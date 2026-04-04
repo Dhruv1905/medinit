@@ -17,6 +17,7 @@ import MyCertificates from "./pages/certificates/MyCertificates";
 import UserManagement from "./pages/admin/UserManagement";
 import Reports from "./pages/admin/Reports";
 import Settings from "./pages/admin/Settings";
+import Reimbursements from "./pages/admin/Reimbursements";
 import VisitHistory from "./pages/patient/VisitHistory";
 import EmergencyPage from "./pages/emergency/EmergencyPage";
 import Profile from "./pages/Profile";
@@ -72,6 +73,7 @@ function App() {
               {/* Admin */}
               <Route path="users" element={<UserManagement />} />
               <Route path="reports" element={<Reports />} />
+              <Route path="reimbursements" element={<Reimbursements />} />
               <Route path="settings" element={<Settings />} />
             </Route>
 

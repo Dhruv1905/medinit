@@ -20,7 +20,17 @@ export const updateStatusSchema = z.object({
   cancelReason: z.string().optional(),
   diagnosis: z.string().optional(),
   prescription: z.string().optional(),
+  prescriptionItems: z.array(z.object({
+    medicineId: z.string().optional(),
+    medicineName: z.string(),
+    quantity: z.number(),
+    dose: z.string(),
+    timing: z.string(),
+    schedule: z.array(z.string())
+  })).optional(),
   notes: z.string().optional(),
+  isExternalReference: z.boolean().optional(),
+  externalHospitalName: z.string().optional(),
 });
 
 export const updateVitalsSchema = z.object({

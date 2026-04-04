@@ -25,13 +25,16 @@ import EventIcon from "@mui/icons-material/Event";
 import {
   getMyCertificates,
   requestCertificate,
+  getAllCertificates,
 } from "../../services/certificateService";
 import { getDoctors } from "../../services/appointmentService";
+import { useAuth } from "../../context/Authcontext";
 import DownloadIcon from "@mui/icons-material/Download";
 import api from "../../services/api";
 interface Certificate {
   _id: string;
   doctor: { _id: string; name: string };
+  patient?: { _id: string; name: string };
   type: string;
   status: string;
   reason: string;
@@ -66,6 +69,7 @@ const statusConfig: Record<string, { color: "primary" | "success" | "error" | "w
 };
 
 const MyCertificates = () => {
+  const { user } = useAuth();
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
@@ -90,7 +94,7 @@ const MyCertificates = () => {
   const fetchData = async () => {
     try {
       const [certRes, docRes] = await Promise.all([
-        getMyCertificates(),
+        user?.role === "admin" ? getAllCertificates() : getMyCertificates(),
         getDoctors(),
       ]);
       setCertificates(certRes.data.certificates);
@@ -168,20 +172,22 @@ const MyCertificates = () => {
             Medical Certificates
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Request and manage your medical certificates
+            Request and manage medical certificates
           </Typography>
         </Box>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={() => setRequestOpen(true)}
-          sx={{
-            background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
-            "&:hover": { background: "linear-gradient(135deg, #0E4D73, #1B6DA1)" },
-          }}
-        >
-          Request Certificate
-        </Button>
+        {user?.role !== "admin" && (
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            onClick={() => setRequestOpen(true)}
+            sx={{
+              background: "linear-gradient(135deg, #1B6DA1, #4BA3D8)",
+              "&:hover": { background: "linear-gradient(135deg, #0E4D73, #1B6DA1)" },
+            }}
+          >
+            Request Certificate
+          </Button>
+        )}
       </Box>
 
       {error && <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>{error}</Alert>}
@@ -203,12 +209,11 @@ const MyCertificates = () => {
                   transition: "all 0.2s",
                   cursor: "pointer",
                   "&:hover": { transform: "translateY(-4px)", boxShadow: "0 12px 28px rgba(0,0,0,0.08)" },
-                  borderTop: `4px solid ${
-                    cert.status === "approved" ? "#43A047"
+                  borderTop: `4px solid ${cert.status === "approved" ? "#43A047"
                     : cert.status === "rejected" ? "#E53935"
-                    : cert.status === "revoked" ? "#9E9E9E"
-                    : "#1B6DA1"
-                  }`,
+                      : cert.status === "revoked" ? "#9E9E9E"
+                        : "#1B6DA1"
+                    }`,
                 }}
                 onClick={() => setDetailDialog(cert)}
               >
@@ -227,9 +232,15 @@ const MyCertificates = () => {
                     />
                   </Box>
 
-                  <Typography variant="subtitle1" fontWeight={700} mb={0.5}>
-                    Dr. {cert.doctor.name}
+                  <Typography variant="subtitle1" fontWeight={700} mb={user?.role === "admin" && cert.patient ? 0 : 0.5}>
+                    Dr. {cert.doctor?.name || "Unknown"}
                   </Typography>
+
+                  {user?.role === "admin" && cert.patient && (
+                    <Typography variant="body2" color="primary.main" mb={0.5} fontWeight={600}>
+                      Patient: {cert.patient?.name}
+                    </Typography>
+                  )}
 
                   <Typography variant="body2" color="text.secondary" mb={1.5} sx={{
                     overflow: "hidden",
@@ -385,7 +396,7 @@ const MyCertificates = () => {
                 </Grid>
                 <Grid size={{ xs: 6 }}>
                   <Typography variant="caption" color="text.secondary">Doctor</Typography>
-                  <Typography variant="body2" fontWeight={600}>Dr. {detailDialog.doctor.name}</Typography>
+                  <Typography variant="body2" fontWeight={600}>Dr. {detailDialog.doctor?.name || "Unknown"}</Typography>
                 </Grid>
                 <Grid size={{ xs: 6 }}>
                   <Typography variant="caption" color="text.secondary">Period</Typography>
@@ -441,19 +452,19 @@ const MyCertificates = () => {
                   >
                     {copied ? "Copied!" : "Copy Verification Code"}
                     <Button
-                    size="small"
-                    variant="contained"
-                    startIcon={<DownloadIcon />}
-                    onClick={() => handleDownload(detailDialog._id, detailDialog.verificationCode)}
-                    sx={{
-                      mt: 1,
-                      borderRadius: 2,
-                      background: "linear-gradient(135deg, #43A047, #66BB6A)",
-                      "&:hover": { background: "linear-gradient(135deg, #2E7D32, #43A047)" },
-                    }}
-                  >
-                    Download PDF
-                  </Button>
+                      size="small"
+                      variant="contained"
+                      startIcon={<DownloadIcon />}
+                      onClick={() => handleDownload(detailDialog._id, detailDialog.verificationCode)}
+                      sx={{
+                        mt: 1,
+                        borderRadius: 2,
+                        background: "linear-gradient(135deg, #43A047, #66BB6A)",
+                        "&:hover": { background: "linear-gradient(135deg, #2E7D32, #43A047)" },
+                      }}
+                    >
+                      Download PDF
+                    </Button>
                   </Button>
                 </Box>
               )}

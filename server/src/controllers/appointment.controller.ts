@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import mongoose from "mongoose";
 import Appointment, { AppointmentStatus } from "../models/Appointment";
 import User, { Role } from "../models/User";
+import Medicine from "../models/Medicine";
 import { AuthRequest } from "../middlewares/auth.middleware";
 import {
   createAppointmentSchema,
@@ -209,6 +210,9 @@ export const updateAppointmentStatus = async (req: AuthRequest, res: Response): 
       update.completedAt = new Date();
       if (parsed.data.diagnosis) update.diagnosis = parsed.data.diagnosis;
       if (parsed.data.prescription) update.prescription = parsed.data.prescription;
+      if (parsed.data.prescriptionItems) update.prescriptionItems = parsed.data.prescriptionItems;
+      if (parsed.data.isExternalReference !== undefined) update.isExternalReference = parsed.data.isExternalReference;
+      if (parsed.data.externalHospitalName) update.externalHospitalName = parsed.data.externalHospitalName;
     }
 
     if (parsed.data.status === AppointmentStatus.CANCELLED) {
@@ -232,6 +236,7 @@ export const updateAppointmentStatus = async (req: AuthRequest, res: Response): 
     emitToRole("doctor", "appointment-update");
     emitToRole("nurse", "appointment-update");
     emitToRole("admin", "appointment-update");
+    emitToRole("pharmacist", "prescription-update");
     if (appointment.patient) {
       emitToUser(appointment.patient._id.toString(), "appointment-update");
     }
@@ -325,7 +330,10 @@ export const getPrescriptions = async (req: Request, res: Response): Promise<voi
 
     const filter: any = {
       status: "completed",
-      prescription: { $exists: true, $nin: [null, ""] },
+      $or: [
+        { prescription: { $exists: true, $nin: [null, ""] } },
+        { "prescriptionItems.0": { $exists: true } }
+      ]
     };
 
     if (status === "pending") {
@@ -352,6 +360,36 @@ export const fulfillPrescription = async (req: Request, res: Response): Promise<
   try {
     const { id } = req.params;
     const { notes } = req.body;
+
+    const existingApt = await Appointment.findById(id);
+    if (!existingApt) {
+      res.status(404).json({ message: "Prescription not found" });
+      return;
+    }
+
+    if (existingApt.prescriptionItems && existingApt.prescriptionItems.length > 0) {
+      // Validate inventory
+      for (const item of existingApt.prescriptionItems) {
+        if (item.medicineId) {
+          const med = await Medicine.findById(item.medicineId);
+          if (!med) {
+            res.status(400).json({ message: `Medicine ${item.medicineName} not found in inventory` });
+            return;
+          }
+          if (med.quantity < item.quantity) {
+            res.status(400).json({ message: `Insufficient stock for ${item.medicineName}. Available: ${med.quantity}` });
+            return;
+          }
+        }
+      }
+
+      // Deduct inventory
+      for (const item of existingApt.prescriptionItems) {
+        if (item.medicineId) {
+          await Medicine.findByIdAndUpdate(item.medicineId, { $inc: { quantity: -item.quantity } });
+        }
+      }
+    }
 
     const appointment = await Appointment.findByIdAndUpdate(
       id,

@@ -90,6 +90,7 @@ const getNavItems = (role: string): NavItem[] => {
         { label: "Appointments", path: "/dashboard/appointments", icon: <CalendarMonthIcon /> },
         { label: "Inventory", path: "/dashboard/inventory", icon: <InventoryIcon /> },
         { label: "Certificates", path: "/dashboard/certificates", icon: <DescriptionIcon /> },
+        { label: "Reimbursements", path: "/dashboard/reimbursements", icon: <AssignmentIcon /> },
         { label: "Reports", path: "/dashboard/reports", icon: <AssignmentIcon /> },
         { label: "Settings", path: "/dashboard/settings", icon: <SettingsIcon /> },
       ];

@@ -34,6 +34,15 @@ export interface IAppointment extends Document {
   };
   diagnosis?: string;
   prescription?: string;
+  prescriptionItems?: {
+    medicineId?: mongoose.Types.ObjectId;
+    medicineName: string;
+    quantity: number;
+    dose: string;
+    timing: string;
+    schedule: string[];
+  }[];
+  reimbursementRequested?: boolean;
   completedAt?: Date;
   cancelledAt?: Date;
   cancelReason?: string;
@@ -42,6 +51,8 @@ export interface IAppointment extends Document {
   prescriptionFulfilled?: boolean;
   prescriptionFulfilledAt?: Date;
   pharmacistNotes?: string;
+  isExternalReference?: boolean;
+  externalHospitalName?: string;
 }
 
 const appointmentSchema = new Schema<IAppointment>(
@@ -90,12 +101,23 @@ const appointmentSchema = new Schema<IAppointment>(
     },
     diagnosis: { type: String },
     prescription: { type: String },
+    prescriptionItems: [{
+      medicineId: { type: Schema.Types.ObjectId, ref: "Medicine" },
+      medicineName: { type: String, required: true },
+      quantity: { type: Number, required: true, min: 1 },
+      dose: { type: String, required: true },
+      timing: { type: String, required: true },
+      schedule: [{ type: String }],
+    }],
+    reimbursementRequested: { type: Boolean, default: false },
     completedAt: { type: Date },
     cancelledAt: { type: Date },
     cancelReason: { type: String },
     prescriptionFulfilled: { type: Boolean, default: false },
     prescriptionFulfilledAt: { type: Date },
     pharmacistNotes: { type: String },
+    isExternalReference: { type: Boolean, default: false },
+    externalHospitalName: { type: String },
   },
   { timestamps: true }
 );

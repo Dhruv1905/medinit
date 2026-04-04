@@ -19,9 +19,10 @@ import {
 import HistoryIcon from "@mui/icons-material/History";
 import EventIcon from "@mui/icons-material/Event";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import PersonIcon from "@mui/icons-material/Person";
-import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { getVisitHistory } from "../../services/appointmentService";
+import { createReimbursement } from "../../services/reimbursementService";
+import { TextField } from "@mui/material";
 
 interface Visit {
   _id: string;
@@ -41,6 +42,9 @@ interface Visit {
   };
   completedAt?: string;
   queueNumber?: number;
+  isExternalReference?: boolean;
+  externalHospitalName?: string;
+  reimbursementRequested?: boolean;
 }
 
 const VisitHistory = () => {
@@ -48,6 +52,14 @@ const VisitHistory = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [detailDialog, setDetailDialog] = useState<Visit | null>(null);
+
+  const [reimburseDialog, setReimburseDialog] = useState<Visit | null>(null);
+  const [amount, setAmount] = useState("");
+  const [bankAccountNo, setBankAccountNo] = useState("");
+  const [ifsc, setIfsc] = useState("");
+  const [bankName, setBankName] = useState("");
+  const [documentFile, setDocumentFile] = useState<File | null>(null);
+  const [reimsSaving, setReimsSaving] = useState(false);
 
   useEffect(() => {
     const fetchVisits = async () => {
@@ -70,6 +82,36 @@ const VisitHistory = () => {
       month: "short",
       day: "numeric",
     });
+
+  const handleSubmitReimbursement = async () => {
+    if (!reimburseDialog || !documentFile) return;
+    setReimsSaving(true);
+    try {
+      const formData = new FormData();
+      formData.append("appointment", reimburseDialog._id);
+      formData.append("amount", amount);
+      formData.append("externalHospitalName", reimburseDialog.externalHospitalName || "");
+      formData.append("document", documentFile);
+      formData.append("bankDetails", JSON.stringify({
+        accountNo: bankAccountNo,
+        ifsc,
+        bankName,
+      }));
+
+      await createReimbursement(formData);
+      setReimburseDialog(null);
+      setAmount("");
+      setBankAccountNo("");
+      setIfsc("");
+      setBankName("");
+      setDocumentFile(null);
+      // Wait for user to refresh or we can fetch visits again 
+    } catch {
+      setError("Failed to create reimbursement request");
+    } finally {
+      setReimsSaving(false);
+    }
+  };
 
   if (loading) {
     return <Box sx={{ textAlign: "center", py: 8 }}><CircularProgress /></Box>;
@@ -111,7 +153,7 @@ const VisitHistory = () => {
           />
 
           <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-            {visits.map((visit, index) => (
+            {visits.map((visit) => (
               <Box key={visit._id} sx={{ display: "flex", gap: { xs: 0, sm: 3 } }}>
                 {/* Timeline dot */}
                 <Box
@@ -189,6 +231,26 @@ const VisitHistory = () => {
                         <strong>Diagnosis:</strong> {visit.diagnosis}
                       </Typography>
                     )}
+
+                    {visit.isExternalReference && (
+                      <Box sx={{ mt: 2, p: 2, bgcolor: "#FFF8E1", borderRadius: 2, border: "1px solid #FFE082" }}>
+                        <Typography variant="subtitle2" color="warning.main" gutterBottom>
+                          External Referral: {visit.externalHospitalName}
+                        </Typography>
+                        {visit.reimbursementRequested ? (
+                          <Chip label="Reimbursement Requested" size="small" color="info" />
+                        ) : (
+                          <Button
+                            variant="outlined"
+                            color="warning"
+                            size="small"
+                            onClick={(e) => { e.stopPropagation(); setReimburseDialog(visit); }}
+                          >
+                            Request Reimbursement
+                          </Button>
+                        )}
+                      </Box>
+                    )}
                   </CardContent>
                 </Card>
               </Box>
@@ -261,6 +323,68 @@ const VisitHistory = () => {
         </DialogContent>
         <DialogActions sx={{ p: 3, pt: 1 }}>
           <Button onClick={() => setDetailDialog(null)} variant="outlined" sx={{ borderRadius: 2 }}>Close</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Reimburse Dialog */}
+      <Dialog open={!!reimburseDialog} onClose={() => setReimburseDialog(null)} maxWidth="sm" fullWidth>
+        <DialogTitle sx={{ fontWeight: 700 }}>Request Reimbursement</DialogTitle>
+        <DialogContent>
+          <Box sx={{ pt: 1, display: "flex", flexDirection: "column", gap: 2 }}>
+            <Typography variant="body2" color="text.secondary">
+              Please enter your reimbursement amount, bank details, and upload the valid invoice/proof document from {reimburseDialog?.externalHospitalName}.
+            </Typography>
+
+            <TextField
+              label="Amount Spent (₹)" type="number"
+              fullWidth value={amount} onChange={e => setAmount(e.target.value)}
+            />
+
+            <Divider sx={{ my: 1 }} />
+            <Typography variant="subtitle2">Bank Details</Typography>
+            <TextField
+              label="Bank Name" fullWidth
+              value={bankName} onChange={e => setBankName(e.target.value)}
+            />
+            <TextField
+              label="Account Number" fullWidth
+              value={bankAccountNo} onChange={e => setBankAccountNo(e.target.value)}
+            />
+            <TextField
+              label="IFSC Code" fullWidth
+              value={ifsc} onChange={e => setIfsc(e.target.value)}
+            />
+
+            <Button
+              variant="outlined"
+              component="label"
+              startIcon={<UploadFileIcon />}
+              fullWidth
+              sx={{ mt: 1, py: 1.5, borderStyle: "dashed" }}
+            >
+              {documentFile ? documentFile.name : "Upload Invoice/Proof"}
+              <input
+                type="file"
+                hidden
+                accept="image/*,.pdf"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files.length > 0) {
+                    setDocumentFile(e.target.files[0]);
+                  }
+                }}
+              />
+            </Button>
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ p: 3, pt: 1 }}>
+          <Button onClick={() => setReimburseDialog(null)} variant="outlined">Cancel</Button>
+          <Button
+            onClick={handleSubmitReimbursement}
+            variant="contained"
+            disabled={reimsSaving || !amount || !bankName || !bankAccountNo || !ifsc || !documentFile}
+          >
+            {reimsSaving ? <CircularProgress size={22} sx={{ color: "white" }} /> : "Submit Request"}
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

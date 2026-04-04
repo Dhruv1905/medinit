@@ -18,6 +18,9 @@ import {
   DialogContent,
   DialogActions,
   Divider,
+  FormControlLabel,
+  Checkbox,
+  MenuItem,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -25,11 +28,30 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 import {
   getDoctorAppointments,
   updateAppointmentStatus,
 } from "../../services/appointmentService";
+import { getAllMedicines } from "../../services/medicineService";
 import { useRealtime } from "../../hooks/useRealtime";
+
+interface Medicine {
+  _id: string;
+  name: string;
+  quantity: number;
+}
+
+interface PrescriptionItem {
+  medicineId: string;
+  medicineName: string;
+  quantity: number;
+  dose: string;
+  timing: string;
+  schedule: string[];
+}
+
 interface Patient {
   _id: string;
   name: string;
@@ -58,6 +80,7 @@ interface Appointment {
   };
   diagnosis?: string;
   prescription?: string;
+  prescriptionItems?: PrescriptionItem[];
   notes?: string;
 }
 
@@ -79,7 +102,11 @@ const PatientQueue = () => {
   const [consultDialog, setConsultDialog] = useState<Appointment | null>(null);
   const [diagnosis, setDiagnosis] = useState("");
   const [prescription, setPrescription] = useState("");
+  const [prescriptionItems, setPrescriptionItems] = useState<PrescriptionItem[]>([]);
+  const [medicines, setMedicines] = useState<Medicine[]>([]);
   const [consultNotes, setConsultNotes] = useState("");
+  const [isExternalReference, setIsExternalReference] = useState(false);
+  const [externalHospitalName, setExternalHospitalName] = useState("");
   const [saving, setSaving] = useState(false);
 
   // Patient detail dialog
@@ -105,8 +132,18 @@ const PatientQueue = () => {
   };
   useRealtime("appointment-update", fetchAppointments);
 
+  const fetchMedicines = async () => {
+    try {
+      const res = await getAllMedicines();
+      setMedicines(res.data.medicines);
+    } catch {
+      // ignore
+    }
+  };
+
   useEffect(() => {
     fetchAppointments();
+    fetchMedicines();
   }, [selectedDate]);
 
   const handleStartConsultation = async (apt: Appointment) => {
@@ -122,7 +159,10 @@ const PatientQueue = () => {
     setConsultDialog(apt);
     setDiagnosis(apt.diagnosis || "");
     setPrescription(apt.prescription || "");
+    setPrescriptionItems(apt.prescriptionItems || []);
     setConsultNotes(apt.notes || "");
+    setIsExternalReference(false);
+    setExternalHospitalName("");
   };
 
   const handleCompleteConsultation = async () => {
@@ -133,12 +173,18 @@ const PatientQueue = () => {
         status: "completed",
         diagnosis,
         prescription,
+        prescriptionItems,
         notes: consultNotes,
+        isExternalReference,
+        externalHospitalName: isExternalReference ? externalHospitalName : undefined
       });
       setConsultDialog(null);
       setDiagnosis("");
       setPrescription("");
+      setPrescriptionItems([]);
       setConsultNotes("");
+      setIsExternalReference(false);
+      setExternalHospitalName("");
       fetchAppointments();
     } catch {
       setError("Failed to complete consultation");
@@ -285,13 +331,12 @@ const PatientQueue = () => {
               key={apt._id}
               sx={{
                 transition: "all 0.2s",
-                borderLeft: `4px solid ${
-                  apt.priority === "emergency"
-                    ? "#E53935"
-                    : apt.priority === "urgent"
+                borderLeft: `4px solid ${apt.priority === "emergency"
+                  ? "#E53935"
+                  : apt.priority === "urgent"
                     ? "#FB8C00"
                     : getStatusColor(apt.status)
-                }`,
+                  }`,
                 opacity: ["completed", "cancelled", "no_show"].includes(apt.status) ? 0.65 : 1,
                 "&:hover": { boxShadow: "0 8px 24px rgba(0,0,0,0.08)" },
               }}
@@ -456,7 +501,7 @@ const PatientQueue = () => {
       <Dialog
         open={!!consultDialog}
         onClose={() => setConsultDialog(null)}
-        maxWidth="sm"
+        maxWidth="md"
         fullWidth
         PaperProps={{ sx: { borderRadius: 3 } }}
       >
@@ -517,14 +562,121 @@ const PatientQueue = () => {
               placeholder="Enter diagnosis..."
             />
             <TextField
-              label="Prescription"
+              label="Prescription Notes"
               fullWidth
               multiline
-              rows={3}
+              rows={2}
               value={prescription}
               onChange={(e) => setPrescription(e.target.value)}
-              placeholder="Enter prescription details..."
+              placeholder="Enter general prescription notes..."
             />
+
+            <Box sx={{ p: 2, bgcolor: "#F4F7FC", borderRadius: 2 }}>
+              <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={700}>Medicines (Inventory Link)</Typography>
+                <Button
+                  size="small"
+                  startIcon={<AddIcon />}
+                  onClick={() => setPrescriptionItems([...prescriptionItems, { medicineId: "", medicineName: "", quantity: 1, dose: "", timing: "After Food", schedule: ["Morning"] }])}
+                >
+                  Add Medicine
+                </Button>
+              </Box>
+              {prescriptionItems.map((item, index) => (
+                <Box key={index} sx={{ display: "flex", gap: 1, mb: 1.5, alignItems: "center" }}>
+                  <TextField
+                    select
+                    label="Medicine"
+                    size="small"
+                    sx={{ flex: 2 }}
+                    value={item.medicineId}
+                    onChange={(e) => {
+                      const m = medicines.find(med => med._id === e.target.value);
+                      const newItems = [...prescriptionItems];
+                      newItems[index].medicineId = e.target.value;
+                      if (m) newItems[index].medicineName = m.name;
+                      setPrescriptionItems(newItems);
+                    }}
+                  >
+                    {medicines.map((m) => (
+                      <MenuItem key={m._id} value={m._id}>
+                        {m.name} (Stock: {m.quantity})
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField
+                    label="Qty"
+                    type="number"
+                    size="small"
+                    sx={{ width: 70 }}
+                    value={item.quantity}
+                    onChange={(e) => {
+                      const newItems = [...prescriptionItems];
+                      newItems[index].quantity = parseInt(e.target.value, 10) || 1;
+                      setPrescriptionItems(newItems);
+                    }}
+                  />
+                  <TextField
+                    label="Dose/Day"
+                    size="small"
+                    sx={{ width: 90 }}
+                    value={item.dose}
+                    onChange={(e) => {
+                      const newItems = [...prescriptionItems];
+                      newItems[index].dose = e.target.value;
+                      setPrescriptionItems(newItems);
+                    }}
+                  />
+                  <TextField
+                    select
+                    label="Timing"
+                    size="small"
+                    sx={{ width: 130 }}
+                    value={item.timing}
+                    onChange={(e) => {
+                      const newItems = [...prescriptionItems];
+                      newItems[index].timing = e.target.value;
+                      setPrescriptionItems(newItems);
+                    }}
+                  >
+                    <MenuItem value="Before Food">Before Food</MenuItem>
+                    <MenuItem value="After Food">After Food</MenuItem>
+                    <MenuItem value="Empty Stomach">Empty Stomach</MenuItem>
+                  </TextField>
+                  <TextField
+                    select
+                    label="Schedule"
+                    size="small"
+                    sx={{ width: 120 }}
+                    value={item.schedule}
+                    SelectProps={{ multiple: true }}
+                    onChange={(e) => {
+                      const newItems = [...prescriptionItems];
+                      newItems[index].schedule = typeof e.target.value === 'string' ? e.target.value.split(',') : (e.target.value as string[]);
+                      setPrescriptionItems(newItems);
+                    }}
+                  >
+                    <MenuItem value="Morning">Morning</MenuItem>
+                    <MenuItem value="Afternoon">Afternoon</MenuItem>
+                    <MenuItem value="Evening">Evening</MenuItem>
+                    <MenuItem value="Night">Night</MenuItem>
+                    <MenuItem value="SOS">SOS (As needed)</MenuItem>
+                  </TextField>
+                  <IconButton
+                    color="error"
+                    size="small"
+                    onClick={() => {
+                      const newItems = [...prescriptionItems];
+                      newItems.splice(index, 1);
+                      setPrescriptionItems(newItems);
+                    }}
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </Box>
+              ))}
+            </Box>
+
             <TextField
               label="Additional Notes (optional)"
               fullWidth
@@ -534,6 +686,30 @@ const PatientQueue = () => {
               onChange={(e) => setConsultNotes(e.target.value)}
               placeholder="Any additional notes..."
             />
+
+            <Divider sx={{ my: 1 }} />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isExternalReference}
+                  onChange={(e) => setIsExternalReference(e.target.checked)}
+                  color="primary"
+                />
+              }
+              label="Refer to External Hospital"
+            />
+
+            {isExternalReference && (
+              <TextField
+                label="External Hospital Name"
+                fullWidth
+                value={externalHospitalName}
+                onChange={(e) => setExternalHospitalName(e.target.value)}
+                placeholder="e.g. Apollo Hospital"
+                required={isExternalReference}
+              />
+            )}
           </Box>
         </DialogContent>
         <DialogActions sx={{ p: 3, pt: 1 }}>
@@ -612,8 +788,25 @@ const PatientQueue = () => {
 
               {detailDialog.prescription && (
                 <>
-                  <Typography variant="caption" color="text.secondary">Prescription</Typography>
+                  <Typography variant="caption" color="text.secondary">Prescription Notes</Typography>
                   <Typography variant="body2" mb={2}>{detailDialog.prescription}</Typography>
+                </>
+              )}
+
+              {detailDialog.prescriptionItems && detailDialog.prescriptionItems.length > 0 && (
+                <>
+                  <Typography variant="caption" color="text.secondary">Prescriptions</Typography>
+                  <Box sx={{ mt: 1, display: "flex", flexDirection: "column", gap: 1 }}>
+                    {detailDialog.prescriptionItems.map((item, idx) => (
+                      <Box key={idx} sx={{ display: "flex", gap: 2, bgcolor: "#F4F7FC", p: 1, borderRadius: 1 }}>
+                        <Typography variant="body2" fontWeight={600}>{item.medicineName}</Typography>
+                        <Typography variant="body2">Qty: {item.quantity}</Typography>
+                        <Typography variant="body2">Dose: {item.dose}</Typography>
+                        <Typography variant="body2">{item.timing}</Typography>
+                        <Typography variant="body2">{item.schedule.join(", ")}</Typography>
+                      </Box>
+                    ))}
+                  </Box>
                 </>
               )}
             </Box>

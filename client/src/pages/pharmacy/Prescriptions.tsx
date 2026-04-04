@@ -37,6 +37,13 @@ interface Prescription {
   reason: string;
   diagnosis?: string;
   prescription: string;
+  prescriptionItems?: {
+    medicineName: string;
+    quantity: number;
+    dose: string;
+    timing: string;
+    schedule: string[];
+  }[];
   prescriptionFulfilled?: boolean;
   prescriptionFulfilledAt?: string;
   pharmacistNotes?: string;
@@ -223,7 +230,20 @@ const Prescriptions = () => {
                 {/* Prescription */}
                 <Box sx={{ mt: 1.5, p: 2, bgcolor: "#F4F7FC", borderRadius: 2 }}>
                   <Typography variant="caption" fontWeight={600} color="text.secondary">PRESCRIPTION</Typography>
-                  <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>{rx.prescription}</Typography>
+                  {rx.prescription && <Typography variant="body2" sx={{ whiteSpace: "pre-wrap", mb: rx.prescriptionItems?.length ? 1 : 0 }}>{rx.prescription}</Typography>}
+                  {rx.prescriptionItems && rx.prescriptionItems.length > 0 && (
+                    <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                      {rx.prescriptionItems.map((item, idx) => (
+                        <Box key={idx} sx={{ display: "flex", gap: 2, bgcolor: "#EBF4FA", p: 1, borderRadius: 1 }}>
+                          <Typography variant="body2" fontWeight={600}>{item.medicineName}</Typography>
+                          <Typography variant="body2">Qty: {item.quantity}</Typography>
+                          <Typography variant="body2">Dose: {item.dose}</Typography>
+                          <Typography variant="body2">{item.timing}</Typography>
+                          <Typography variant="body2">{item.schedule.join(", ")}</Typography>
+                        </Box>
+                      ))}
+                    </Box>
+                  )}
                 </Box>
 
                 {/* Pharmacist notes */}
@@ -250,7 +270,20 @@ const Prescriptions = () => {
                 <Typography variant="body2"><strong>Doctor:</strong> Dr. {fulfillDialog.doctor?.name || "Unknown"}</Typography>
                 <Divider sx={{ my: 1.5 }} />
                 <Typography variant="caption" fontWeight={600} color="text.secondary">PRESCRIPTION</Typography>
-                <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>{fulfillDialog.prescription}</Typography>
+                {fulfillDialog.prescription && <Typography variant="body2" sx={{ whiteSpace: "pre-wrap", mb: fulfillDialog.prescriptionItems?.length ? 1 : 0 }}>{fulfillDialog.prescription}</Typography>}
+                {fulfillDialog.prescriptionItems && fulfillDialog.prescriptionItems.length > 0 && (
+                  <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                    {fulfillDialog.prescriptionItems.map((item, idx) => (
+                      <Box key={idx} sx={{ display: "flex", gap: 2, bgcolor: "#EBF4FA", p: 1, borderRadius: 1 }}>
+                        <Typography variant="body2" fontWeight={600}>{item.medicineName}</Typography>
+                        <Typography variant="body2">Qty: {item.quantity}</Typography>
+                        <Typography variant="body2">Dose: {item.dose}</Typography>
+                        <Typography variant="body2">{item.timing}</Typography>
+                        <Typography variant="body2">{item.schedule}</Typography>
+                      </Box>
+                    ))}
+                  </Box>
+                )}
               </Box>
               <TextField
                 label="Pharmacist Notes (optional)"

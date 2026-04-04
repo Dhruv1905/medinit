@@ -18,11 +18,13 @@ import {
 import EventIcon from "@mui/icons-material/Event";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PersonIcon from "@mui/icons-material/Person";
-import { getMyAppointments, cancelAppointment } from "../../services/appointmentService";
+import { getMyAppointments, cancelAppointment, getAllAppointments } from "../../services/appointmentService";
+import { useAuth } from "../../context/Authcontext";
 import { useRealtime } from "../../hooks/useRealtime";
 interface Appointment {
   _id: string;
   doctor: { _id: string; name: string; email: string };
+  patient?: { _id: string; name: string; instituteId: string };
   date: string;
   timeSlot: string;
   reason: string;
@@ -52,6 +54,7 @@ const statusLabels: Record<string, string> = {
 };
 
 const MyAppointments = () => {
+  const { user } = useAuth();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [cancelDialog, setCancelDialog] = useState<string | null>(null);
@@ -60,7 +63,7 @@ const MyAppointments = () => {
 
   const fetchAppointments = async () => {
     try {
-      const res = await getMyAppointments();
+      const res = user?.role === "admin" ? await getAllAppointments() : await getMyAppointments();
       setAppointments(res.data.appointments);
     } catch {
       setError("Failed to load appointments");
@@ -109,7 +112,7 @@ const MyAppointments = () => {
         My Appointments
       </Typography>
       <Typography variant="body1" color="text.secondary" mb={4}>
-        View and manage your clinic appointments
+        View and manage clinic appointments
       </Typography>
 
       {error && (
@@ -142,8 +145,8 @@ const MyAppointments = () => {
                     apt.status === "completed"
                       ? "success.main"
                       : apt.status === "cancelled"
-                      ? "error.main"
-                      : "primary.main",
+                        ? "error.main"
+                        : "primary.main",
                   "&:hover": { boxShadow: "0 8px 24px rgba(0,0,0,0.08)" },
                 }}
               >
@@ -153,7 +156,7 @@ const MyAppointments = () => {
                       <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
                         <PersonIcon sx={{ fontSize: 18, color: "primary.main" }} />
                         <Typography variant="subtitle1" fontWeight={700}>
-                          Dr. {apt.doctor.name}
+                          Dr. {apt.doctor?.name || "Unknown"}
                         </Typography>
                       </Box>
                       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -189,6 +192,12 @@ const MyAppointments = () => {
                     </Box>
                   </Box>
 
+                  {user?.role === "admin" && apt.patient && (
+                    <Typography variant="body2" color="primary.main" mb={1} fontWeight={600}>
+                      Patient: {apt.patient?.name} ({apt.patient?.instituteId})
+                    </Typography>
+                  )}
+
                   <Typography variant="body2" color="text.secondary" mb={1}>
                     <strong>Reason:</strong> {apt.reason}
                   </Typography>
@@ -213,7 +222,7 @@ const MyAppointments = () => {
                     />
                   )}
 
-                  {apt.status === "scheduled" && (
+                  {apt.status === "scheduled" && user?.role !== "admin" && (
                     <Box sx={{ mt: 2 }}>
                       <Button
                         size="small"
