@@ -21,7 +21,12 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
       return;
     }
 
-    const user = await User.create(parsed.data);
+    const userData: any = { ...parsed.data };
+    if (req.file) {
+      userData.profilePicture = `/uploads/${req.file.filename}`;
+    }
+
+    const user = await User.create(userData);
 
     res.status(201).json({
       message: "User created successfully",
@@ -31,10 +36,13 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
         email: user.email,
         role: user.role,
         instituteId: user.instituteId,
+        profilePicture: user.profilePicture,
       },
     });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+  } catch (error: any) {
+    console.error("Create user error:", error);
+    const message = error.message || "Server error";
+    res.status(500).json({ message, error: error.errors || error.message });
   }
 };
 

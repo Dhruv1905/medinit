@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useAuth } from "../context/Authcontext";
 import api from "../services/api";
 import {
@@ -14,12 +14,14 @@ import {
   Avatar,
   Divider,
   Chip,
+  IconButton,
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import LockIcon from "@mui/icons-material/Lock";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import BadgeIcon from "@mui/icons-material/Badge";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 const roleColors: Record<string, string> = {
   student: "#3B82F6",
@@ -54,10 +56,12 @@ const Profile = () => {
 
   const [saving, setSaving] = useState(false);
   const [changingPassword, setChangingPassword] = useState(false);
+  const [uploadingPicture, setUploadingPicture] = useState(false);
   const [profileSuccess, setProfileSuccess] = useState("");
   const [profileError, setProfileError] = useState("");
   const [passwordSuccess, setPasswordSuccess] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleProfileUpdate = async () => {
     setProfileError("");
@@ -77,6 +81,37 @@ const Profile = () => {
       setProfileError(err.response?.data?.message || "Failed to update profile");
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleProfilePictureUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setProfileError("Image must be less than 5MB");
+      return;
+    }
+
+    setUploadingPicture(true);
+    setProfileError("");
+    try {
+      const formData = new FormData();
+      formData.append("profilePicture", file);
+
+      const res = await api.post("/auth/profile-picture", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      updateUser(res.data.user);
+      setProfileSuccess("Profile picture updated!");
+      setTimeout(() => setProfileSuccess(""), 3000);
+    } catch (err: any) {
+      setProfileError(err.response?.data?.message || "Failed to upload picture");
+    } finally {
+      setUploadingPicture(false);
+      // Reset file input
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
@@ -113,6 +148,9 @@ const Profile = () => {
   if (!user) return null;
 
   const roleColor = roleColors[user.role] || "#3B82F6";
+  const profilePicUrl = user.profilePicture
+    ? `http://localhost:5000${user.profilePicture}`
+    : undefined;
 
   return (
     <Box>
@@ -128,20 +166,70 @@ const Profile = () => {
         <Grid size={{ xs: 12, md: 4 }}>
           <Card className="animate-fade-in">
             <CardContent sx={{ p: 4, textAlign: "center" }}>
-              <Avatar
+              {/* Profile picture with upload overlay */}
+              <Box
                 sx={{
-                  width: 80,
-                  height: 80,
+                  position: "relative",
+                  width: 100,
+                  height: 100,
                   mx: "auto",
                   mb: 2,
-                  fontSize: "2rem",
-                  fontWeight: 800,
-                  background: `linear-gradient(135deg, ${roleColor}, ${roleColor}99)`,
-                  boxShadow: `0 8px 24px ${roleColor}40`,
                 }}
               >
-                {user.name.charAt(0).toUpperCase()}
-              </Avatar>
+                <Avatar
+                  src={profilePicUrl}
+                  sx={{
+                    width: 100,
+                    height: 100,
+                    fontSize: "2.5rem",
+                    fontWeight: 800,
+                    background: profilePicUrl
+                      ? "transparent"
+                      : `linear-gradient(135deg, ${roleColor}, ${roleColor}99)`,
+                    boxShadow: `0 8px 24px ${roleColor}40`,
+                    border: "3px solid white",
+                  }}
+                >
+                  {!profilePicUrl && user.name.charAt(0).toUpperCase()}
+                </Avatar>
+
+                {/* Camera overlay button */}
+                <IconButton
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploadingPicture}
+                  sx={{
+                    position: "absolute",
+                    bottom: 0,
+                    right: 0,
+                    width: 34,
+                    height: 34,
+                    bgcolor: "primary.main",
+                    color: "white",
+                    border: "2px solid white",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+                    "&:hover": { bgcolor: "primary.dark" },
+                  }}
+                >
+                  {uploadingPicture ? (
+                    <CircularProgress size={16} sx={{ color: "white" }} />
+                  ) : (
+                    <CameraAltIcon sx={{ fontSize: 16 }} />
+                  )}
+                </IconButton>
+
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  hidden
+                  onChange={handleProfilePictureUpload}
+                />
+              </Box>
+
+              <Typography variant="caption" color="text.secondary" sx={{ display: "block", mb: 1, fontSize: "0.7rem" }}>
+                Click the camera icon to change photo
+              </Typography>
+
               <Typography variant="h6" fontWeight={700} sx={{ fontFamily: "'Outfit', sans-serif" }}>
                 {user.name}
               </Typography>

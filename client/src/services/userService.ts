@@ -1,6 +1,8 @@
 import api from "./api";
 
-export const createUser = (data: any) => api.post("/users", data);
+export const createUser = (data: any) => api.post("/users", data, {
+  headers: data instanceof FormData ? { "Content-Type": "multipart/form-data" } : {},
+});
 
 export const getAllUsers = (params?: {
   role?: string;

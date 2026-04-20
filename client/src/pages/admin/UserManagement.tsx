@@ -52,6 +52,7 @@ interface User {
   role: string;
   instituteId: string;
   phone?: string;
+  profilePicture?: string;
   isActive: boolean;
   createdAt: string;
 }
@@ -98,6 +99,7 @@ const UserManagement = () => {
   // Add User dialog
   const [addUserDialog, setAddUserDialog] = useState(false);
   const [newUser, setNewUser] = useState({ name: "", email: "", password: "", role: "", instituteId: "" });
+  const [newUserPicture, setNewUserPicture] = useState<File | null>(null);
 
   // Delete dialog
   const [deleteDialog, setDeleteDialog] = useState<User | null>(null);
@@ -143,9 +145,21 @@ const UserManagement = () => {
 
   const handleAddUser = async () => {
     try {
-      await createUser(newUser);
+      if (newUserPicture) {
+        const formData = new FormData();
+        formData.append("name", newUser.name);
+        formData.append("email", newUser.email);
+        formData.append("password", newUser.password);
+        formData.append("instituteId", newUser.instituteId);
+        if (newUser.role) formData.append("role", newUser.role);
+        formData.append("profilePicture", newUserPicture);
+        await createUser(formData);
+      } else {
+        await createUser(newUser);
+      }
       setAddUserDialog(false);
       setNewUser({ name: "", email: "", password: "", role: "", instituteId: "" });
+      setNewUserPicture(null);
       fetchData();
     } catch (err: any) {
       setError(err.response?.data?.message || err.response?.data?.errors || "Failed to create user");
@@ -318,15 +332,16 @@ const UserManagement = () => {
                   <TableCell>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                       <Avatar
+                        src={user.profilePicture ? `http://localhost:5000${user.profilePicture}` : undefined}
                         sx={{
                           width: 36,
                           height: 36,
                           fontSize: "0.85rem",
                           fontWeight: 700,
-                          background: `linear-gradient(135deg, ${roleColors[user.role] || "#9E9E9E"}, ${roleColors[user.role] || "#9E9E9E"}99)`,
+                          background: user.profilePicture ? "transparent" : `linear-gradient(135deg, ${roleColors[user.role] || "#9E9E9E"}, ${roleColors[user.role] || "#9E9E9E"}99)`,
                         }}
                       >
-                        {user.name.charAt(0)}
+                        {!user.profilePicture && user.name.charAt(0)}
                       </Avatar>
                       <Box>
                         <Typography variant="body2" fontWeight={600}>{user.name}</Typography>
@@ -471,6 +486,23 @@ const UserManagement = () => {
                 <MenuItem key={r.value} value={r.value}>{r.label}</MenuItem>
               ))}
             </TextField>
+            <Box>
+              <Typography variant="body2" fontWeight={600} mb={1}>Profile Picture (optional)</Typography>
+              <Button
+                variant="outlined"
+                component="label"
+                fullWidth
+                sx={{ borderRadius: 2, textTransform: "none", borderStyle: "dashed", py: 1.5 }}
+              >
+                {newUserPicture ? newUserPicture.name : "Choose Image..."}
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  hidden
+                  onChange={(e) => setNewUserPicture(e.target.files?.[0] || null)}
+                />
+              </Button>
+            </Box>
           </Box>
         </DialogContent>
         <DialogActions sx={{ p: 3, pt: 1 }}>

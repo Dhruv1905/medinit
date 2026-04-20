@@ -19,6 +19,7 @@ export interface IUser extends Document {
   phone?: string;
   bloodGroup?: string;
   allergies?: string[];
+  profilePicture?: string;
   isActive: boolean;
   resetOtp?: string;
   resetOtpExpiry?: Date;
@@ -60,6 +61,7 @@ const userSchema = new Schema<IUser>(
     phone: { type: String },
     bloodGroup: { type: String },
     allergies: [{ type: String }],
+    profilePicture: { type: String },
     isActive: { type: Boolean, default: true },
     resetOtp: { type: String, select: false },
     resetOtpExpiry: { type: Date, select: false },

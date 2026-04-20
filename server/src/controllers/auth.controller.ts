@@ -48,6 +48,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         email: user.email,
         role: user.role,
         instituteId: user.instituteId,
+        profilePicture: user.profilePicture,
       },
     });
   } catch (error) {
@@ -105,6 +106,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         email: user.email,
         role: user.role,
         instituteId: user.instituteId,
+        profilePicture: user.profilePicture,
       },
     });
   } catch (error) {
@@ -156,6 +158,44 @@ export const updateProfile = async (req: AuthRequest, res: Response): Promise<vo
         phone: user.phone,
         bloodGroup: user.bloodGroup,
         allergies: user.allergies,
+        profilePicture: user.profilePicture,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+// Upload profile picture
+export const uploadProfilePicture = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.file) {
+      res.status(400).json({ message: "No file uploaded" });
+      return;
+    }
+
+    const profilePicture = `/uploads/${req.file.filename}`;
+
+    const user = await User.findByIdAndUpdate(
+      (req as any).user.id,
+      { profilePicture },
+      { returnDocument: "after" }
+    );
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    res.json({
+      message: "Profile picture updated",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        instituteId: user.instituteId,
+        profilePicture: user.profilePicture,
       },
     });
   } catch (error) {

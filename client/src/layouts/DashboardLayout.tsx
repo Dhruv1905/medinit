@@ -276,6 +276,7 @@ const DashboardLayout = () => {
           }}
         >
           <Avatar
+            src={user.profilePicture ? `http://localhost:5000${user.profilePicture}` : undefined}
             sx={{
               width: 38,
               height: 38,
@@ -286,7 +287,7 @@ const DashboardLayout = () => {
               border: "1px solid rgba(255,255,255,0.2)",
             }}
           >
-            {user.name.charAt(0).toUpperCase()}
+            {!user.profilePicture && user.name.charAt(0).toUpperCase()}
           </Avatar>
           <Box sx={{ flex: 1, minWidth: 0 }}>
             <Typography variant="body2" fontWeight={600} noWrap>
@@ -405,16 +406,17 @@ const DashboardLayout = () => {
             {/* Profile */}
             <IconButton onClick={(e) => setAnchorEl(e.currentTarget)}>
               <Avatar
+                src={user.profilePicture ? `http://localhost:5000${user.profilePicture}` : undefined}
                 sx={{
                   width: 36,
                   height: 36,
-                  background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+                  background: user.profilePicture ? "transparent" : "linear-gradient(135deg, #3B82F6, #60A5FA)",
                   fontSize: "0.85rem",
                   fontWeight: 700,
                   boxShadow: "0 4px 14px rgba(59, 130, 246, 0.3)",
                 }}
               >
-                {user.name.charAt(0).toUpperCase()}
+                {!user.profilePicture && user.name.charAt(0).toUpperCase()}
               </Avatar>
             </IconButton>
 
