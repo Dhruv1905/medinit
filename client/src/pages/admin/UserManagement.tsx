@@ -423,20 +423,22 @@ const UserManagement = () => {
         <DialogContent>
           {roleDialog && (
             <Box sx={{ pt: 1 }}>
-              <Typography variant="body2" color="text.secondary" mb={2}>
+              <Typography variant="body2" mb={2}>
                 Changing role for <strong>{roleDialog.name}</strong> ({roleDialog.email})
               </Typography>
-              <TextField
-                label="New Role"
-                select
-                fullWidth
-                value={newRole}
-                onChange={(e) => setNewRole(e.target.value)}
-              >
-                {roles.filter((r) => r.value).map((r) => (
-                  <MenuItem key={r.value} value={r.value}>{r.label}</MenuItem>
-                ))}
-              </TextField>
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>New Role <span style={{ color: "#EF4444" }}>*</span></Typography>
+                <TextField
+                  select
+                  fullWidth
+                  value={newRole}
+                  onChange={(e) => setNewRole(e.target.value)}
+                >
+                  {roles.filter((r) => r.value).map((r) => (
+                    <MenuItem key={r.value} value={r.value}>{r.label}</MenuItem>
+                  ))}
+                </TextField>
+              </Box>
             </Box>
           )}
         </DialogContent>
@@ -458,10 +460,10 @@ const UserManagement = () => {
 
       {/* Delete Dialog */}
       <Dialog open={!!deleteDialog} onClose={() => setDeleteDialog(null)} PaperProps={{ sx: { borderRadius: 3 } }}>
-        <DialogTitle sx={{ fontWeight: 700, color: "error.main" }}>Delete User</DialogTitle>
+        <DialogTitle sx={{ fontWeight: 700, color: "#EF4444" }}>Delete User</DialogTitle>
         <DialogContent>
           {deleteDialog && (
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2">
               Are you sure you want to permanently delete <strong>{deleteDialog.name}</strong> ({deleteDialog.email})? This action cannot be undone.
             </Typography>
           )}
@@ -477,17 +479,32 @@ const UserManagement = () => {
         <DialogTitle sx={{ fontWeight: 700 }}>Add New User</DialogTitle>
         <DialogContent>
           <Box sx={{ pt: 1, display: "flex", flexDirection: "column", gap: 2 }}>
-            <TextField label="Name" fullWidth required value={newUser.name} onChange={(e) => setNewUser({ ...newUser, name: e.target.value })} />
-            <TextField label="Institute Email" type="email" fullWidth required placeholder="user@nitw.ac.in" value={newUser.email} onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} />
-            <TextField label="Institute ID" fullWidth required value={newUser.instituteId} onChange={(e) => setNewUser({ ...newUser, instituteId: e.target.value })} />
-            <TextField label="Password" type="password" fullWidth required value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} />
-            <TextField label="Role" select fullWidth value={newUser.role} onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}>
-              {roles.filter((r) => r.value).map((r) => (
-                <MenuItem key={r.value} value={r.value}>{r.label}</MenuItem>
-              ))}
-            </TextField>
             <Box>
-              <Typography variant="body2" fontWeight={600} mb={1}>Profile Picture (optional)</Typography>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Name <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField placeholder="Full name" fullWidth value={newUser.name} onChange={(e) => setNewUser({ ...newUser, name: e.target.value })} />
+            </Box>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Institute Email <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField type="email" fullWidth placeholder="user@nitw.ac.in" value={newUser.email} onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} />
+            </Box>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Institute ID <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField placeholder="e.g. CS22B1234" fullWidth value={newUser.instituteId} onChange={(e) => setNewUser({ ...newUser, instituteId: e.target.value })} />
+            </Box>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Password <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField type="password" fullWidth placeholder="Min 8 characters" value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} />
+            </Box>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Role</Typography>
+              <TextField select fullWidth value={newUser.role} onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}>
+                {roles.filter((r) => r.value).map((r) => (
+                  <MenuItem key={r.value} value={r.value}>{r.label}</MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <Box>
+              <Typography variant="body2" fontWeight={600} mb={1} sx={{ color: "rgba(255,255,255,0.9)" }}>Profile Picture (optional)</Typography>
               <Button
                 variant="outlined"
                 component="label"

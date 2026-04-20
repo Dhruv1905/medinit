@@ -265,16 +265,16 @@ const Prescriptions = () => {
         <DialogContent>
           {fulfillDialog && (
             <Box sx={{ pt: 1 }}>
-              <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2, mb: 3 }}>
+              <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 2, mb: 3 }}>
                 <Typography variant="body2"><strong>Patient:</strong> {fulfillDialog.patient?.name || "Unknown"} ({fulfillDialog.patient?.instituteId || "N/A"})</Typography>
                 <Typography variant="body2"><strong>Doctor:</strong> Dr. {fulfillDialog.doctor?.name || "Unknown"}</Typography>
                 <Divider sx={{ my: 1.5 }} />
-                <Typography variant="caption" fontWeight={600} color="text.secondary">PRESCRIPTION</Typography>
+                <Typography variant="caption" fontWeight={600}>PRESCRIPTION</Typography>
                 {fulfillDialog.prescription && <Typography variant="body2" sx={{ whiteSpace: "pre-wrap", mb: fulfillDialog.prescriptionItems?.length ? 1 : 0 }}>{fulfillDialog.prescription}</Typography>}
                 {fulfillDialog.prescriptionItems && fulfillDialog.prescriptionItems.length > 0 && (
                   <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                     {fulfillDialog.prescriptionItems.map((item, idx) => (
-                      <Box key={idx} sx={{ display: "flex", gap: 2, bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)", p: 1, borderRadius: 1 }}>
+                      <Box key={idx} sx={{ display: "flex", gap: 2, bgcolor: "rgba(255, 255, 255, 0.06)", border: "1px solid rgba(255,255,255,0.1)", p: 1, borderRadius: 1 }}>
                         <Typography variant="body2" fontWeight={600}>{item.medicineName}</Typography>
                         <Typography variant="body2">Qty: {item.quantity}</Typography>
                         <Typography variant="body2">Dose: {item.dose}</Typography>
@@ -285,15 +285,17 @@ const Prescriptions = () => {
                   </Box>
                 )}
               </Box>
-              <TextField
-                label="Pharmacist Notes (optional)"
-                fullWidth
-                multiline
-                rows={3}
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Any notes about dispensed medicines, substitutions, dosage instructions..."
-              />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Pharmacist Notes (optional)</Typography>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={3}
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="Any notes about dispensed medicines, substitutions, dosage instructions..."
+                />
+              </Box>
             </Box>
           )}
         </DialogContent>

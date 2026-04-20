@@ -300,57 +300,65 @@ const MyCertificates = () => {
         <DialogContent>
           {formError && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{formError}</Alert>}
           <Box sx={{ pt: 1, display: "flex", flexDirection: "column", gap: 2.5 }}>
-            <TextField
-              label="Select Doctor"
-              select
-              fullWidth
-              value={form.doctor}
-              onChange={(e) => setForm({ ...form, doctor: e.target.value })}
-            >
-              {doctors.map((d) => (
-                <MenuItem key={d._id} value={d._id}>Dr. {d.name}</MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              label="Certificate Type"
-              select
-              fullWidth
-              value={form.type}
-              onChange={(e) => setForm({ ...form, type: e.target.value })}
-            >
-              {Object.entries(typeLabels).map(([val, label]) => (
-                <MenuItem key={val} value={val}>{label}</MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              label="Reason"
-              fullWidth
-              multiline
-              rows={3}
-              value={form.reason}
-              onChange={(e) => setForm({ ...form, reason: e.target.value })}
-              placeholder="Describe why you need this certificate..."
-            />
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Select Doctor <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField
+                select
+                fullWidth
+                value={form.doctor}
+                onChange={(e) => setForm({ ...form, doctor: e.target.value })}
+              >
+                {doctors.map((d) => (
+                  <MenuItem key={d._id} value={d._id}>Dr. {d.name}</MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Certificate Type <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField
+                select
+                fullWidth
+                value={form.type}
+                onChange={(e) => setForm({ ...form, type: e.target.value })}
+              >
+                {Object.entries(typeLabels).map(([val, label]) => (
+                  <MenuItem key={val} value={val}>{label}</MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Reason <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField
+                fullWidth
+                multiline
+                rows={3}
+                value={form.reason}
+                onChange={(e) => setForm({ ...form, reason: e.target.value })}
+                placeholder="Describe why you need this certificate..."
+              />
+            </Box>
             <Grid container spacing={2}>
               <Grid size={{ xs: 6 }}>
-                <TextField
-                  label="Start Date"
-                  type="date"
-                  fullWidth
-                  value={form.startDate}
-                  onChange={(e) => setForm({ ...form, startDate: e.target.value })}
-                  InputLabelProps={{ shrink: true }}
-                />
+                <Box>
+                  <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Start Date <span style={{ color: "#EF4444" }}>*</span></Typography>
+                  <TextField
+                    type="date"
+                    fullWidth
+                    value={form.startDate}
+                    onChange={(e) => setForm({ ...form, startDate: e.target.value })}
+                  />
+                </Box>
               </Grid>
               <Grid size={{ xs: 6 }}>
-                <TextField
-                  label="End Date"
-                  type="date"
-                  fullWidth
-                  value={form.endDate}
-                  onChange={(e) => setForm({ ...form, endDate: e.target.value })}
-                  InputLabelProps={{ shrink: true }}
-                />
+                <Box>
+                  <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>End Date <span style={{ color: "#EF4444" }}>*</span></Typography>
+                  <TextField
+                    type="date"
+                    fullWidth
+                    value={form.endDate}
+                    onChange={(e) => setForm({ ...form, endDate: e.target.value })}
+                  />
+                </Box>
               </Grid>
             </Grid>
           </Box>
@@ -380,11 +388,11 @@ const MyCertificates = () => {
             <Box sx={{ pt: 1 }}>
               <Grid container spacing={2}>
                 <Grid size={{ xs: 6 }}>
-                  <Typography variant="caption" color="text.secondary">Type</Typography>
+                  <Typography variant="caption">Type</Typography>
                   <Typography variant="body1" fontWeight={600}>{typeLabels[detailDialog.type]}</Typography>
                 </Grid>
                 <Grid size={{ xs: 6 }}>
-                  <Typography variant="caption" color="text.secondary">Status</Typography>
+                  <Typography variant="caption">Status</Typography>
                   <Box>
                     <Chip
                       label={statusConfig[detailDialog.status]?.label}
@@ -395,43 +403,43 @@ const MyCertificates = () => {
                   </Box>
                 </Grid>
                 <Grid size={{ xs: 6 }}>
-                  <Typography variant="caption" color="text.secondary">Doctor</Typography>
+                  <Typography variant="caption">Doctor</Typography>
                   <Typography variant="body2" fontWeight={600}>Dr. {detailDialog.doctor?.name || "Unknown"}</Typography>
                 </Grid>
                 <Grid size={{ xs: 6 }}>
-                  <Typography variant="caption" color="text.secondary">Period</Typography>
+                  <Typography variant="caption">Period</Typography>
                   <Typography variant="body2">{formatDate(detailDialog.startDate)} — {formatDate(detailDialog.endDate)}</Typography>
                 </Grid>
               </Grid>
 
               <Divider sx={{ my: 2.5 }} />
 
-              <Typography variant="caption" color="text.secondary">Reason</Typography>
+              <Typography variant="caption">Reason</Typography>
               <Typography variant="body2" mb={2}>{detailDialog.reason}</Typography>
 
               {detailDialog.diagnosis && (
                 <>
-                  <Typography variant="caption" color="text.secondary">Diagnosis</Typography>
+                  <Typography variant="caption">Diagnosis</Typography>
                   <Typography variant="body2" mb={2}>{detailDialog.diagnosis}</Typography>
                 </>
               )}
 
               {detailDialog.remarks && (
                 <>
-                  <Typography variant="caption" color="text.secondary">Doctor's Remarks</Typography>
+                  <Typography variant="caption">Doctor's Remarks</Typography>
                   <Typography variant="body2" mb={2}>{detailDialog.remarks}</Typography>
                 </>
               )}
 
               {detailDialog.rejectionReason && (
                 <>
-                  <Typography variant="caption" color="text.secondary">Rejection Reason</Typography>
+                  <Typography variant="caption">Rejection Reason</Typography>
                   <Typography variant="body2" color="error.main" mb={2}>{detailDialog.rejectionReason}</Typography>
                 </>
               )}
 
               {detailDialog.status === "approved" && (
-                <Box sx={{ mt: 1, p: 2, bgcolor: "#E8F5E9", borderRadius: 2 }}>
+                <Box sx={{ mt: 1, p: 2, bgcolor: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.25)", borderRadius: 2 }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
                     <VerifiedIcon sx={{ color: "success.main" }} />
                     <Typography variant="subtitle2" fontWeight={700} color="success.dark">

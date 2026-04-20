@@ -516,8 +516,8 @@ const PatientQueue = () => {
         <DialogContent>
           <Box sx={{ pt: 1, display: "flex", flexDirection: "column", gap: 2.5 }}>
             {consultDialog?.reason && (
-              <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2 }}>
-                <Typography variant="caption" color="text.secondary" fontWeight={600}>
+              <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 2 }}>
+                <Typography variant="caption" fontWeight={600}>
                   REASON FOR VISIT
                 </Typography>
                 <Typography variant="body2">{consultDialog.reason}</Typography>
@@ -526,8 +526,8 @@ const PatientQueue = () => {
 
             {consultDialog?.vitals &&
               Object.keys(consultDialog.vitals).some((k) => (consultDialog.vitals as any)[k]) && (
-                <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2 }}>
-                  <Typography variant="caption" color="text.secondary" fontWeight={600} mb={1} display="block">
+                <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 2 }}>
+                  <Typography variant="caption" fontWeight={600} mb={1} display="block">
                     VITALS
                   </Typography>
                   <Box sx={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
@@ -552,26 +552,30 @@ const PatientQueue = () => {
 
             <Divider />
 
-            <TextField
-              label="Diagnosis"
-              fullWidth
-              multiline
-              rows={3}
-              value={diagnosis}
-              onChange={(e) => setDiagnosis(e.target.value)}
-              placeholder="Enter diagnosis..."
-            />
-            <TextField
-              label="Prescription Notes"
-              fullWidth
-              multiline
-              rows={2}
-              value={prescription}
-              onChange={(e) => setPrescription(e.target.value)}
-              placeholder="Enter general prescription notes..."
-            />
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Diagnosis <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField
+                fullWidth
+                multiline
+                rows={3}
+                value={diagnosis}
+                onChange={(e) => setDiagnosis(e.target.value)}
+                placeholder="Enter diagnosis..."
+              />
+            </Box>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Prescription Notes</Typography>
+              <TextField
+                fullWidth
+                multiline
+                rows={2}
+                value={prescription}
+                onChange={(e) => setPrescription(e.target.value)}
+                placeholder="Enter general prescription notes..."
+              />
+            </Box>
 
-            <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2 }}>
+            <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 2 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
                 <Typography variant="subtitle2" fontWeight={700}>Medicines (Inventory Link)</Typography>
                 <Button
@@ -677,15 +681,17 @@ const PatientQueue = () => {
               ))}
             </Box>
 
-            <TextField
-              label="Additional Notes (optional)"
-              fullWidth
-              multiline
-              rows={2}
-              value={consultNotes}
-              onChange={(e) => setConsultNotes(e.target.value)}
-              placeholder="Any additional notes..."
-            />
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Additional Notes (optional)</Typography>
+              <TextField
+                fullWidth
+                multiline
+                rows={2}
+                value={consultNotes}
+                onChange={(e) => setConsultNotes(e.target.value)}
+                placeholder="Any additional notes..."
+              />
+            </Box>
 
             <Divider sx={{ my: 1 }} />
 
@@ -701,14 +707,15 @@ const PatientQueue = () => {
             />
 
             {isExternalReference && (
-              <TextField
-                label="External Hospital Name"
-                fullWidth
-                value={externalHospitalName}
-                onChange={(e) => setExternalHospitalName(e.target.value)}
-                placeholder="e.g. Apollo Hospital"
-                required={isExternalReference}
-              />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>External Hospital Name <span style={{ color: "#EF4444" }}>*</span></Typography>
+                <TextField
+                  fullWidth
+                  value={externalHospitalName}
+                  onChange={(e) => setExternalHospitalName(e.target.value)}
+                  placeholder="e.g. Apollo Hospital"
+                />
+              </Box>
             )}
           </Box>
         </DialogContent>
@@ -745,27 +752,27 @@ const PatientQueue = () => {
             <Box sx={{ pt: 1 }}>
               <Grid container spacing={2}>
                 <Grid size={{ xs: 6 }}>
-                  <Typography variant="caption" color="text.secondary">Name</Typography>
+                  <Typography variant="caption">Name</Typography>
                   <Typography variant="body1" fontWeight={600}>{detailDialog.patient.name}</Typography>
                 </Grid>
                 <Grid size={{ xs: 6 }}>
-                  <Typography variant="caption" color="text.secondary">Institute ID</Typography>
+                  <Typography variant="caption">Institute ID</Typography>
                   <Typography variant="body1" fontWeight={600}>{detailDialog.patient.instituteId}</Typography>
                 </Grid>
                 <Grid size={{ xs: 6 }}>
-                  <Typography variant="caption" color="text.secondary">Email</Typography>
+                  <Typography variant="caption">Email</Typography>
                   <Typography variant="body2">{detailDialog.patient.email}</Typography>
                 </Grid>
                 <Grid size={{ xs: 6 }}>
-                  <Typography variant="caption" color="text.secondary">Phone</Typography>
+                  <Typography variant="caption">Phone</Typography>
                   <Typography variant="body2">{detailDialog.patient.phone || "—"}</Typography>
                 </Grid>
                 <Grid size={{ xs: 6 }}>
-                  <Typography variant="caption" color="text.secondary">Blood Group</Typography>
+                  <Typography variant="caption">Blood Group</Typography>
                   <Typography variant="body2">{detailDialog.patient.bloodGroup || "—"}</Typography>
                 </Grid>
                 <Grid size={{ xs: 6 }}>
-                  <Typography variant="caption" color="text.secondary">Allergies</Typography>
+                  <Typography variant="caption">Allergies</Typography>
                   <Typography variant="body2">
                     {detailDialog.patient.allergies?.length
                       ? detailDialog.patient.allergies.join(", ")
@@ -776,29 +783,29 @@ const PatientQueue = () => {
 
               <Divider sx={{ my: 2.5 }} />
 
-              <Typography variant="caption" color="text.secondary">Reason for Visit</Typography>
+              <Typography variant="caption">Reason for Visit</Typography>
               <Typography variant="body2" mb={2}>{detailDialog.reason}</Typography>
 
               {detailDialog.diagnosis && (
                 <>
-                  <Typography variant="caption" color="text.secondary">Diagnosis</Typography>
+                  <Typography variant="caption">Diagnosis</Typography>
                   <Typography variant="body2" mb={2}>{detailDialog.diagnosis}</Typography>
                 </>
               )}
 
               {detailDialog.prescription && (
                 <>
-                  <Typography variant="caption" color="text.secondary">Prescription Notes</Typography>
+                  <Typography variant="caption">Prescription Notes</Typography>
                   <Typography variant="body2" mb={2}>{detailDialog.prescription}</Typography>
                 </>
               )}
 
               {detailDialog.prescriptionItems && detailDialog.prescriptionItems.length > 0 && (
                 <>
-                  <Typography variant="caption" color="text.secondary">Prescriptions</Typography>
+                  <Typography variant="caption">Prescriptions</Typography>
                   <Box sx={{ mt: 1, display: "flex", flexDirection: "column", gap: 1 }}>
                     {detailDialog.prescriptionItems.map((item, idx) => (
-                      <Box key={idx} sx={{ display: "flex", gap: 2, bgcolor: "rgba(255, 255, 255, 0.12)", p: 1, borderRadius: 1 }}>
+                      <Box key={idx} sx={{ display: "flex", gap: 2, bgcolor: "rgba(255, 255, 255, 0.06)", border: "1px solid rgba(255,255,255,0.1)", p: 1, borderRadius: 1 }}>
                         <Typography variant="body2" fontWeight={600}>{item.medicineName}</Typography>
                         <Typography variant="body2">Qty: {item.quantity}</Typography>
                         <Typography variant="body2">Dose: {item.dose}</Typography>

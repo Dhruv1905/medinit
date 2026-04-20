@@ -262,53 +262,63 @@ const TriageQueue = () => {
         <DialogContent>
           <Grid container spacing={2} sx={{ pt: 1 }}>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField
-                label="Blood Pressure"
-                fullWidth
-                value={vitals.bloodPressure}
-                onChange={(e) => setVitals({ ...vitals, bloodPressure: e.target.value })}
-                placeholder="e.g. 120/80"
-              />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Blood Pressure</Typography>
+                <TextField
+                  fullWidth
+                  value={vitals.bloodPressure}
+                  onChange={(e) => setVitals({ ...vitals, bloodPressure: e.target.value })}
+                  placeholder="e.g. 120/80"
+                />
+              </Box>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField
-                label="Temperature (°F)"
-                fullWidth
-                type="number"
-                value={vitals.temperature}
-                onChange={(e) => setVitals({ ...vitals, temperature: e.target.value })}
-                placeholder="e.g. 98.6"
-              />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Temperature (°F)</Typography>
+                <TextField
+                  fullWidth
+                  type="number"
+                  value={vitals.temperature}
+                  onChange={(e) => setVitals({ ...vitals, temperature: e.target.value })}
+                  placeholder="e.g. 98.6"
+                />
+              </Box>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField
-                label="Pulse (bpm)"
-                fullWidth
-                type="number"
-                value={vitals.pulse}
-                onChange={(e) => setVitals({ ...vitals, pulse: e.target.value })}
-                placeholder="e.g. 72"
-              />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Pulse (bpm)</Typography>
+                <TextField
+                  fullWidth
+                  type="number"
+                  value={vitals.pulse}
+                  onChange={(e) => setVitals({ ...vitals, pulse: e.target.value })}
+                  placeholder="e.g. 72"
+                />
+              </Box>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField
-                label="SpO2 (%)"
-                fullWidth
-                type="number"
-                value={vitals.spo2}
-                onChange={(e) => setVitals({ ...vitals, spo2: e.target.value })}
-                placeholder="e.g. 98"
-              />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>SpO2 (%)</Typography>
+                <TextField
+                  fullWidth
+                  type="number"
+                  value={vitals.spo2}
+                  onChange={(e) => setVitals({ ...vitals, spo2: e.target.value })}
+                  placeholder="e.g. 98"
+                />
+              </Box>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField
-                label="Weight (kg)"
-                fullWidth
-                type="number"
-                value={vitals.weight}
-                onChange={(e) => setVitals({ ...vitals, weight: e.target.value })}
-                placeholder="e.g. 65"
-              />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Weight (kg)</Typography>
+                <TextField
+                  fullWidth
+                  type="number"
+                  value={vitals.weight}
+                  onChange={(e) => setVitals({ ...vitals, weight: e.target.value })}
+                  placeholder="e.g. 65"
+                />
+              </Box>
             </Grid>
           </Grid>
         </DialogContent>

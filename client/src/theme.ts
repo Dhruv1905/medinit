@@ -136,12 +136,127 @@ const theme = createTheme({
     MuiDialog: {
       styleOverrides: {
         paper: {
-          background: "rgba(255, 255, 255, 0.2)",
-          backdropFilter: "blur(28px)",
-          WebkitBackdropFilter: "blur(28px)",
-          border: "1px solid rgba(255, 255, 255, 0.3)",
-          boxShadow: "0 24px 80px rgba(31, 38, 135, 0.2), inset 0 0 0 0.5px rgba(255, 255, 255, 0.15)",
+          background: "rgba(15, 23, 60, 0.92)",
+          backdropFilter: "blur(32px)",
+          WebkitBackdropFilter: "blur(32px)",
+          border: "1px solid rgba(255, 255, 255, 0.18)",
+          boxShadow: "0 24px 80px rgba(0, 0, 0, 0.45), inset 0 0 0 0.5px rgba(255, 255, 255, 0.1)",
           borderRadius: 24,
+          color: "#FFFFFF",
+        },
+      },
+    },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          color: "#FFFFFF",
+          fontWeight: 700,
+          fontSize: "1.25rem",
+        },
+      },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          color: "rgba(255, 255, 255, 0.85)",
+          "& .MuiTypography-root": {
+            color: "rgba(255, 255, 255, 0.85)",
+          },
+          "& .MuiTypography-caption": {
+            color: "#60A5FA",
+            fontWeight: 600,
+          },
+          "& .MuiTypography-subtitle2": {
+            color: "#FFFFFF",
+            fontWeight: 700,
+          },
+          "& .MuiDivider-root": {
+            borderColor: "rgba(255, 255, 255, 0.15)",
+          },
+          "& .MuiOutlinedInput-root": {
+            background: "rgba(255, 255, 255, 0.08)",
+            borderRadius: 14,
+            color: "#FFFFFF",
+            "& fieldset": {
+              borderColor: "rgba(255, 255, 255, 0.2)",
+            },
+            "&:hover fieldset": {
+              borderColor: "rgba(96, 165, 250, 0.4)",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#60A5FA",
+              boxShadow: "0 0 0 3px rgba(96, 165, 250, 0.15)",
+            },
+          },
+          "& .MuiInputLabel-root": {
+            color: "rgba(255, 255, 255, 0.6)",
+            "&.Mui-focused": {
+              color: "#60A5FA",
+            },
+          },
+          "& .MuiInputBase-input": {
+            color: "#FFFFFF",
+          },
+          "& .MuiInputBase-input::placeholder": {
+            color: "rgba(255, 255, 255, 0.4)",
+            opacity: 1,
+          },
+          "& .MuiSelect-icon": {
+            color: "rgba(255, 255, 255, 0.5)",
+          },
+          "& .MuiFormControlLabel-label": {
+            color: "rgba(255, 255, 255, 0.85)",
+          },
+          "& .MuiCheckbox-root": {
+            color: "rgba(255, 255, 255, 0.4)",
+            "&.Mui-checked": {
+              color: "#60A5FA",
+            },
+          },
+          "& .MuiChip-root": {
+            color: "rgba(255, 255, 255, 0.9)",
+          },
+        },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          "& .MuiButton-outlined": {
+            borderColor: "rgba(255, 255, 255, 0.25)",
+            color: "rgba(255, 255, 255, 0.85)",
+            "&:hover": {
+              borderColor: "rgba(255, 255, 255, 0.4)",
+              background: "rgba(255, 255, 255, 0.08)",
+            },
+          },
+        },
+      },
+    },
+    MuiMenu: {
+      styleOverrides: {
+        paper: {
+          background: "rgba(15, 23, 60, 0.95)",
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
+          border: "1px solid rgba(255, 255, 255, 0.15)",
+          boxShadow: "0 16px 48px rgba(0, 0, 0, 0.4)",
+          borderRadius: "14px !important",
+          "& .MuiMenuItem-root": {
+            color: "rgba(255, 255, 255, 0.85)",
+            fontSize: "0.9rem",
+            borderRadius: 8,
+            margin: "2px 6px",
+            "&:hover": {
+              background: "rgba(96, 165, 250, 0.15)",
+            },
+            "&.Mui-selected": {
+              background: "rgba(96, 165, 250, 0.25)",
+              "&:hover": {
+                background: "rgba(96, 165, 250, 0.3)",
+              },
+            },
+          },
         },
       },
     },

@@ -136,20 +136,20 @@ const Reimbursements = () => {
                         <Box sx={{ pt: 1 }}>
                             <Grid container spacing={2}>
                                 <Grid size={{ xs: 6 }}>
-                                    <Typography variant="caption" color="text.secondary">Student</Typography>
+                                    <Typography variant="caption">Student</Typography>
                                     <Typography variant="body1" fontWeight={600}>{detailDialog.student.name} ({detailDialog.student.instituteId})</Typography>
                                 </Grid>
                                 <Grid size={{ xs: 6 }}>
-                                    <Typography variant="caption" color="text.secondary">Amount</Typography>
-                                    <Typography variant="body1" fontWeight={600} color="primary.main">₹{detailDialog.amount}</Typography>
+                                    <Typography variant="caption">Amount</Typography>
+                                    <Typography variant="body1" fontWeight={600} sx={{ color: "#60A5FA" }}>₹{detailDialog.amount}</Typography>
                                 </Grid>
                                 <Grid size={{ xs: 12 }}>
-                                    <Typography variant="caption" color="text.secondary">External Hospital</Typography>
+                                    <Typography variant="caption">External Hospital</Typography>
                                     <Typography variant="body2">{detailDialog.externalHospitalName}</Typography>
                                 </Grid>
                             </Grid>
 
-                            <Box sx={{ mt: 3, p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2 }}>
+                            <Box sx={{ mt: 3, p: 2, bgcolor: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 2 }}>
                                 <Typography variant="subtitle2" gutterBottom>Bank Details</Typography>
                                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                                     <Typography variant="caption">Bank:</Typography>

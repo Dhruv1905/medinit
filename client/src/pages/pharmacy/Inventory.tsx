@@ -532,41 +532,74 @@ const Inventory = () => {
           {formError && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{formError}</Alert>}
           <Grid container spacing={2} sx={{ pt: 1 }}>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField label="Medicine Name" name="name" fullWidth required value={form.name} onChange={handleChange} />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Medicine Name <span style={{ color: "#EF4444" }}>*</span></Typography>
+                <TextField name="name" fullWidth value={form.name} onChange={handleChange} placeholder="e.g. Paracetamol" />
+              </Box>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField label="Generic Name" name="genericName" fullWidth required value={form.genericName} onChange={handleChange} />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Generic Name <span style={{ color: "#EF4444" }}>*</span></Typography>
+                <TextField name="genericName" fullWidth value={form.genericName} onChange={handleChange} placeholder="e.g. Acetaminophen" />
+              </Box>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField label="Category" name="category" select fullWidth value={form.category} onChange={handleChange}>
-                {categories.filter((c) => c.value).map((c) => (
-                  <MenuItem key={c.value} value={c.value}>{c.label}</MenuItem>
-                ))}
-              </TextField>
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Category</Typography>
+                <TextField name="category" select fullWidth value={form.category} onChange={handleChange}>
+                  {categories.filter((c) => c.value).map((c) => (
+                    <MenuItem key={c.value} value={c.value}>{c.label}</MenuItem>
+                  ))}
+                </TextField>
+              </Box>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField label="Manufacturer" name="manufacturer" fullWidth required value={form.manufacturer} onChange={handleChange} />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Manufacturer <span style={{ color: "#EF4444" }}>*</span></Typography>
+                <TextField name="manufacturer" fullWidth value={form.manufacturer} onChange={handleChange} placeholder="e.g. Sun Pharma" />
+              </Box>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField label="Batch Number" name="batchNumber" fullWidth required value={form.batchNumber} onChange={handleChange} disabled={!!editingId} />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Batch Number <span style={{ color: "#EF4444" }}>*</span></Typography>
+                <TextField name="batchNumber" fullWidth value={form.batchNumber} onChange={handleChange} disabled={!!editingId} placeholder="e.g. BATCH001" />
+              </Box>
             </Grid>
             <Grid size={{ xs: 6, sm: 3 }}>
-              <TextField label="Quantity" name="quantity" type="number" fullWidth required value={form.quantity} onChange={handleChange} />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Quantity <span style={{ color: "#EF4444" }}>*</span></Typography>
+                <TextField name="quantity" type="number" fullWidth value={form.quantity} onChange={handleChange} />
+              </Box>
             </Grid>
             <Grid size={{ xs: 6, sm: 3 }}>
-              <TextField label="Unit Price (₹)" name="unitPrice" type="number" fullWidth required value={form.unitPrice} onChange={handleChange} />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Unit Price (₹) <span style={{ color: "#EF4444" }}>*</span></Typography>
+                <TextField name="unitPrice" type="number" fullWidth value={form.unitPrice} onChange={handleChange} />
+              </Box>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField label="Expiry Date" name="expiryDate" type="date" fullWidth required value={form.expiryDate} onChange={handleChange} InputLabelProps={{ shrink: true }} />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Expiry Date <span style={{ color: "#EF4444" }}>*</span></Typography>
+                <TextField name="expiryDate" type="date" fullWidth value={form.expiryDate} onChange={handleChange} />
+              </Box>
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <TextField label="Reorder Level" name="reorderLevel" type="number" fullWidth value={form.reorderLevel} onChange={handleChange} />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Reorder Level</Typography>
+                <TextField name="reorderLevel" type="number" fullWidth value={form.reorderLevel} onChange={handleChange} />
+              </Box>
             </Grid>
             <Grid size={{ xs: 12 }}>
-              <TextField label="Description (optional)" name="description" fullWidth multiline rows={2} value={form.description} onChange={handleChange} />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Description (optional)</Typography>
+                <TextField name="description" fullWidth multiline rows={2} value={form.description} onChange={handleChange} placeholder="Brief description..." />
+              </Box>
             </Grid>
             <Grid size={{ xs: 12 }}>
-              <TextField label="Side Effects (optional)" name="sideEffects" fullWidth multiline rows={2} value={form.sideEffects} onChange={handleChange} />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Side Effects (optional)</Typography>
+                <TextField name="sideEffects" fullWidth multiline rows={2} value={form.sideEffects} onChange={handleChange} placeholder="Known side effects..." />
+              </Box>
             </Grid>
           </Grid>
         </DialogContent>
@@ -591,7 +624,7 @@ const Inventory = () => {
       <Dialog open={!!deleteDialog} onClose={() => setDeleteDialog(null)} PaperProps={{ sx: { borderRadius: 3 } }}>
         <DialogTitle sx={{ fontWeight: 700 }}>Delete Medicine</DialogTitle>
         <DialogContent>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2">
             Are you sure you want to remove this medicine from inventory? This action can be undone by admin.
           </Typography>
         </DialogContent>

@@ -243,24 +243,27 @@ const MyAppointments = () => {
       )}
 
       {/* Cancel Dialog */}
-      <Dialog open={!!cancelDialog} onClose={() => setCancelDialog(null)}>
-        <DialogTitle>Cancel Appointment</DialogTitle>
+      <Dialog open={!!cancelDialog} onClose={() => setCancelDialog(null)} PaperProps={{ sx: { borderRadius: 3 } }}>
+        <DialogTitle sx={{ fontWeight: 700, color: "#EF4444" }}>Cancel Appointment</DialogTitle>
         <DialogContent>
-          <Typography variant="body2" color="text.secondary" mb={2}>
+          <Typography variant="body2" mb={2}>
             Are you sure you want to cancel this appointment?
           </Typography>
-          <TextField
-            label="Reason (optional)"
-            fullWidth
-            multiline
-            rows={2}
-            value={cancelReason}
-            onChange={(e) => setCancelReason(e.target.value)}
-          />
+          <Box>
+            <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Reason (optional)</Typography>
+            <TextField
+              fullWidth
+              multiline
+              rows={2}
+              value={cancelReason}
+              onChange={(e) => setCancelReason(e.target.value)}
+              placeholder="Why are you cancelling?"
+            />
+          </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setCancelDialog(null)}>Keep Appointment</Button>
-          <Button color="error" variant="contained" onClick={handleCancel}>
+        <DialogActions sx={{ p: 3, pt: 1 }}>
+          <Button onClick={() => setCancelDialog(null)} variant="outlined" sx={{ borderRadius: 2 }}>Keep Appointment</Button>
+          <Button color="error" variant="contained" onClick={handleCancel} sx={{ borderRadius: 2 }}>
             Cancel Appointment
           </Button>
         </DialogActions>

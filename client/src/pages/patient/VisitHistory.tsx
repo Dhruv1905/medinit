@@ -267,24 +267,24 @@ const VisitHistory = () => {
             <Box sx={{ pt: 1 }}>
               <Grid container spacing={2}>
                 <Grid size={{ xs: 6 }}>
-                  <Typography variant="caption" color="text.secondary">Doctor</Typography>
+                  <Typography variant="caption">Doctor</Typography>
                   <Typography variant="body1" fontWeight={600}>Dr. {detailDialog.doctor.name}</Typography>
                 </Grid>
                 <Grid size={{ xs: 6 }}>
-                  <Typography variant="caption" color="text.secondary">Date & Time</Typography>
+                  <Typography variant="caption">Date & Time</Typography>
                   <Typography variant="body2">{formatDate(detailDialog.date)} at {detailDialog.timeSlot}</Typography>
                 </Grid>
               </Grid>
 
               <Divider sx={{ my: 2.5 }} />
 
-              <Typography variant="caption" color="text.secondary" fontWeight={600}>REASON</Typography>
+              <Typography variant="caption" fontWeight={600}>REASON</Typography>
               <Typography variant="body2" mb={2}>{detailDialog.reason}</Typography>
 
               {detailDialog.diagnosis && (
                 <>
-                  <Typography variant="caption" color="text.secondary" fontWeight={600}>DIAGNOSIS</Typography>
-                  <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 2, mb: 2, mt: 0.5 }}>
+                  <Typography variant="caption" fontWeight={600}>DIAGNOSIS</Typography>
+                  <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 2, mb: 2, mt: 0.5 }}>
                     <Typography variant="body2">{detailDialog.diagnosis}</Typography>
                   </Box>
                 </>
@@ -292,8 +292,8 @@ const VisitHistory = () => {
 
               {detailDialog.prescription && (
                 <>
-                  <Typography variant="caption" color="text.secondary" fontWeight={600}>PRESCRIPTION</Typography>
-                  <Box sx={{ p: 2, bgcolor: "#E8F5E9", borderRadius: 2, mb: 2, mt: 0.5 }}>
+                  <Typography variant="caption" fontWeight={600}>PRESCRIPTION</Typography>
+                  <Box sx={{ p: 2, bgcolor: "rgba(16, 185, 129, 0.12)", border: "1px solid rgba(16, 185, 129, 0.25)", borderRadius: 2, mb: 2, mt: 0.5 }}>
                     <Typography variant="body2">{detailDialog.prescription}</Typography>
                   </Box>
                 </>
@@ -301,15 +301,15 @@ const VisitHistory = () => {
 
               {detailDialog.notes && (
                 <>
-                  <Typography variant="caption" color="text.secondary" fontWeight={600}>NOTES</Typography>
+                  <Typography variant="caption" fontWeight={600}>NOTES</Typography>
                   <Typography variant="body2" mb={2}>{detailDialog.notes}</Typography>
                 </>
               )}
 
               {detailDialog.vitals && Object.values(detailDialog.vitals).some((v) => v) && (
                 <>
-                  <Typography variant="caption" color="text.secondary" fontWeight={600}>VITALS</Typography>
-                  <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2, mt: 0.5, display: "flex", flexWrap: "wrap", gap: 3 }}>
+                  <Typography variant="caption" fontWeight={600}>VITALS</Typography>
+                  <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 2, mt: 0.5, display: "flex", flexWrap: "wrap", gap: 3 }}>
                     {detailDialog.vitals.bloodPressure && <Typography variant="body2"><strong>BP:</strong> {detailDialog.vitals.bloodPressure}</Typography>}
                     {detailDialog.vitals.temperature && <Typography variant="body2"><strong>Temp:</strong> {detailDialog.vitals.temperature}°F</Typography>}
                     {detailDialog.vitals.pulse && <Typography variant="body2"><strong>Pulse:</strong> {detailDialog.vitals.pulse} bpm</Typography>}
@@ -331,36 +331,48 @@ const VisitHistory = () => {
         <DialogTitle sx={{ fontWeight: 700 }}>Request Reimbursement</DialogTitle>
         <DialogContent>
           <Box sx={{ pt: 1, display: "flex", flexDirection: "column", gap: 2 }}>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2">
               Please enter your reimbursement amount, bank details, and upload the valid invoice/proof document from {reimburseDialog?.externalHospitalName}.
             </Typography>
 
-            <TextField
-              label="Amount Spent (₹)" type="number"
-              fullWidth value={amount} onChange={e => setAmount(e.target.value)}
-            />
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Amount Spent (₹) <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField
+                type="number" placeholder="Enter amount"
+                fullWidth value={amount} onChange={e => setAmount(e.target.value)}
+              />
+            </Box>
 
             <Divider sx={{ my: 1 }} />
             <Typography variant="subtitle2">Bank Details</Typography>
-            <TextField
-              label="Bank Name" fullWidth
-              value={bankName} onChange={e => setBankName(e.target.value)}
-            />
-            <TextField
-              label="Account Number" fullWidth
-              value={bankAccountNo} onChange={e => setBankAccountNo(e.target.value)}
-            />
-            <TextField
-              label="IFSC Code" fullWidth
-              value={ifsc} onChange={e => setIfsc(e.target.value)}
-            />
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Bank Name <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField
+                placeholder="Enter bank name" fullWidth
+                value={bankName} onChange={e => setBankName(e.target.value)}
+              />
+            </Box>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Account Number <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField
+                placeholder="Enter account number" fullWidth
+                value={bankAccountNo} onChange={e => setBankAccountNo(e.target.value)}
+              />
+            </Box>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>IFSC Code <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField
+                placeholder="Enter IFSC code" fullWidth
+                value={ifsc} onChange={e => setIfsc(e.target.value)}
+              />
+            </Box>
 
             <Button
               variant="outlined"
               component="label"
               startIcon={<UploadFileIcon />}
               fullWidth
-              sx={{ mt: 1, py: 1.5, borderStyle: "dashed" }}
+              sx={{ mt: 1, py: 1.5, borderStyle: "dashed", borderColor: "rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.85)", "&:hover": { borderColor: "rgba(255,255,255,0.4)", background: "rgba(255,255,255,0.08)" } }}
             >
               {documentFile ? documentFile.name : "Upload Invoice/Proof"}
               <input
@@ -377,11 +389,12 @@ const VisitHistory = () => {
           </Box>
         </DialogContent>
         <DialogActions sx={{ p: 3, pt: 1 }}>
-          <Button onClick={() => setReimburseDialog(null)} variant="outlined">Cancel</Button>
+          <Button onClick={() => setReimburseDialog(null)} variant="outlined" sx={{ borderRadius: 2 }}>Cancel</Button>
           <Button
             onClick={handleSubmitReimbursement}
             variant="contained"
             disabled={reimsSaving || !amount || !bankName || !bankAccountNo || !ifsc || !documentFile}
+            sx={{ borderRadius: 2, background: "linear-gradient(135deg, #3B82F6, #60A5FA)", "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" } }}
           >
             {reimsSaving ? <CircularProgress size={22} sx={{ color: "white" }} /> : "Submit Request"}
           </Button>

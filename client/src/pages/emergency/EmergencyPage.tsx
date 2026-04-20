@@ -361,35 +361,39 @@ const EmergencyPage = () => {
         <DialogTitle sx={{ fontWeight: 700, color: "error.main" }}>Report Emergency</DialogTitle>
         <DialogContent>
           <Box sx={{ pt: 1, display: "flex", flexDirection: "column", gap: 2.5 }}>
-            <TextField
-              label="Severity"
-              select
-              fullWidth
-              value={form.severity}
-              onChange={(e) => setForm({ ...form, severity: e.target.value })}
-            >
-              <MenuItem value="critical">Critical — Life threatening</MenuItem>
-              <MenuItem value="high">High — Urgent attention needed</MenuItem>
-              <MenuItem value="medium">Medium — Needs prompt care</MenuItem>
-            </TextField>
-            <TextField
-              label="Location"
-              fullWidth
-              required
-              value={form.location}
-              onChange={(e) => setForm({ ...form, location: e.target.value })}
-              placeholder="e.g. Hostel Block A, Room 205"
-            />
-            <TextField
-              label="Description"
-              fullWidth
-              required
-              multiline
-              rows={4}
-              value={form.description}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
-              placeholder="Describe the emergency situation in detail..."
-            />
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Severity <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField
+                select
+                fullWidth
+                value={form.severity}
+                onChange={(e) => setForm({ ...form, severity: e.target.value })}
+              >
+                <MenuItem value="critical">Critical — Life threatening</MenuItem>
+                <MenuItem value="high">High — Urgent attention needed</MenuItem>
+                <MenuItem value="medium">Medium — Needs prompt care</MenuItem>
+              </TextField>
+            </Box>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Location <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField
+                fullWidth
+                value={form.location}
+                onChange={(e) => setForm({ ...form, location: e.target.value })}
+                placeholder="e.g. Hostel Block A, Room 205"
+              />
+            </Box>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Description <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                value={form.description}
+                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                placeholder="Describe the emergency situation in detail..."
+              />
+            </Box>
           </Box>
         </DialogContent>
         <DialogActions sx={{ p: 3, pt: 1 }}>
@@ -415,66 +419,76 @@ const EmergencyPage = () => {
         <DialogContent>
           {updateDialog && (
             <Box sx={{ pt: 1, display: "flex", flexDirection: "column", gap: 2.5 }}>
-              <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2 }}>
+              <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 2 }}>
                 <Typography variant="body2"><strong>Patient:</strong> {updateDialog.patient.name} ({updateDialog.patient.instituteId})</Typography>
                 <Typography variant="body2"><strong>Severity:</strong> {updateDialog.severity.toUpperCase()}</Typography>
                 <Typography variant="body2"><strong>Description:</strong> {updateDialog.description}</Typography>
               </Box>
 
-              <TextField
-                label="Update Status"
-                select
-                fullWidth
-                value={updateForm.status}
-                onChange={(e) => setUpdateForm({ ...updateForm, status: e.target.value })}
-              >
-                <MenuItem value="reported">Reported</MenuItem>
-                <MenuItem value="responding">Responding</MenuItem>
-                <MenuItem value="in_treatment">In Treatment</MenuItem>
-                <MenuItem value="referred">Referred</MenuItem>
-                <MenuItem value="resolved">Resolved</MenuItem>
-              </TextField>
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Update Status</Typography>
+                <TextField
+                  select
+                  fullWidth
+                  value={updateForm.status}
+                  onChange={(e) => setUpdateForm({ ...updateForm, status: e.target.value })}
+                >
+                  <MenuItem value="reported">Reported</MenuItem>
+                  <MenuItem value="responding">Responding</MenuItem>
+                  <MenuItem value="in_treatment">In Treatment</MenuItem>
+                  <MenuItem value="referred">Referred</MenuItem>
+                  <MenuItem value="resolved">Resolved</MenuItem>
+                </TextField>
+              </Box>
 
-              <TextField
-                label="Assign Doctor"
-                select
-                fullWidth
-                value={updateForm.assignedDoctor}
-                onChange={(e) => setUpdateForm({ ...updateForm, assignedDoctor: e.target.value })}
-              >
-                <MenuItem value="">None</MenuItem>
-                {doctors.map((d) => (
-                  <MenuItem key={d._id} value={d._id}>Dr. {d.name}</MenuItem>
-                ))}
-              </TextField>
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Assign Doctor</Typography>
+                <TextField
+                  select
+                  fullWidth
+                  value={updateForm.assignedDoctor}
+                  onChange={(e) => setUpdateForm({ ...updateForm, assignedDoctor: e.target.value })}
+                >
+                  <MenuItem value="">None</MenuItem>
+                  {doctors.map((d) => (
+                    <MenuItem key={d._id} value={d._id}>Dr. {d.name}</MenuItem>
+                  ))}
+                </TextField>
+              </Box>
 
-              <TextField
-                label="Action Note"
-                fullWidth
-                multiline
-                rows={2}
-                value={updateForm.actionNote}
-                onChange={(e) => setUpdateForm({ ...updateForm, actionNote: e.target.value })}
-                placeholder="Log what action was taken..."
-              />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Action Note</Typography>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={2}
+                  value={updateForm.actionNote}
+                  onChange={(e) => setUpdateForm({ ...updateForm, actionNote: e.target.value })}
+                  placeholder="Log what action was taken..."
+                />
+              </Box>
 
-              <TextField
-                label="Diagnosis"
-                fullWidth
-                multiline
-                rows={2}
-                value={updateForm.diagnosis}
-                onChange={(e) => setUpdateForm({ ...updateForm, diagnosis: e.target.value })}
-              />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Diagnosis</Typography>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={2}
+                  value={updateForm.diagnosis}
+                  onChange={(e) => setUpdateForm({ ...updateForm, diagnosis: e.target.value })}
+                />
+              </Box>
 
-              <TextField
-                label="Treatment"
-                fullWidth
-                multiline
-                rows={2}
-                value={updateForm.treatment}
-                onChange={(e) => setUpdateForm({ ...updateForm, treatment: e.target.value })}
-              />
+              <Box>
+                <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Treatment</Typography>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={2}
+                  value={updateForm.treatment}
+                  onChange={(e) => setUpdateForm({ ...updateForm, treatment: e.target.value })}
+                />
+              </Box>
             </Box>
           )}
         </DialogContent>

@@ -223,7 +223,7 @@ const DoctorCertificates = () => {
         <DialogContent>
           {processDialog && (
             <Box sx={{ pt: 1 }}>
-              <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.12)", borderRadius: 2, mb: 3 }}>
+              <Box sx={{ p: 2, bgcolor: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 2, mb: 3 }}>
                 <Typography variant="body2"><strong>Patient:</strong> {processDialog.patient.name} ({processDialog.patient.instituteId})</Typography>
                 <Typography variant="body2"><strong>Type:</strong> {typeLabels[processDialog.type]}</Typography>
                 <Typography variant="body2"><strong>Period:</strong> {formatDate(processDialog.startDate)} — {formatDate(processDialog.endDate)}</Typography>
@@ -232,34 +232,40 @@ const DoctorCertificates = () => {
 
               {processAction === "approved" ? (
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                  <TextField
-                    label="Diagnosis (optional)"
-                    fullWidth
-                    multiline
-                    rows={2}
-                    value={diagnosis}
-                    onChange={(e) => setDiagnosis(e.target.value)}
-                  />
-                  <TextField
-                    label="Remarks (optional)"
-                    fullWidth
-                    multiline
-                    rows={2}
-                    value={remarks}
-                    onChange={(e) => setRemarks(e.target.value)}
-                    placeholder="Any additional notes for the certificate..."
-                  />
+                  <Box>
+                    <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Diagnosis (optional)</Typography>
+                    <TextField
+                      fullWidth
+                      multiline
+                      rows={2}
+                      value={diagnosis}
+                      onChange={(e) => setDiagnosis(e.target.value)}
+                    />
+                  </Box>
+                  <Box>
+                    <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Remarks (optional)</Typography>
+                    <TextField
+                      fullWidth
+                      multiline
+                      rows={2}
+                      value={remarks}
+                      onChange={(e) => setRemarks(e.target.value)}
+                      placeholder="Any additional notes for the certificate..."
+                    />
+                  </Box>
                 </Box>
               ) : (
-                <TextField
-                  label="Rejection Reason"
-                  fullWidth
-                  multiline
-                  rows={3}
-                  value={rejectionReason}
-                  onChange={(e) => setRejectionReason(e.target.value)}
-                  placeholder="Explain why the certificate is being rejected..."
-                />
+                <Box>
+                  <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Rejection Reason <span style={{ color: "#EF4444" }}>*</span></Typography>
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={3}
+                    value={rejectionReason}
+                    onChange={(e) => setRejectionReason(e.target.value)}
+                    placeholder="Explain why the certificate is being rejected..."
+                  />
+                </Box>
               )}
             </Box>
           )}

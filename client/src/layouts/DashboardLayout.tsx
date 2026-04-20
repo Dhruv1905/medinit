@@ -19,7 +19,6 @@ import {
   Chip,
   useMediaQuery,
   useTheme,
-  InputBase,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
@@ -34,7 +33,7 @@ import EmergencyIcon from "@mui/icons-material/Emergency";
 import HistoryIcon from "@mui/icons-material/History";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
-import SearchIcon from "@mui/icons-material/Search";
+
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 
@@ -343,33 +342,6 @@ const DashboardLayout = () => {
               </IconButton>
             )}
 
-            {/* Search bar */}
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                bgcolor: "rgba(255, 255, 255, 0.15)",
-                backdropFilter: "blur(12px)",
-                border: "1px solid rgba(255, 255, 255, 0.25)",
-                borderRadius: 3,
-                px: 2,
-                py: 0.8,
-                flex: 1,
-                maxWidth: 400,
-                transition: "all 0.25s ease",
-                "&:focus-within": {
-                  border: "1px solid rgba(255, 255, 255, 0.4)",
-                  boxShadow: "0 0 0 3px rgba(59, 130, 246, 0.08)",
-                  bgcolor: "rgba(255, 255, 255, 0.22)",
-                },
-              }}
-            >
-              <SearchIcon sx={{ color: "text.secondary", fontSize: 20, mr: 1 }} />
-              <InputBase
-                placeholder="Search patients, appointments..."
-                sx={{ flex: 1, fontSize: "0.85rem" }}
-              />
-            </Box>
 
             <Box sx={{ flex: 1 }} />
 
