@@ -219,8 +219,13 @@ const Login = () => {
             )}
 
             <form onSubmit={handleSubmit}>
+              <Typography
+                variant="body2"
+                sx={{ color: "rgba(255,255,255,0.85)", fontWeight: 600, mb: 0.8 }}
+              >
+                Institute Email <span style={{ color: "#f87171" }}>*</span>
+              </Typography>
               <TextField
-                label="Institute Email"
                 type="email"
                 fullWidth
                 required
@@ -240,8 +245,6 @@ const Login = () => {
                       boxShadow: "0 0 0 3px rgba(96,165,250,0.15)",
                     },
                   },
-                  "& .MuiInputLabel-root": { color: "rgba(255,255,255,0.6)" },
-                  "& .MuiInputLabel-root.Mui-focused": { color: "#60A5FA" },
                 }}
                 InputProps={{
                   startAdornment: (
@@ -251,8 +254,13 @@ const Login = () => {
                   ),
                 }}
               />
+              <Typography
+                variant="body2"
+                sx={{ color: "rgba(255,255,255,0.85)", fontWeight: 600, mb: 0.8 }}
+              >
+                Password <span style={{ color: "#f87171" }}>*</span>
+              </Typography>
               <TextField
-                label="Password"
                 type="password"
                 fullWidth
                 required
@@ -271,8 +279,6 @@ const Login = () => {
                       boxShadow: "0 0 0 3px rgba(96,165,250,0.15)",
                     },
                   },
-                  "& .MuiInputLabel-root": { color: "rgba(255,255,255,0.6)" },
-                  "& .MuiInputLabel-root.Mui-focused": { color: "#60A5FA" },
                 }}
                 InputProps={{
                   startAdornment: (
@@ -288,9 +294,9 @@ const Login = () => {
                 <Link
                   to="/forgot-password"
                   style={{
-                    color: "#60A5FA",
+                    color: "white",
                     fontSize: "0.82rem",
-                    fontWeight: 500,
+                    fontWeight: 600,
                     textDecoration: "none",
                   }}
                 >
@@ -332,13 +338,13 @@ const Login = () => {
               </Typography>
             </Divider>
 
-            <Typography variant="body2" textAlign="center" sx={{ color: "rgba(255,255,255,0.7)" }}>
+            <Typography variant="body2" textAlign="center" sx={{ color: "rgba(255,255,255,0.85)" }}>
               Don't have an account?{" "}
               <Link
                 to="/register"
                 style={{
-                  color: "#60A5FA",
-                  fontWeight: 600,
+                  color: "white",
+                  fontWeight: 700,
                   textDecoration: "none",
                 }}
               >
@@ -350,14 +356,14 @@ const Login = () => {
               variant="body2"
               textAlign="center"
               mt={1.5}
-              sx={{ color: "rgba(255,255,255,0.5)" }}
+              sx={{ color: "rgba(255,255,255,0.85)" }}
             >
               Need help?{" "}
               <Link
                 to="/contact"
                 style={{
-                  color: "rgba(255,255,255,0.7)",
-                  fontWeight: 500,
+                  color: "white",
+                  fontWeight: 700,
                   textDecoration: "none",
                 }}
               >

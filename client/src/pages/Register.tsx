@@ -41,10 +41,10 @@ const glassInputSx = {
       boxShadow: "0 0 0 3px rgba(96,165,250,0.15)",
     },
   },
-  "& .MuiInputLabel-root": { color: "rgba(255,255,255,0.6)" },
-  "& .MuiInputLabel-root.Mui-focused": { color: "#60A5FA" },
   "& .MuiSelect-icon": { color: "rgba(255,255,255,0.5)" },
 };
+
+const labelSx = { color: "rgba(255,255,255,0.85)", fontWeight: 600, mb: 0.8 };
 
 const Register = () => {
   const { register } = useAuth();
@@ -231,8 +231,10 @@ const Register = () => {
             )}
 
             <form onSubmit={handleSubmit}>
+              <Typography variant="body2" sx={labelSx}>
+                Full Name <span style={{ color: "#f87171" }}>*</span>
+              </Typography>
               <TextField
-                label="Full Name"
                 name="name"
                 fullWidth
                 required
@@ -250,8 +252,10 @@ const Register = () => {
 
               <Grid container spacing={2} sx={{ mb: 2 }}>
                 <Grid size={{ xs: 12, sm: 7 }}>
+                  <Typography variant="body2" sx={labelSx}>
+                    Institute Email <span style={{ color: "#f87171" }}>*</span>
+                  </Typography>
                   <TextField
-                    label="Institute Email"
                     name="email"
                     type="email"
                     fullWidth
@@ -270,8 +274,10 @@ const Register = () => {
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 5 }}>
+                  <Typography variant="body2" sx={labelSx}>
+                    Institute ID <span style={{ color: "#f87171" }}>*</span>
+                  </Typography>
                   <TextField
-                    label="Institute ID"
                     name="instituteId"
                     fullWidth
                     required
@@ -290,8 +296,10 @@ const Register = () => {
                 </Grid>
               </Grid>
 
+              <Typography variant="body2" sx={labelSx}>
+                Password <span style={{ color: "#f87171" }}>*</span>
+              </Typography>
               <TextField
-                label="Password"
                 name="password"
                 type="password"
                 fullWidth
@@ -308,8 +316,10 @@ const Register = () => {
                 }}
               />
 
+              <Typography variant="body2" sx={labelSx}>
+                Role
+              </Typography>
               <TextField
-                label="Role"
                 name="role"
                 select
                 fullWidth
@@ -326,8 +336,10 @@ const Register = () => {
 
               <Grid container spacing={2} sx={{ mb: 3 }}>
                 <Grid size={{ xs: 12, sm: 6 }}>
+                  <Typography variant="body2" sx={labelSx}>
+                    Phone (optional)
+                  </Typography>
                   <TextField
-                    label="Phone (optional)"
                     name="phone"
                     fullWidth
                     value={form.phone}
@@ -343,8 +355,10 @@ const Register = () => {
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
+                  <Typography variant="body2" sx={labelSx}>
+                    Blood Group (optional)
+                  </Typography>
                   <TextField
-                    label="Blood Group (optional)"
                     name="bloodGroup"
                     fullWidth
                     value={form.bloodGroup}
@@ -395,9 +409,9 @@ const Register = () => {
               </Typography>
             </Divider>
 
-            <Typography variant="body2" textAlign="center" sx={{ color: "rgba(255,255,255,0.7)" }}>
+            <Typography variant="body2" textAlign="center" sx={{ color: "rgba(255,255,255,0.85)" }}>
               Already have an account?{" "}
-              <Link to="/login" style={{ color: "#60A5FA", fontWeight: 600, textDecoration: "none" }}>
+              <Link to="/login" style={{ color: "white", fontWeight: 700, textDecoration: "none" }}>
                 Sign In
               </Link>
             </Typography>

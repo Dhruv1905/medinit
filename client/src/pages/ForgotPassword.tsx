@@ -166,9 +166,10 @@ const ForgotPassword = () => {
         boxShadow: "0 0 0 3px rgba(96,165,250,0.15)",
       },
     },
-    "& .MuiInputLabel-root": { color: "rgba(255,255,255,0.6)" },
-    "& .MuiInputLabel-root.Mui-focused": { color: "#60A5FA" },
   };
+
+  // Label style for above-input labels
+  const labelSx = { color: "rgba(255,255,255,0.85)", fontWeight: 600, mb: 0.8 };
 
   // Step titles/descriptions
   const stepInfo = {
@@ -377,8 +378,10 @@ const ForgotPassword = () => {
             {/* Step 1: Email input */}
             {step === 1 && (
               <form onSubmit={handleSendOtp}>
+                <Typography variant="body2" sx={labelSx}>
+                  Institute Email <span style={{ color: "#f87171" }}>*</span>
+                </Typography>
                 <TextField
-                  label="Institute Email"
                   type="email"
                   fullWidth
                   required
@@ -523,8 +526,10 @@ const ForgotPassword = () => {
             {/* Step 3: New password */}
             {step === 3 && (
               <form onSubmit={handleResetPassword}>
+                <Typography variant="body2" sx={labelSx}>
+                  New Password <span style={{ color: "#f87171" }}>*</span>
+                </Typography>
                 <TextField
-                  label="New Password"
                   type="password"
                   fullWidth
                   required
@@ -539,8 +544,10 @@ const ForgotPassword = () => {
                     ),
                   }}
                 />
+                <Typography variant="body2" sx={labelSx}>
+                  Confirm Password <span style={{ color: "#f87171" }}>*</span>
+                </Typography>
                 <TextField
-                  label="Confirm Password"
                   type="password"
                   fullWidth
                   required
@@ -645,12 +652,12 @@ const ForgotPassword = () => {
                 <Typography
                   variant="body2"
                   textAlign="center"
-                  sx={{ color: "rgba(255,255,255,0.7)" }}
+                  sx={{ color: "rgba(255,255,255,0.85)" }}
                 >
                   Remember your password?{" "}
                   <Link
                     to="/login"
-                    style={{ color: "#60A5FA", fontWeight: 600, textDecoration: "none" }}
+                    style={{ color: "white", fontWeight: 700, textDecoration: "none" }}
                   >
                     Sign In
                   </Link>

@@ -64,9 +64,9 @@ const ContactUs = () => {
         boxShadow: "0 0 0 3px rgba(96,165,250,0.15)",
       },
     },
-    "& .MuiInputLabel-root": { color: "rgba(255,255,255,0.6)" },
-    "& .MuiInputLabel-root.Mui-focused": { color: "#60A5FA" },
   };
+
+  const labelSx = { color: "rgba(255,255,255,0.85)", fontWeight: 600, mb: 0.8 };
 
   const contactItems = [
     {
@@ -360,40 +360,50 @@ const ContactUs = () => {
 
             <form onSubmit={handleSubmit}>
               <Box sx={{ display: "flex", gap: 2 }}>
-                <TextField
-                  label="Your Name"
-                  fullWidth
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  sx={textFieldSx}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <PersonOutlineIcon sx={{ color: "rgba(255,255,255,0.5)", fontSize: 20 }} />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <TextField
-                  label="Email Address"
-                  type="email"
-                  fullWidth
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  sx={textFieldSx}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <EmailOutlinedIcon sx={{ color: "rgba(255,255,255,0.5)", fontSize: 20 }} />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="body2" sx={labelSx}>
+                    Your Name <span style={{ color: "#f87171" }}>*</span>
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    sx={textFieldSx}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PersonOutlineIcon sx={{ color: "rgba(255,255,255,0.5)", fontSize: 20 }} />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="body2" sx={labelSx}>
+                    Email Address <span style={{ color: "#f87171" }}>*</span>
+                  </Typography>
+                  <TextField
+                    type="email"
+                    fullWidth
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    sx={textFieldSx}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <EmailOutlinedIcon sx={{ color: "rgba(255,255,255,0.5)", fontSize: 20 }} />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Box>
               </Box>
+              <Typography variant="body2" sx={labelSx}>
+                Subject <span style={{ color: "#f87171" }}>*</span>
+              </Typography>
               <TextField
-                label="Subject"
                 fullWidth
                 required
                 value={subject}
@@ -407,8 +417,10 @@ const ContactUs = () => {
                   ),
                 }}
               />
+              <Typography variant="body2" sx={labelSx}>
+                Your Message <span style={{ color: "#f87171" }}>*</span>
+              </Typography>
               <TextField
-                label="Your Message"
                 fullWidth
                 required
                 multiline
@@ -458,9 +470,9 @@ const ContactUs = () => {
               </Typography>
             </Divider>
 
-            <Typography variant="body2" textAlign="center" sx={{ color: "rgba(255,255,255,0.7)" }}>
+            <Typography variant="body2" textAlign="center" sx={{ color: "rgba(255,255,255,0.85)" }}>
               Back to{" "}
-              <Link to="/login" style={{ color: "#60A5FA", fontWeight: 600, textDecoration: "none" }}>
+              <Link to="/login" style={{ color: "white", fontWeight: 700, textDecoration: "none" }}>
                 Sign In
               </Link>
             </Typography>
