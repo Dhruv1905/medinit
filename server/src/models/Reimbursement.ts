@@ -13,10 +13,19 @@ export interface IReimbursement extends Document {
     externalHospitalName: string;
     amount: number;
     documentUrl: string;
+    upiId: string;
+    phone: string;
     bankDetails: {
         accountNo: string;
         ifsc: string;
         bankName: string;
+    };
+    paymentDetails?: {
+        razorpayPaymentLinkId?: string;
+        razorpayPaymentId?: string;
+        utrNumber?: string;
+        paidAt?: Date;
+        method?: string;
     };
     status: ReimbursementStatus;
     createdAt: Date;
@@ -49,10 +58,25 @@ const reimbursementSchema = new Schema<IReimbursement>(
             type: String,
             required: true, // Needs an uploaded invoice/bill
         },
+        upiId: {
+            type: String,
+            required: true,
+        },
+        phone: {
+            type: String,
+            required: true,
+        },
         bankDetails: {
             accountNo: { type: String, required: true },
             ifsc: { type: String, required: true },
             bankName: { type: String, required: true },
+        },
+        paymentDetails: {
+            razorpayPaymentLinkId: { type: String },
+            razorpayPaymentId: { type: String },
+            utrNumber: { type: String },
+            paidAt: { type: Date },
+            method: { type: String },
         },
         status: {
             type: String,

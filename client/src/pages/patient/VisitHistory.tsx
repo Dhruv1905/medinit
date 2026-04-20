@@ -55,6 +55,8 @@ const VisitHistory = () => {
 
   const [reimburseDialog, setReimburseDialog] = useState<Visit | null>(null);
   const [amount, setAmount] = useState("");
+  const [upiId, setUpiId] = useState("");
+  const [phone, setPhone] = useState("");
   const [bankAccountNo, setBankAccountNo] = useState("");
   const [ifsc, setIfsc] = useState("");
   const [bankName, setBankName] = useState("");
@@ -92,6 +94,8 @@ const VisitHistory = () => {
       formData.append("amount", amount);
       formData.append("externalHospitalName", reimburseDialog.externalHospitalName || "");
       formData.append("document", documentFile);
+      formData.append("upiId", upiId);
+      formData.append("phone", phone);
       formData.append("bankDetails", JSON.stringify({
         accountNo: bankAccountNo,
         ifsc,
@@ -101,6 +105,8 @@ const VisitHistory = () => {
       await createReimbursement(formData);
       setReimburseDialog(null);
       setAmount("");
+      setUpiId("");
+      setPhone("");
       setBankAccountNo("");
       setIfsc("");
       setBankName("");
@@ -344,6 +350,23 @@ const VisitHistory = () => {
             </Box>
 
             <Divider sx={{ my: 1 }} />
+            <Typography variant="subtitle2">UPI & Contact</Typography>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>UPI ID <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField
+                placeholder="e.g. yourname@upi or 9876543210@paytm" fullWidth
+                value={upiId} onChange={e => setUpiId(e.target.value)}
+              />
+            </Box>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Phone Number <span style={{ color: "#EF4444" }}>*</span></Typography>
+              <TextField
+                placeholder="e.g. 9876543210" fullWidth
+                value={phone} onChange={e => setPhone(e.target.value)}
+              />
+            </Box>
+
+            <Divider sx={{ my: 1 }} />
             <Typography variant="subtitle2">Bank Details</Typography>
             <Box>
               <Typography variant="body2" sx={{ mb: 0.5, fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>Bank Name <span style={{ color: "#EF4444" }}>*</span></Typography>
@@ -393,7 +416,7 @@ const VisitHistory = () => {
           <Button
             onClick={handleSubmitReimbursement}
             variant="contained"
-            disabled={reimsSaving || !amount || !bankName || !bankAccountNo || !ifsc || !documentFile}
+            disabled={reimsSaving || !amount || !upiId || !phone || !bankName || !bankAccountNo || !ifsc || !documentFile}
             sx={{ borderRadius: 2, background: "linear-gradient(135deg, #3B82F6, #60A5FA)", "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" } }}
           >
             {reimsSaving ? <CircularProgress size={22} sx={{ color: "white" }} /> : "Submit Request"}

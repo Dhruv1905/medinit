@@ -11,3 +11,6 @@ export const getAllReimbursements = () => api.get("/reimbursements/all");
 
 export const updateReimbursementStatus = (id: string, status: string) =>
     api.patch(`/reimbursements/${id}/status`, { status });
+
+export const processUPIPayment = (id: string) =>
+    api.post(`/reimbursements/${id}/pay`);

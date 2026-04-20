@@ -5,7 +5,8 @@ import {
     createReimbursement,
     getMyReimbursements,
     getAllReimbursements,
-    updateReimbursementStatus
+    updateReimbursementStatus,
+    processUPIPayment
 } from "../controllers/reimbursement.controller";
 import { protect, authorize } from "../middlewares/auth.middleware";
 
@@ -26,5 +27,6 @@ router.post("/", protect, authorize("student", "faculty"), upload.single("docume
 router.get("/my", protect, authorize("student", "faculty"), getMyReimbursements);
 router.get("/all", protect, authorize("admin"), getAllReimbursements);
 router.patch("/:id/status", protect, authorize("admin"), updateReimbursementStatus);
+router.post("/:id/pay", protect, authorize("admin"), processUPIPayment);
 
 export default router;

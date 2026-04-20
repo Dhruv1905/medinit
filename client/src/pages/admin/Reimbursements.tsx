@@ -8,7 +8,9 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import PaymentIcon from "@mui/icons-material/Payment";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { getAllReimbursements, updateReimbursementStatus } from "../../services/reimbursementService";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import { getAllReimbursements, updateReimbursementStatus, processUPIPayment } from "../../services/reimbursementService";
 
 interface Reimbursement {
     _id: string;
@@ -17,9 +19,18 @@ interface Reimbursement {
     externalHospitalName: string;
     amount: number;
     documentUrl: string;
+    upiId?: string;
+    phone?: string;
     status: "pending" | "verified" | "reimbursed" | "rejected";
     createdAt: string;
     bankDetails: { accountNo: string; ifsc: string; bankName: string };
+    paymentDetails?: {
+        razorpayPaymentLinkId?: string;
+        razorpayPaymentId?: string;
+        utrNumber?: string;
+        paidAt?: string;
+        method?: string;
+    };
 }
 
 const statusColors: Record<string, "warning" | "info" | "success" | "error"> = {
@@ -33,8 +44,10 @@ const Reimbursements = () => {
     const [data, setData] = useState<Reimbursement[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [successMsg, setSuccessMsg] = useState("");
     const [detailDialog, setDetailDialog] = useState<Reimbursement | null>(null);
-    const [simulatingPayment, setSimulatingPayment] = useState(false);
+    const [processingPayment, setProcessingPayment] = useState(false);
+    const [paymentLink, setPaymentLink] = useState("");
 
     const fetchReimbursements = async () => {
         setLoading(true);
@@ -54,18 +67,28 @@ const Reimbursements = () => {
 
     const handleUpdateStatus = async (id: string, status: string) => {
         try {
-            if (status === "reimbursed") {
-                setSimulatingPayment(true);
-                // Simulate payment gateway delay
-                await new Promise((resolve) => setTimeout(resolve, 2000));
-            }
             await updateReimbursementStatus(id, status);
             setDetailDialog(null);
             fetchReimbursements();
         } catch {
             setError("Failed to update status");
+        }
+    };
+
+    const handleProcessPayment = async (id: string) => {
+        setProcessingPayment(true);
+        setError("");
+        setPaymentLink("");
+        try {
+            const res = await processUPIPayment(id);
+            setPaymentLink(res.data.paymentLink || "");
+            setSuccessMsg(`Payment link created successfully! Amount: ₹${detailDialog?.amount}`);
+            setDetailDialog(null);
+            fetchReimbursements();
+        } catch (err: any) {
+            setError(err.response?.data?.message || "Payment processing failed");
         } finally {
-            setSimulatingPayment(false);
+            setProcessingPayment(false);
         }
     };
 
@@ -77,10 +100,32 @@ const Reimbursements = () => {
         <Box>
             <Typography variant="h4" fontWeight={700} gutterBottom>Reimbursements</Typography>
             <Typography variant="body1" color="text.secondary" mb={4}>
-                Process external reference reimbursements
+                Process external reference reimbursements via UPI
             </Typography>
 
-            {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
+            {error && <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError("")}>{error}</Alert>}
+            {successMsg && (
+                <Alert
+                    severity="success"
+                    sx={{ mb: 3 }}
+                    onClose={() => { setSuccessMsg(""); setPaymentLink(""); }}
+                    action={
+                        paymentLink ? (
+                            <Button
+                                color="inherit"
+                                size="small"
+                                startIcon={<OpenInNewIcon />}
+                                href={paymentLink}
+                                target="_blank"
+                            >
+                                Open Payment Link
+                            </Button>
+                        ) : undefined
+                    }
+                >
+                    {successMsg}
+                </Alert>
+            )}
 
             {data.length === 0 ? (
                 <Card>
@@ -97,6 +142,7 @@ const Reimbursements = () => {
                                 <TableCell sx={{ fontWeight: 700 }}>Student</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }}>Hospital</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }}>Amount</TableCell>
+                                <TableCell sx={{ fontWeight: 700 }}>UPI ID</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
                                 <TableCell sx={{ fontWeight: 700 }} align="center">Actions</TableCell>
                             </TableRow>
@@ -111,6 +157,11 @@ const Reimbursements = () => {
                                     </TableCell>
                                     <TableCell>{item.externalHospitalName}</TableCell>
                                     <TableCell>₹{item.amount}</TableCell>
+                                    <TableCell>
+                                        <Typography variant="body2" sx={{ fontFamily: "monospace", fontSize: "0.8rem" }}>
+                                            {item.upiId || "—"}
+                                        </Typography>
+                                    </TableCell>
                                     <TableCell>
                                         <Chip label={item.status.toUpperCase()} size="small" color={statusColors[item.status]} />
                                     </TableCell>
@@ -149,7 +200,24 @@ const Reimbursements = () => {
                                 </Grid>
                             </Grid>
 
-                            <Box sx={{ mt: 3, p: 2, bgcolor: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 2 }}>
+                            {/* UPI & Contact Details */}
+                            <Box sx={{ mt: 3, p: 2, bgcolor: "rgba(96, 165, 250, 0.1)", border: "1px solid rgba(96, 165, 250, 0.25)", borderRadius: 2 }}>
+                                <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
+                                    <AccountBalanceWalletIcon sx={{ color: "#60A5FA", fontSize: 20 }} />
+                                    <Typography variant="subtitle2">UPI & Contact Details</Typography>
+                                </Box>
+                                <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
+                                    <Typography variant="caption">UPI ID:</Typography>
+                                    <Typography variant="body2" fontWeight={600} sx={{ fontFamily: "monospace" }}>{detailDialog.upiId || "Not provided"}</Typography>
+                                </Box>
+                                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                                    <Typography variant="caption">Phone:</Typography>
+                                    <Typography variant="body2" fontWeight={600}>{detailDialog.phone || "Not provided"}</Typography>
+                                </Box>
+                            </Box>
+
+                            {/* Bank Details */}
+                            <Box sx={{ mt: 2, p: 2, bgcolor: "rgba(255, 255, 255, 0.08)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 2 }}>
                                 <Typography variant="subtitle2" gutterBottom>Bank Details</Typography>
                                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                                     <Typography variant="caption">Bank:</Typography>
@@ -165,6 +233,31 @@ const Reimbursements = () => {
                                 </Box>
                             </Box>
 
+                            {/* Payment Details (if paid) */}
+                            {detailDialog.paymentDetails?.razorpayPaymentLinkId && (
+                                <Box sx={{ mt: 2, p: 2, bgcolor: "rgba(16, 185, 129, 0.1)", border: "1px solid rgba(16, 185, 129, 0.25)", borderRadius: 2 }}>
+                                    <Typography variant="subtitle2" gutterBottom sx={{ color: "#10B981" }}>Payment Processed ✓</Typography>
+                                    <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
+                                        <Typography variant="caption">Razorpay Link ID:</Typography>
+                                        <Typography variant="body2" fontWeight={600} sx={{ fontFamily: "monospace", fontSize: "0.75rem" }}>
+                                            {detailDialog.paymentDetails.razorpayPaymentLinkId}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
+                                        <Typography variant="caption">Method:</Typography>
+                                        <Typography variant="body2" fontWeight={600}>{detailDialog.paymentDetails.method?.toUpperCase() || "UPI"}</Typography>
+                                    </Box>
+                                    {detailDialog.paymentDetails.paidAt && (
+                                        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                                            <Typography variant="caption">Paid At:</Typography>
+                                            <Typography variant="body2" fontWeight={600}>
+                                                {new Date(detailDialog.paymentDetails.paidAt).toLocaleString()}
+                                            </Typography>
+                                        </Box>
+                                    )}
+                                </Box>
+                            )}
+
                             <Box sx={{ mt: 3, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                 <Typography variant="body2" fontWeight={600}>Proof Document:</Typography>
                                 <Button
@@ -173,6 +266,7 @@ const Reimbursements = () => {
                                     size="small"
                                     href={`http://localhost:5000${detailDialog.documentUrl}`}
                                     target="_blank"
+                                    sx={{ borderRadius: 2 }}
                                 >
                                     Download Invoice
                                 </Button>
@@ -181,19 +275,25 @@ const Reimbursements = () => {
                     )}
                 </DialogContent>
                 <DialogActions sx={{ p: 3, pt: 1, justifyContent: "space-between" }}>
-                    <Button onClick={() => setDetailDialog(null)}>Close</Button>
+                    <Button onClick={() => setDetailDialog(null)} variant="outlined" sx={{ borderRadius: 2 }}>Close</Button>
                     <Box sx={{ display: "flex", gap: 1 }}>
                         {detailDialog?.status === "pending" && (
                             <>
                                 <Button
                                     variant="outlined" color="error" startIcon={<CancelIcon />}
                                     onClick={() => handleUpdateStatus(detailDialog._id, "rejected")}
+                                    sx={{ borderRadius: 2 }}
                                 >
                                     Reject
                                 </Button>
                                 <Button
-                                    variant="contained" color="info" startIcon={<CheckCircleOutlineIcon />}
+                                    variant="contained" startIcon={<CheckCircleOutlineIcon />}
                                     onClick={() => handleUpdateStatus(detailDialog._id, "verified")}
+                                    sx={{
+                                        borderRadius: 2,
+                                        background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+                                        "&:hover": { background: "linear-gradient(135deg, #1D4ED8, #3B82F6)" },
+                                    }}
                                 >
                                     Verify Documents
                                 </Button>
@@ -201,11 +301,17 @@ const Reimbursements = () => {
                         )}
                         {detailDialog?.status === "verified" && (
                             <Button
-                                variant="contained" color="success" startIcon={<PaymentIcon />}
-                                disabled={simulatingPayment}
-                                onClick={() => handleUpdateStatus(detailDialog._id, "reimbursed")}
+                                variant="contained"
+                                startIcon={processingPayment ? <CircularProgress size={18} sx={{ color: "white" }} /> : <PaymentIcon />}
+                                disabled={processingPayment}
+                                onClick={() => handleProcessPayment(detailDialog._id)}
+                                sx={{
+                                    borderRadius: 2,
+                                    background: "linear-gradient(135deg, #10B981, #34D399)",
+                                    "&:hover": { background: "linear-gradient(135deg, #059669, #10B981)" },
+                                }}
                             >
-                                {simulatingPayment ? "Processing Gateway..." : "Pay via Gateway"}
+                                {processingPayment ? "Processing via Razorpay..." : "Pay via UPI (Razorpay)"}
                             </Button>
                         )}
                     </Box>
