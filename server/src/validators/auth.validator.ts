@@ -13,7 +13,7 @@ export const registerSchema = z.object({
 }).superRefine((data, ctx) => {
   const role = data.role || Role.STUDENT;
   if (role === Role.STUDENT) {
-    const studentRegex = /^\d{2}[a-zA-Z]{2,4}\d[a-zA-Z]\d+@student\.nitw\.ac\.in$/;
+    const studentRegex = /^[a-zA-Z]*\d{2}[a-zA-Z]{2,4}\d[a-zA-Z]\d+@student\.nitw\.ac\.in$/;
     if (!studentRegex.test(data.email)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -44,7 +44,7 @@ export const adminCreateUserSchema = z.object({
 }).superRefine((data, ctx) => {
   const role = data.role || Role.STUDENT;
   if (role === Role.STUDENT) {
-    const studentRegex = /^\d{2}[a-zA-Z]{2,4}\d[a-zA-Z]\d+@student\.nitw\.ac\.in$/;
+    const studentRegex = /^[a-zA-Z]*\d{2}[a-zA-Z]{2,4}\d[a-zA-Z]\d+@student\.nitw\.ac\.in$/;
     if (!studentRegex.test(data.email)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,

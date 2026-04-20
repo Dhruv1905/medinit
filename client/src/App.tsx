@@ -21,6 +21,8 @@ import Reimbursements from "./pages/admin/Reimbursements";
 import VisitHistory from "./pages/patient/VisitHistory";
 import EmergencyPage from "./pages/emergency/EmergencyPage";
 import Profile from "./pages/Profile";
+import ForgotPassword from "./pages/ForgotPassword";
+import ContactUs from "./pages/ContactUs";
 
 const CertificatesPage = () => {
   const { user } = useAuth();
@@ -36,6 +38,8 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/contact" element={<ContactUs />} />
 
             <Route
               path="/dashboard"

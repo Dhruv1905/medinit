@@ -310,6 +310,22 @@ const Login = () => {
                   ),
                 }}
               />
+
+              {/* Forgot password link */}
+              <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+                <Link
+                  to="/forgot-password"
+                  style={{
+                    color: "#60A5FA",
+                    fontSize: "0.82rem",
+                    fontWeight: 500,
+                    textDecoration: "none",
+                  }}
+                >
+                  Forgot Password?
+                </Link>
+              </Box>
+
               <Button
                 type="submit"
                 variant="contained"
@@ -355,6 +371,25 @@ const Login = () => {
                 }}
               >
                 Create Account
+              </Link>
+            </Typography>
+
+            <Typography
+              variant="body2"
+              textAlign="center"
+              mt={1.5}
+              sx={{ color: "rgba(255,255,255,0.5)" }}
+            >
+              Need help?{" "}
+              <Link
+                to="/contact"
+                style={{
+                  color: "rgba(255,255,255,0.7)",
+                  fontWeight: 500,
+                  textDecoration: "none",
+                }}
+              >
+                Contact Us
               </Link>
             </Typography>
           </CardContent>

@@ -20,6 +20,8 @@ export interface IUser extends Document {
   bloodGroup?: string;
   allergies?: string[];
   isActive: boolean;
+  resetOtp?: string;
+  resetOtpExpiry?: Date;
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
@@ -59,6 +61,8 @@ const userSchema = new Schema<IUser>(
     bloodGroup: { type: String },
     allergies: [{ type: String }],
     isActive: { type: Boolean, default: true },
+    resetOtp: { type: String, select: false },
+    resetOtpExpiry: { type: Date, select: false },
   },
   { timestamps: true }
 );
