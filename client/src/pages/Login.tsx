@@ -138,34 +138,6 @@ const Login = () => {
           ))}
         </Stack>
 
-        {/* Stats row */}
-        <Box
-          sx={{
-            display: "flex",
-            gap: 3,
-            mt: 5,
-            p: 2.5,
-            borderRadius: 3,
-            background: "rgba(255,255,255,0.06)",
-            backdropFilter: "blur(8px)",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}
-        >
-          {[
-            { value: "500+", label: "Users" },
-            { value: "1.2K", label: "Appointments" },
-            { value: "24/7", label: "Support" },
-          ].map((stat, i) => (
-            <Box key={i} sx={{ textAlign: "center", px: 1 }}>
-              <Typography variant="h6" fontWeight={800}>
-                {stat.value}
-              </Typography>
-              <Typography variant="caption" sx={{ opacity: 0.7 }}>
-                {stat.label}
-              </Typography>
-            </Box>
-          ))}
-        </Box>
       </Box>
 
       {/* Right panel - Login form */}
